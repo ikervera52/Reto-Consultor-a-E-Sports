@@ -1,15 +1,77 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner sc = new Scanner(System.in);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // Variables para 2 equipos
+        String nombreEquipo1 = "", fechaFund1 = "";
+        String nombreEquipo2 = "", fechaFund2 = "";
+
+        // Variables para 6 jugadores
+        String[] nombres = new String[6];
+        String[] apellidos = new String[6];
+        String[] nacionalidades = new String[6];
+        String[] nicknames = new String[6];
+        String[] roles = new String[6];
+        String[] fechasNacimiento = new String[6];
+        double[] sueldos = new double[6];
+        int cantidadJugadores = 0; // Contador de jugadores ya registrados
+
+        int opcion;
+
+        do {
+            System.out.println("\n=== MENU PRINCIPAL ===");
+            System.out.println("1. Registrar equipos");
+            System.out.println("2. Registrar 6 jugadores");
+            System.out.println("3. Salir");
+            System.out.print("Elija una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine(); // limpiar buffer
+
+            if (opcion == 1) {
+                if (!nombreEquipo1.equals("") && !nombreEquipo2.equals("")) {
+                    System.out.println("Ya hay 2 equipos registrados.");
+                } else {
+                    if (nombreEquipo1.equals("")) {
+                        System.out.println("=== Registro del equipo 1 ===");
+                        System.out.print("Nombre del equipo: "); nombreEquipo1 = sc.nextLine();
+                        System.out.print("Fecha de fundación: "); fechaFund1 = sc.nextLine();
+                        System.out.println("Equipo 1 registrado.");
+                    } else if (nombreEquipo2.equals("")) {
+                        System.out.println("=== Registro del equipo 2 ===");
+                        System.out.print("Nombre del equipo: "); nombreEquipo2 = sc.nextLine();
+                        System.out.print("Fecha de fundación: "); fechaFund2 = sc.nextLine();
+                        System.out.println("Equipo 2 registrado.");
+                    }
+                }
+
+            } else if (opcion == 2) {
+                if (cantidadJugadores >= 6) {
+                    System.out.println("Ya hay 6 jugadores registrados. No se pueden agregar más.");
+                } else {
+                    System.out.println("=== Registro de 6 jugadores ===");
+                    while (cantidadJugadores < 6) {
+                        int j = cantidadJugadores;
+                        System.out.println("Jugador " + (j + 1) + ":");
+                        System.out.print("Nombre: "); nombres[j] = sc.nextLine();
+                        System.out.print("Apellido: "); apellidos[j] = sc.nextLine();
+                        System.out.print("Nacionalidad: "); nacionalidades[j] = sc.nextLine();
+                        System.out.print("Nickname: "); nicknames[j] = sc.nextLine();
+                        System.out.print("Rol: "); roles[j] = sc.nextLine();
+                        System.out.print("Fecha de nacimiento: "); fechasNacimiento[j] = sc.nextLine();
+                        System.out.print("Sueldo: "); sueldos[j] = sc.nextDouble(); sc.nextLine();
+                        cantidadJugadores++;
+                    }
+                    System.out.println("Se registraron los 6 jugadores.");
+                }
+
+            } else if (opcion != 3) {
+                System.out.println("Opción inválida.");
+            }
+
+        } while (opcion != 3);
+
+        System.out.println("Programa finalizado.");
     }
 }

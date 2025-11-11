@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,6 +9,9 @@ import java.util.regex.Pattern;
 public class Main {
     final static Scanner sc = new Scanner(System.in);
     public static String nombreEquipo;
+    public static int cantidadEquipo;
+    public static LocalDate fechaEquipo;
+
     public static void main(String[] args) {
         opciones();
     }
@@ -32,35 +36,99 @@ public class Main {
                 System.out.println("Opción no valida");
         }
     }
-    // Jugador (nombre, apellido, nacionalidad, fecha nacimiento, nickname, rol, sueldo)
-    public static void pedirDatosJugador(){
-        System.out.print("-- Guardar jugador --");
-    }
-    public static void nombreJugador(){
-    }
+
     // equipos (nombre, fecha de fundación, jugadores)
     public static void pedirDatosEquipo (){
-        System.out.print("-- Guardar equipo --");
+        System.out.print("-- Guardar equipos --");
         nombreEquipo();
         fechaFundacionEquipo();
         jugadoresEquipo();
     }
+
     public static void nombreEquipo(){
-        Pattern patron = Pattern.compile("^[A-za-z0-9]+");
-        System.out.print("Nombre del equipo: ");
-        nombreEquipo = sc.nextLine();
-        Matcher m = patron.matcher(nombreEquipo);
-        if(!m.matches()){
-            System.out.println("Nombre del equipo no valido");
+        try {
+            Pattern patron = Pattern.compile("^[A-za-z0-9]+$");
+            System.out.print("Nombre del equipo: ");
+            nombreEquipo = sc.nextLine();
+            Matcher m = patron.matcher(nombreEquipo);
+            if(!m.matches()){
+                throw new NombreEquipoNoValido();
+            }
         }
+        catch (NombreEquipoNoValido ex){
+            System.out.println("** Nombre del equipo no valido **");
+            nombreEquipo();
+        }
+
     }
     public static void fechaFundacionEquipo (){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        System.out.print("Fecha de fundación del equipo: ");
-        LocalDate fecha = LocalDate.parse(sc.nextLine(), dtf);
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            System.out.print("Fecha de fundación del equipo: ");
+            fechaEquipo = LocalDate.parse(sc.nextLine(), dtf);
+        }
+        catch (DateTimeParseException ex){
+            System.out.println("** Formato de fecha no valido **");
+            fechaFundacionEquipo();
+        }
     }
-    //Pendiente (Comprobar si los jugadores existen)
     public static void jugadoresEquipo (){
-        //Pendiente
+        try {
+            Pattern patron = Pattern.compile("^[2-6]$");
+            System.out.print("Numero de jugadores del equipo: ");
+            String cantidadString = sc.nextLine();
+            Matcher m = patron.matcher(cantidadString);
+            if(!m.matches()){
+                throw new CantidadJugadoresNoValida();
+            }
+            cantidadEquipo = Integer.parseInt(cantidadString);
+            anadirJugadorExistente();
+        }
+        catch (CantidadJugadoresNoValida ex){
+            System.out.println("** La cantidad de jugadores tiene que ser de 2 a 6 **");
+        }
     }
+    public static void anadirJugadorExistente(){
+        try {
+            System.out.print("Quieres añadir un jugador ya existente (si/no):");
+            String respuesta = sc.nextLine().toLowerCase();
+            if (respuesta.equals("si")){
+                anadirJugadorExistenteDatos();
+            } else if(respuesta.equals("no")){
+                anadirMasEquipos();
+            } else  {
+                throw new OpcionNoValida();
+            }
+        }
+        catch (OpcionNoValida ex){
+            System.out.println("** Opción no valida **");
+        }
+    }
+    public static void anadirJugadorExistenteDatos(){
+        Pattern patron = Pattern.compile("^[A-za-z0-9]+$");
+        System.out.print("Nombre del jugador: ");
+        String jugadorExistente = sc.nextLine();
+        Matcher m = patron.matcher(jugadorExistente);
+        // Se tendrá que comparar con los jugadores que ya estén creados
+        anadirJugadorExistente();
+    }
+
+    public static void anadirMasEquipos(){
+        try {
+            System.out.print("Quieres añadir más equipos (si/no):");
+            String respuesta = sc.nextLine().toLowerCase();
+            if (respuesta.equals("si")){
+                pedirDatosEquipo();
+            } else if(respuesta.equals("no")){
+                opciones();
+            } else  {
+                throw new OpcionNoValida();
+            }
+        }
+        catch (OpcionNoValida ex){
+            System.out.println("** Opción no valida **");
+        }
+    }
+
+
 }

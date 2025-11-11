@@ -1,0 +1,48 @@
+# =========================
+# Archivos compilados
+# =========================
+*.class
+*.jar
+*.war
+*.ear
+
+# Directorios de compilación
+out/
+build/
+target/
+
+# =========================
+# Archivos temporales
+# =========================
+*.log
+*.tmp
+*.swp
+*.DS_Store
+
+# =========================
+# Dependencias
+# =========================
+# Gradle
+.gradle/
+build/
+
+# Maven
+/.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+dependency-reduced-pom.xml
+
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+**/.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# =========================
+# Otros
+# =========================
+# Archivos de paquetes
+*.zip
+*.tar.gz

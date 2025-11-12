@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,11 +15,16 @@ public class Main {
     public static double sueldo, SMI = 16576;
 
     public static void main(String[] args) {
-        opciones();
+        try {
+            opciones();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getClass());
+        }
     }
 
     // Menú de opciones
-    public static void opciones (){
+    public static void opciones() throws Exception {
         try {
             System.out.print("""
                     -- Menu de opciones --
@@ -47,8 +53,8 @@ public class Main {
     }
 
     //Jugador (nombre, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo)
-    public static void pedirDatosJugador(){
-        System.out.println("-- Guardar jugadores --");
+    public static void pedirDatosJugador() throws Exception{
+        System.out.println("-- Guardar jugador --");
         nombreJugador();
         apellidoJugador();
         nacionalidadJugador();
@@ -56,106 +62,135 @@ public class Main {
         nickname();
         rolJugador();
         sueldo();
-        volverOpciones();
+        anadirMasJugadores();
     }
 
-    public static void nombreJugador(){
-        try{
-            Pattern patron = Pattern.compile("^[A-Z][a-z]+");
-            System.out.print("Nombre del jugador: ");
-            nombreJugador = sc.nextLine();
-            Matcher m = patron.matcher(nombreJugador);
-            if(!m.matches()){
-                throw new NombreEquipoNoValido();
+    public static void nombreJugador() {
+        boolean error = true;
+
+        do {
+            try{
+                Pattern patron = Pattern.compile("^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+$");
+                System.out.print("Nombre del jugador: ");
+                nombreJugador = sc.nextLine();
+                Matcher m = patron.matcher(nombreJugador);
+                if(!m.matches()){
+                    throw new NombreEquipoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (NombreEquipoNoValido e){
-            System.out.println("** Nombre del jugador no valido **");
-            nombreJugador();
-        }
+            catch (NombreEquipoNoValido e){
+                System.out.println("**** El nombre tiene que tener la primera letra mayúscula ****");
+            }
+        } while (error);
     }
     public static void apellidoJugador(){
-        try{
-            Pattern patron = Pattern.compile("^[A-Z][a-z]+");
-            System.out.print("Primer apellido del jugador: ");
-            apellidoJugador = sc.nextLine();
-            Matcher m = patron.matcher(apellidoJugador);
-            if(!m.matches()){
-                throw new NombreEquipoNoValido();
+        boolean error = true;
+        do {
+            try{
+                Pattern patron = Pattern.compile("^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+$");
+                System.out.print("Primer apellido del jugador: ");
+                apellidoJugador = sc.nextLine();
+                Matcher m = patron.matcher(apellidoJugador);
+                if(!m.matches()){
+                    throw new NombreEquipoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (NombreEquipoNoValido e){
-            System.out.println("** Apellido del jugador no valido **");
-            apellidoJugador();
-        }
+            catch (NombreEquipoNoValido e){
+                System.out.println("** El apellido tiene que tener la primera letra mayúscula **");
+
+            }
+        } while(error);
     }
     public static void nacionalidadJugador(){
-        try{
-            Pattern patron = Pattern.compile("^[A-Z][a-z]+");
-            System.out.print("Nacionalidad del jugador: ");
-            nacionalidadJugador = sc.nextLine();
-            Matcher m = patron.matcher(nacionalidadJugador);
-            if(!m.matches()){
-                throw new NombreEquipoNoValido();
+        boolean error = true;
+        do {
+            try{
+                Pattern patron = Pattern.compile("^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+$");
+                System.out.print("Nacionalidad del jugador: ");
+                nacionalidadJugador = sc.nextLine();
+                Matcher m = patron.matcher(nacionalidadJugador);
+                if(!m.matches()){
+                    throw new NombreEquipoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (NombreEquipoNoValido e){
-            System.out.println("** Nacionalidad del jugador no valida **");
-            nacionalidadJugador();
-        }
+            catch (NombreEquipoNoValido e){
+                System.out.println("** La primera letra tiene que ser en mayúsculas **");
+
+            }
+        } while(error);
     }
     public static void fechaNacimiento(){
-        try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            System.out.print("Fecha de nacimiento: ");
-            fechaJugador = LocalDate.parse(sc.nextLine(), dtf);
-            if(fechaJugador.isAfter(LocalDate.now())){
-                throw new FechaMayorHoy();
+        boolean error = true;
+        do {
+            try {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                System.out.print("Fecha de nacimiento (dd/MM/yyyy): ");
+                fechaJugador = LocalDate.parse(sc.nextLine(), dtf);
+                if(fechaJugador.isAfter(LocalDate.now())){
+                    throw new FechaMayorHoy();
+                }
+                error = false;
             }
-        }
-        catch (DateTimeParseException e){
-            System.out.println("** Fecha de nacimiento no valida **");
-            fechaNacimiento();
-        }
-        catch (FechaMayorHoy ex){
-            System.out.println("** Fecha de nacimiento mayor a la fecha actual **");
-        }
+            catch (DateTimeParseException e){
+                System.out.println("** Fecha de nacimiento no valida | Formato: (dd/MM/yyyy) **");
+            }
+            catch (FechaMayorHoy ex){
+                System.out.println(" --> Añade otro equipo para sean equipos pares");
+            }
+        } while(error);
     }
     public static void nickname(){
-        try{
-            Pattern patron = Pattern.compile("^[A-Za-z0-9_]+");
-            System.out.print("Nickname del jugador: ");
-            nicknameJugador = sc.nextLine();
-            Matcher m = patron.matcher(nicknameJugador);
-            if(!m.matches()){
-                throw new NombreEquipoNoValido();
+        boolean error = true;
+        do {
+            try{
+                Pattern patron = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_!-#$]).+$");
+                System.out.print("""
+                        Nickname del jugador:\s
+                        Tiene que contener:\s
+                        - Mayúsculas\s
+                        - Minúsculas\s
+                        - Carácter especial\s
+                        Nickname:\s""");
+                nicknameJugador = sc.nextLine();
+                Matcher m = patron.matcher(nicknameJugador);
+                if(!m.matches()){
+                    throw new NombreEquipoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (NombreEquipoNoValido e){
-            System.out.println("** Nickname no valido **");
-            nickname();
-        }
+            catch (NombreEquipoNoValido e){
+                System.out.println("** Nickname no valido **");
+            }
+        } while(error);
     }
     public static void rolJugador(){
-        try{
-            System.out.print("""
+        boolean error = true;
+        do {
+            try{
+                System.out.print("""
                     Tipos de roles:\s
+                    ----------------------\s
                     Entry Fragger\s
                     Support\s
                     AWPer\s
                     IGL\s
                     Lurker\s
                     Rifler\s
+                    -----------------------\s
                     Rol del jugador:\s""");
-            rol =  sc.nextLine();
-            if(!rol.equals("Entry Fragger") && !rol.equals("Support") && !rol.equals("AWPer") && !rol.equals("IGL") && !rol.equals("Lurker")){
-                throw new RolNoValido();
+                rol =  sc.nextLine().toLowerCase();
+                if(!rol.equals("entry fragger") && !rol.equals("support") && !rol.equals("awper") && !rol.equals("igl") && !rol.equals("lurker")){
+                    throw new RolNoValido();
+                }
+                error = false;
             }
-        }
-        catch (RolNoValido ex){
-            System.out.println("** Rol no valido **");
-            rolJugador();
-        }
+            catch (RolNoValido ex){
+                System.out.println("** Rol no valido **");
+            }
+        } while(error);
     }
     public static void sueldo(){
         try{
@@ -166,162 +201,140 @@ public class Main {
             }
         }
         catch (SueldoNoValido ex){
-            System.out.println("** Sueldo no valido **");
+            System.out.println("** El sueldo tiene que ser superior al SMI **");
+            sueldo();
+        }
+        catch (InputMismatchException ex) {
+            System.out.println("** Valor no valido**");
             sueldo();
         }
     }
+    public static void anadirMasJugadores() throws Exception {
+        boolean error = true;
+        do {
+            try {
+                sc.nextLine();
+                System.out.print("Quieres añadir más jugadores (si/no):");
+                String respuesta = sc.nextLine().toLowerCase();
+                if (respuesta.equals("si")){
+                    pedirDatosJugador();
+                    error = false;
+                } else if(respuesta.equals("no")){
+                    opciones();
+                    error = false;
+                } else  {
+                    throw new OpcionNoValida();
+                }
+            }
+            catch (OpcionNoValida ex){
+                System.out.println("** Opción no valida **");
+            }
+        }while(error);
+    }
+
 
     // equipos (nombre, fecha de fundación, jugadores)
-    public static void pedirDatosEquipo (){
-        System.out.println("-- Guardar equipos --");
-        nombreEquipo();
-        fechaFundacionEquipo();
-        jugadoresEquipo();
-        volverOpciones();
+    public static void pedirDatosEquipo() throws Exception{
+
+        int contadorEquipos = 0;
+        do {
+            System.out.println("-- Guardar equipo --");
+            nombreEquipo();
+            fechaFundacionEquipo();
+            jugadoresEquipo();
+            contadorEquipos++;
+            if (contadorEquipos %2 != 0) {
+                System.out.println("** Los equipos añadidos tienen que ser pares **");
+            }
+        } while (contadorEquipos %2 != 0);
+        anadirMasEquipos();
+
     }
 
     public static void nombreEquipo(){
-        try {
-            Pattern patron = Pattern.compile("^[A-za-z0-9]+$");
-            System.out.print("Nombre del equipo: ");
-            nombreEquipo = sc.nextLine();
-            Matcher m = patron.matcher(nombreEquipo);
-            if(!m.matches()){
-                throw new NombreEquipoNoValido();
+        boolean error = true;
+        do {
+            try {
+                Pattern patron = Pattern.compile("^[A-za-z0-9]+$");
+                System.out.print("Nombre del equipo: ");
+                nombreEquipo = sc.nextLine();
+                Matcher m = patron.matcher(nombreEquipo);
+                if(!m.matches()){
+                    throw new NombreEquipoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (NombreEquipoNoValido ex){
-            System.out.println("** Nombre del equipo no valido **");
-            nombreEquipo();
-        }
+            catch (NombreEquipoNoValido ex){
+                System.out.println("** Nombre del equipo no valido **");
+            }
+        } while(error);
 
     }
     public static void fechaFundacionEquipo (){
-        try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            System.out.print("Fecha de fundación del equipo: ");
-            fechaEquipo = LocalDate.parse(sc.nextLine(), dtf);
-            if(fechaEquipo.isAfter(LocalDate.now())){
-                throw new FechaMayorHoy();
+        boolean error = true;
+        do {
+            try {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                System.out.print("Fecha de fundación del equipo: ");
+                fechaEquipo = LocalDate.parse(sc.nextLine(), dtf);
+                if(fechaEquipo.isAfter(LocalDate.now())){
+                    throw new FechaMayorHoy();
+                }
+                error = false;
             }
-        }
-        catch (DateTimeParseException ex){
-            System.out.println("** Formato de fecha no valido **");
-            fechaFundacionEquipo();
-        }
-        catch (FechaMayorHoy ex){
-            System.out.print("** Fecha de fundación mayor a la fecha actual **");
-        }
+            catch (DateTimeParseException ex){
+                System.out.println("** Formato de fecha no valido **");
+
+            }
+            catch (FechaMayorHoy ex){
+                System.out.print("** Fecha de fundación mayor a la fecha actual **");
+            }
+        } while(error);
     }
     public static void jugadoresEquipo (){
-        try {
-            Pattern patron = Pattern.compile("^[2-6]$");
-            System.out.print("Numero de jugadores del equipo: ");
-            String cantidadString = sc.nextLine();
-            Matcher m = patron.matcher(cantidadString);
-            if(!m.matches()){
-                throw new CantidadJugadoresNoValida();
+        boolean error = true;
+        do {
+            try {
+                Pattern patron = Pattern.compile("^[2-6]$");
+                System.out.print("Numero de jugadores del equipo: ");
+                String cantidadString = sc.nextLine();
+                Matcher m = patron.matcher(cantidadString);
+                if(!m.matches()){
+                    throw new CantidadJugadoresNoValida();
+                }
+                cantidadEquipo = Integer.parseInt(cantidadString);
+                error = false;
             }
-            cantidadEquipo = Integer.parseInt(cantidadString);
-            anadirJugadorExistente();
-        }
-        catch (CantidadJugadoresNoValida ex){
-            System.out.println("** La cantidad de jugadores tiene que ser de 2 a 6 **");
-            jugadoresEquipo();
-        }
-    }
-    public static void anadirJugadorExistente(){
-        try {
-            System.out.print("Quieres añadir un jugador ya existente (si/no):");
-            String respuesta = sc.nextLine().toLowerCase();
-            if (respuesta.equals("si")){
-                anadirJugadorExistenteDatos();
-            } else if(respuesta.equals("no")){
-                anadirMasEquipos();
-            } else  {
-                throw new OpcionNoValida();
+            catch (CantidadJugadoresNoValida ex){
+                System.out.println("** La cantidad de jugadores tiene que ser de 2 a 6 **");
             }
-        }
-        catch (OpcionNoValida ex){
-            System.out.println("** Opción no valida **");
-        }
-    }
-    // Se tendrán que comprar con los nicknames de los jugadores que ya existan
-    public static void anadirJugadorExistenteDatos(){
-        try {
-            System.out.print("Nickname del jugador: ");
-            String nicknameExistente = sc.nextLine();
-            if (!nicknameExistente.equals(nicknameJugador)){
-                throw new NicknameNoExiste();
-            }
-            anadirJugadorExistente();
-        }
-        catch (NicknameNoExiste ex) {
-            System.out.println("** Nickname no existe **");
-            repetirPreguntar();
-        }
-    }
-    public static void anadirMasEquipos(){
-        try {
-            System.out.print("Quieres añadir más equipos (si/no):");
-            String respuesta = sc.nextLine().toLowerCase();
-            if (respuesta.equals("si")){
-                pedirDatosEquipo();
-            } else if(respuesta.equals("no")){
-                opciones();
-            } else  {
-                throw new OpcionNoValida();
-            }
-        }
-        catch (OpcionNoValida ex){
-            System.out.println("** Opción no valida **");
-            anadirMasEquipos();
-        }
-    }
 
-    /*Repetir pregunta de si quiere añadir jugador existente por si no existe ese jugador
-    para salir de la repetitiva */
-    public static void repetirPreguntar(){
-        try {
-            System.out.print("Quieres intentarlo de nuevo? ");
-            String respuesta = sc.nextLine();
-            if (respuesta.equals("si")){
-                anadirJugadorExistenteDatos();
-            } else if(respuesta.equals("no")){
-                anadirMasEquipos();
-            } else{
-                throw new OpcionNoValida();
-            }
-        }
-        catch (OpcionNoValida ex){
-            System.out.println("** Respuesta no valida **");
-        }
-
+        }while (error);
     }
-
-    // Preguntar si quiere volver al menu de opciones
-    public static void volverOpciones(){
-        try {
-            sc.nextLine();
-            System.out.print("Quieres volver a opciones? ");
-            String respuesta = sc.nextLine();
-            if (respuesta.equals("si")){
-                opciones();
-            } else if(respuesta.equals("no")){
-                finPrograma();
-            } else {
-                throw new OpcionNoValida();
+    public static void anadirMasEquipos() throws Exception{
+        boolean error = true;
+        do {
+            try {
+                System.out.print("Quieres añadir más equipos (si/no):");
+                String respuesta = sc.nextLine().toLowerCase();
+                if (respuesta.equals("si")){
+                    pedirDatosEquipo();
+                    error = false;
+                } else if(respuesta.equals("no")){
+                    opciones();
+                    error = false;
+                } else  {
+                    throw new OpcionNoValida();
+                }
             }
-        }
-        catch (OpcionNoValida ex){
-            System.out.println("** Respuesta no valida **");
-            volverOpciones();
-        }
+            catch (OpcionNoValida ex){
+                System.out.println("** Opción no valida **");
+            }
+        }while(error);
     }
 
     // Fin del programa
     public static void finPrograma(){
         System.out.println("-- Programa finalizado --");
-        System.exit(0);
     }
 }

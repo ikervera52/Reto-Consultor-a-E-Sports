@@ -40,8 +40,8 @@ public class Main {
     public static void equipo(){
         do {
             contador++;
-            nombre_equipo();
-            fecha_equipo();
+            nombreEquipo();
+            fechaEquipo();
             jugadores();
             addJugador();
             if (contador % 2 != 0) {
@@ -50,16 +50,16 @@ public class Main {
         }while (contador % 2 != 0);
     }
     public static void jugador(){
-        nombre_jugador();
-        apellido_jugador();
-        nacionalidad_jugador();
-        fecha_jugador();
-        nickname_jugador();
-        rol_jugador();
-        sueldo_jugador();
-        add_equipo();
+        nombreJugador();
+        apellidoJugador();
+        nacionalidadJugador();
+        fechaJugador();
+        nicknameJugador();
+        rolJugador();
+        sueldoJugador();
+        addEquipo();
     }
-    public static void nombre_equipo(){
+    public static void nombreEquipo(){
         System.out.print("""
                 ---- Nombre Equipo ----
                 Ingrese el nombre:\s""");
@@ -68,10 +68,10 @@ public class Main {
         Matcher m = p.matcher(nombre);
         if (!m.matches()){
             System.out.println("El nombre no es correcto. Solo puede incluir letras, numeros y espacios.\nVuelve a intentarlo.");
-            nombre_equipo();
+            nombreEquipo();
         }
     }
-    public static void fecha_equipo(){
+    public static void fechaEquipo(){
         boolean error = true;
         do {
             try {
@@ -160,7 +160,7 @@ public class Main {
             addJugador2();
         }
     }
-    public static void nombre_jugador(){
+    public static void nombreJugador(){
         System.out.print("""
                 ---- Nombre Jugador ----
                 Ingresa el nombre:\s""");
@@ -169,10 +169,10 @@ public class Main {
         Matcher m = p.matcher(nombre);
         if (!m.matches()){
             System.out.println("El nombre no es correcto. La primera letra debe ser mayuscula y las siguientes minusculas.\nVuelve a intentarlo.");
-            nombre_jugador();
+            nombreJugador();
         }
     }
-    public static void apellido_jugador(){
+    public static void apellidoJugador(){
         System.out.print("""
                 ---- Apellido Jugador ----
                 Ingresa el apellido:\s""");
@@ -181,10 +181,10 @@ public class Main {
         Matcher m = p.matcher(apellido);
         if (!m.matches()){
             System.out.println("El apellido no es correcto. La primera letra debe ser mayuscula y las siguientes minusculas.\nVuelve a intentarlo.");
-            apellido_jugador();
+            apellidoJugador();
         }
     }
-    public static void nacionalidad_jugador(){
+    public static void nacionalidadJugador(){
         System.out.print("""
                 ---- Nacionalidad Jugador ----
                 Ingresa la nacionalidad:\s""");
@@ -193,10 +193,10 @@ public class Main {
         Matcher m = p.matcher(nacionalidad);
         if (!m.matches()){
             System.out.println("La nacionalidad no es correcta. La primera letra debe ser mayuscula y las siguientes minusculas.\nVuelve a intentarlo.");
-            nacionalidad_jugador();
+            nacionalidadJugador();
         }
     }
-    public static void fecha_jugador(){
+    public static void fechaJugador(){
         boolean error = true;
         do {
             try {
@@ -218,7 +218,7 @@ public class Main {
             }
         }while(error);
     }
-    public static void nickname_jugador(){
+    public static void nicknameJugador(){
         boolean error = true;
         do {
             System.out.print("""
@@ -235,7 +235,7 @@ public class Main {
             }
         }while(error);
     }
-    public static void rol_jugador(){
+    public static void rolJugador(){
         boolean error = true;
         do {
             System.out.print("""
@@ -251,7 +251,7 @@ public class Main {
             }
         }while (error);
     }
-    public static void sueldo_jugador(){
+    public static void sueldoJugador(){
         boolean error = true;
         do {
             try {
@@ -272,23 +272,23 @@ public class Main {
             }
         }while (error);
     }
-    public static void add_equipo(){
+    public static void addEquipo(){
         System.out.print("""
                 ---- Añadir a Equipo ----
                 Quieres añadir el jugador a algun equipo creado:\s""");
         String respuesta = sc.next();
         if (respuesta.equalsIgnoreCase("si")) {
-            add_equipo2();
+            addEquipo2();
         }
         else if (respuesta.equalsIgnoreCase("no")) {
             menu();
         }
         else {
             System.out.println("La respuesta no es correcta.\nVuelve a intentarlo.");
-            add_equipo();
+            addEquipo();
         }
     }
-    public static void add_equipo2(){
+    public static void addEquipo2(){
         System.out.print("""
                 Dime el nombre del equipo a añadir:\s""");
         String nombre = sc.next();
@@ -296,20 +296,20 @@ public class Main {
         Matcher m = p.matcher(nombre);
         if (!m.matches()){
             System.out.println("El nombre no es correcto. Solo puede incluir letras, numeros y espacios.\nVuelve a intentarlo.");
-            add_equipo2();
+            addEquipo2();
         }
         System.out.print("""
                 Quieres añadir algun jugador mas:\s""");
         String respuesta = sc.next();
         if (respuesta.equalsIgnoreCase("si")) {
-            nombre_jugador();
+            nombreJugador();
         }
         else if (respuesta.equalsIgnoreCase("no")) {
             menu();
         }
         else {
             System.out.println("La respuesta no es correcta.\nVuelve a intentarlo.");
-            add_equipo2();
+            addEquipo2();
         }
     }
     public static void finalizar (){

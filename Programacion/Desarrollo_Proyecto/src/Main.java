@@ -1,3 +1,4 @@
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ public class Main {
                 break;
             case 2: IngresarEquipo();
                 break;
-            case 3: System.out.println("Saliendo...");
+            case 3: Finalizar();
                 break;
             default: System.out.println("Opcion no valida");
         }
@@ -34,7 +35,7 @@ public class Main {
                 throw new IllegalArgumentException("El nombre debe contener entre 3 y 50 caracteres y la primera letra en mayusculas.");
             }
         } catch (Exception e) {
-            System.out.println("Error al ingresar el nombre del jugador(Ejemplo: Juan)");
+            System.out.println(e.getMessage() + " Error al ingresar el nombre del jugador(Ejemplo: Juan)");
         }
 
         try {
@@ -46,7 +47,7 @@ public class Main {
                 throw new IllegalArgumentException("El apellido debe contener entre 3 y 50 caracteres y la primera letra en mayusculas.");
             }
         } catch (Exception e) {
-            System.out.println("Error al ingresar el apellido del jugador (Ejemplo: Perez)");
+            System.out.println( e.getMessage() + " Error al ingresar el apellido del jugador (Ejemplo: Perez)");
         }
         try {
             System.out.print("Ingrese la nacionalidad del jugador: ");
@@ -57,7 +58,7 @@ public class Main {
                 throw new IllegalArgumentException("La nacionalidad debe contener entre 3 y 50 caracteres y la primera letra en mayusculas.");
             }
         } catch (Exception e) {
-            System.out.println("Error al ingresar la nacionalidad del jugador (Ejemplo: Española)");
+            System.out.println(e.getMessage() + " Error al ingresar la nacionalidad del jugador (Ejemplo: Española)");
         }
 
         try {
@@ -65,12 +66,18 @@ public class Main {
             String fechaNacimiento = input.nextLine();
             Pattern pattern = Pattern.compile("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/([0-9]{4})$");
             Matcher matcher = pattern.matcher(fechaNacimiento);
-
             if (!matcher.matches()) {
                 throw new IllegalArgumentException("La fecha de nacimiento debe tener el formato dd/mm/aaaa");
             }
+            else if (matcher.matches()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                if (java.time.LocalDate.parse(fechaNacimiento, formatter).isAfter(java.time.LocalDate.now())) {
+                    throw new IllegalArgumentException("La fecha de nacimiento no puede ser una fecha futura.");
+                }
+            }
             } catch(Exception e){
-                System.out.println("Error al ingresar la fecha de nacimiento del jugador (Ejemplo: 25/12/1990)");
+                System.out.println( e.getMessage() + " Error al ingresar la fecha de nacimiento del jugador (Ejemplo: 25/12/1990)");
+
             }
 
             try {
@@ -81,8 +88,15 @@ public class Main {
                 if (!matcher.matches()) {
                     throw new IllegalArgumentException("El nickname debe contener entre 3 y 15 caracteres y solo puede incluir letras, numeros y guiones bajos.");
                 }
+                else if (matcher.matches()) {
+                    Pattern pattern1 = Pattern.compile("");
+                    matcher = pattern1.matcher(nickname);
+                    if (matcher.matches()) {
+                        throw new IllegalArgumentException("El nickname no puede contener ese tipo de palabras.");
+                    }
+                }
             } catch (Exception e) {
-                System.out.println("Error al ingresar el nickname del jugador (Ejemplo: Pro_Player123)");
+                System.out.println(e.getMessage()  + " Error al ingresar el nickname del jugador (Ejemplo: Pro_Player123)");
             }
 
             try {
@@ -95,7 +109,7 @@ public class Main {
                 }
                     }
                     catch(Exception e){
-                    System.out.println("Error al ingresar el rol del jugador (Ejemplo: AWPer)");
+                    System.out.println(e.getMessage() + " Error al ingresar el rol del jugador (Ejemplo: AWPer)");
                 }
 
                 try {
@@ -106,7 +120,7 @@ public class Main {
                     }
                 }
                 catch (Exception e) {
-                    System.out.println("Error al ingresar el sueldo del jugador (Ejemplo: 50000)");
+                    System.out.println(e.getMessage() + " Error al ingresar el sueldo del jugador (Ejemplo: 50000)");
                 }
 
             }
@@ -123,7 +137,7 @@ public class Main {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al ingresar el nombre del equipo (Ejemplo: Escuadron Salchichon)");
+            System.out.println(e.getMessage() + " Error al ingresar el nombre del equipo (Ejemplo: Escuadron Salchichon)");
         }
 
         try {
@@ -134,9 +148,15 @@ public class Main {
             if (!matcher.matches()) {
                 throw new IllegalArgumentException("La fecha de fundacion debe tener el formato dd/mm/aaaa");
             }
+           else if (matcher.matches()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                if (java.time.LocalDate.parse(fechaFundacion, formatter).isAfter(java.time.LocalDate.now())) {
+                     throw new IllegalArgumentException("La fecha de fundacion no puede ser una fecha futura.");
+                }
+              }
         }
         catch (Exception e) {
-            System.out.println("Error al ingresar la fecha de fundacion del equipo (Ejemplo: 15/08/2010)");
+            System.out.println(e.getMessage() + " Error al ingresar la fecha de fundacion del equipo (Ejemplo: 15/08/2010)");
         }
 
         try {
@@ -147,9 +167,12 @@ public class Main {
             }
         }
         catch (Exception e) {
-            System.out.println("Error al ingresar la cantidad de jugadores del equipo (Ejemplo: 5)");
+            System.out.println(e.getMessage() + " Error al ingresar la cantidad de jugadores del equipo (Ejemplo: 5)");
         }
     }
 
-
+    public static void Finalizar() {
+        System.out.println("Programa finalizado.");
+        System.exit(0);
+    }
     }

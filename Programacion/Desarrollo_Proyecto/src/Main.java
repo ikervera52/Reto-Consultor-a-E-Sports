@@ -7,10 +7,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+
+    // Scanner
     final static Scanner sc = new Scanner(System.in);
 
+    // Variables
     public static String nombreEquipo, nombreJugador, apellidoJugador,nacionalidadJugador, nicknameJugador = " ", rol;
-    public static int cantidadEquipo;
+    public static int cantidadEquipo, contadorEquipos;
     public static LocalDate fechaEquipo, fechaJugador;
     public static double sueldo, SMI = 16576;
 
@@ -52,7 +55,7 @@ public class Main {
         }
     }
 
-    //Jugador (nombre, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo)
+    // Jugador (nombre, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo)
     public static void pedirDatosJugador() throws Exception{
         System.out.println("-- Guardar jugador --");
         nombreJugador();
@@ -62,9 +65,10 @@ public class Main {
         nickname();
         rolJugador();
         sueldo();
+        addEquipo();
         anadirMasJugadores();
     }
-
+    // Estas funciones hacen cada una función específica para jugador
     public static void nombreJugador() {
         boolean error = true;
 
@@ -193,27 +197,31 @@ public class Main {
         } while(error);
     }
     public static void sueldo(){
-        try{
-            System.out.print("Sueldo del jugador: ");
-            sueldo = sc.nextDouble();
-            if(sueldo < SMI){
-                throw new SueldoNoValido();
+        boolean error = true;
+        do {
+            try{
+                System.out.print("Sueldo del jugador: ");
+                sueldo = sc.nextDouble();
+                sc.nextLine();
+                if(sueldo < SMI){
+                    throw new SueldoNoValido();
+                }
+                error = false;
             }
-        }
-        catch (SueldoNoValido ex){
-            System.out.println("** El sueldo tiene que ser superior al SMI **");
-            sueldo();
-        }
-        catch (InputMismatchException ex) {
-            System.out.println("** Valor no valido**");
-            sueldo();
-        }
+            catch (SueldoNoValido ex){
+                System.out.println("** El sueldo tiene que ser superior al SMI **");
+            }
+            catch (InputMismatchException ex) {
+                System.out.println("** Valor no valido**");
+                sc.nextLine();
+            }
+
+        } while(error);
     }
     public static void anadirMasJugadores() throws Exception {
         boolean error = true;
         do {
             try {
-                sc.nextLine();
                 System.out.print("Quieres añadir más jugadores (si/no):");
                 String respuesta = sc.nextLine().toLowerCase();
                 if (respuesta.equals("si")){
@@ -231,26 +239,62 @@ public class Main {
             }
         }while(error);
     }
+    // Estas funciones preguntan si quieres añadir a un equipo el jugador que crean
+    public static void addEquipo() {
+        boolean error = true;
+        do {
+            System.out.print("Quieres añadir este jugador a un equipo (si/no): ");
+            String respuesta = sc.nextLine();
+            if (respuesta.equalsIgnoreCase("si")) {
+                addJEquipo2();
+                error = false;
+            } else if (respuesta.equalsIgnoreCase("no")) {
+                error = false;
+            } else {
+                System.out.println("** La respuesta no es valida **");
+            }
+        }while (error);
+    }
+    public static void addJEquipo2(){
+        boolean error = true;
+        do {
+            try {
+                System.out.print("Ha que equipo lo quieres añadir: ");
+                String comprobarNickname = sc.nextLine();
+                Pattern p = Pattern.compile("^[A-za-z0-9]+$");
+                Matcher m = p.matcher(comprobarNickname);
+                if (!m.matches()){
+                    throw new NicknameNoExiste();
+                }
+                error = false;
+            }
+            catch (NicknameNoExiste ex){
+                sc.nextLine();
+                System.out.println("** Este equipo no existe **");
+            }
+        } while(error);
+    }
 
 
-    // equipos (nombre, fecha de fundación, jugadores)
+    // Equipos (nombre, fecha de fundación, jugadores)
     public static void pedirDatosEquipo() throws Exception{
 
-        int contadorEquipos = 0;
+        contadorEquipos = 0;
         do {
             System.out.println("-- Guardar equipo --");
+            contadorEquipos++;
             nombreEquipo();
             fechaFundacionEquipo();
             jugadoresEquipo();
-            contadorEquipos++;
+            addJugador();
             if (contadorEquipos %2 != 0) {
-                System.out.println("** Los equipos añadidos tienen que ser pares **");
+                System.out.println("--> Los equipos añadidos tienen que ser pares ");
             }
         } while (contadorEquipos %2 != 0);
         anadirMasEquipos();
 
     }
-
+    // Cada función hace su parte definida
     public static void nombreEquipo(){
         boolean error = true;
         do {
@@ -287,7 +331,7 @@ public class Main {
 
             }
             catch (FechaMayorHoy ex){
-                System.out.print("** Fecha de fundación mayor a la fecha actual **");
+                System.out.println("** Fecha de fundación mayor a la fecha actual **");
             }
         } while(error);
     }
@@ -331,6 +375,59 @@ public class Main {
                 System.out.println("** Opción no valida **");
             }
         }while(error);
+    }
+    // Estas funciones preguntan si quieres añadir jugadores a los equipos que están creando
+    public static void addJugador() {
+        boolean error = true;
+        do {
+            System.out.print("Quieres añadir algún jugador creado a este equipo (si/no): ");
+            String respuesta = sc.nextLine();
+            if (respuesta.equalsIgnoreCase("si")) {
+                addJugador2();
+                error = false;
+            } else if (respuesta.equalsIgnoreCase("no")) {
+                error = false;
+            } else {
+                System.out.println("** La respuesta no es valida **");
+            }
+        }while (error);
+    }
+    public static void addJugador2(){
+        boolean error = true;
+        do {
+            try {
+                System.out.print("Dime el nickname del jugador a añadir: ");
+                String comprobarNickname = sc.nextLine();
+                Pattern p = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_!-#$]).+$");
+                Matcher m = p.matcher(comprobarNickname);
+                if (!m.matches()){
+                    throw new NicknameNoExiste();
+                }
+                preguntaAddMasJugador();
+                error = false;
+            }
+            catch (NicknameNoExiste ex){
+                System.out.println("** Este nickname no existe **");
+            }
+        } while(error);
+    }
+    public static void preguntaAddMasJugador(){
+        boolean error = true;
+        do {
+
+            System.out.print("Quieres añadir algún jugador mas al equipo (si/no): ");
+            String respuesta = sc.next();
+            sc.nextLine();
+            if (respuesta.equalsIgnoreCase("si")) {
+                error = false;
+                addJugador2();
+            }
+            else if (respuesta.equalsIgnoreCase("no")) {
+                error = false;
+            } else {
+                System.out.println("** La respuesta no valida **");
+            }
+        } while(error);
     }
 
     // Fin del programa

@@ -8,6 +8,8 @@ public class Main {
 
 
     public static void main(String[] args) {
+
+        /*
         Scanner input = new Scanner(System.in);
         System.out.print("-----MENU-----\n1.Ingresar jugadores\n2.Ingresar equipos\n3.Salir\n");
         int opcion = input.nextInt();
@@ -20,9 +22,9 @@ public class Main {
                 break;
             default: System.out.println("Opcion no valida");
         }
-
+*/
     }
-
+/*
     public static void IngresarJugadores() {
 
         Scanner input = new Scanner(System.in);
@@ -35,7 +37,7 @@ public class Main {
                 throw new IllegalArgumentException("El nombre debe contener entre 3 y 50 caracteres y la primera letra en mayusculas.");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage() + " Error al ingresar el nombre del jugador(Ejemplo: Juan)");
+             System.out.println(e.getMessage() + " Error al ingresar el nombre del jugador(Ejemplo: Juan)");
         }
 
         try {
@@ -175,4 +177,8 @@ public class Main {
         System.out.println("Programa finalizado.");
         System.exit(0);
     }
+
+
+
+    */
     }

@@ -4,57 +4,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Equipo {
-    private Integer id;
+
     private String nombre;
-    private LocalDate fecha_fun;
-    private ArrayList<Enfrentamineto> enfrentaminetos = new ArrayList<>();
-    private ArrayList<Competicion> competiciones = new ArrayList<>();
+    private LocalDate fechaFundacion;
+    private ArrayList<Jugador> jugadores = new ArrayList<>();
 
-    public Equipo(Integer id, String nombre, LocalDate fecha_fun, ArrayList<Enfrentamineto> enfrentaminetos, ArrayList<Competicion> competiciones) {
-        this.id = id;
+    public Equipo(String nombre, LocalDate fechaFundacion) {
         this.nombre = nombre;
-        this.fecha_fun = fecha_fun;
-        this.enfrentaminetos = enfrentaminetos;
-        this.competiciones = competiciones;
+        this.fechaFundacion = fechaFundacion;
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public String getNombre() { return nombre; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public LocalDate getFechaFundacion() { return fechaFundacion; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public ArrayList<Jugador> getJugadores() { return jugadores; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public LocalDate getFecha_fun() {
-        return fecha_fun;
-    }
+    public void setFechaFundacion(LocalDate fechaFundacion) { this.fechaFundacion = fechaFundacion; }
 
-    public void setFecha_fun(LocalDate fecha_fun) {
-        this.fecha_fun = fecha_fun;
-    }
+    public void setJugadores(ArrayList<Jugador> jugadores) { this.jugadores = jugadores; }
 
-    public ArrayList<Enfrentamineto> getEnfrentaminetos() {
-        return enfrentaminetos;
-    }
-
-    public void setEnfrentaminetos(ArrayList<Enfrentamineto> enfrentaminetos) {
-        this.enfrentaminetos = enfrentaminetos;
-    }
-
-    public ArrayList<Competicion> getCompeticiones() {
-        return competiciones;
-    }
-
-    public void setCompeticiones(ArrayList<Competicion> competiciones) {
-        this.competiciones = competiciones;
+    public boolean agregarJugador(Jugador jugador) {
+        if (jugadores.size() >= 6) {
+            System.out.println("No se puede añadir más jugadores, equipo completo.");
+            return false;
+        }
+        jugadores.add(jugador);
+        return true;
     }
 }

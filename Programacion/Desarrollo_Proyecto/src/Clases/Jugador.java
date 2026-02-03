@@ -1,101 +1,74 @@
 package Clases;
 
-import java.sql.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Jugador {
-    private Integer id;
+
     private String nombre;
     private String apellido;
     private String nacionalidad;
     private LocalDate fechaNacimiento;
     private String nickname;
-    private String sueldo;
-    private String[] rol = new String[]{"Entry Fragger", "Support", "AWPer", "IGL", "Lurker", "Riflers"};
-    private ArrayList<Equipo> equipos = new ArrayList<>();
+    private String rol;
+    private double sueldo;
 
-    public Jugador(Integer id, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, String nickname, String sueldo, String[] rol, ArrayList<Equipo> equipos) {
-        this.id = id;
+    public static String[] ROLES = {
+            "Entry Fragger", "Support", "AWPer", "IGL", "Lurker", "Rifler"
+    };
+
+    public Jugador(String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento,
+                   String nickname, String rol, double sueldo) {
+        if (sueldo < 16576) {
+            throw new IllegalArgumentException("Sueldo por debajo del mínimo permitido");
+        }
+
+        boolean rolValido = false;
+        for (String r : ROLES) {
+            if (r.equalsIgnoreCase(rol)) {
+                rolValido = true;
+                break;
+            }
+        }
+        if (!rolValido) {
+            System.out.println("Rol inválido. Se asignará 'Support' por defecto.");
+            rol = "Support";
+        }
+
         this.nombre = nombre;
         this.apellido = apellido;
         this.nacionalidad = nacionalidad;
         this.fechaNacimiento = fechaNacimiento;
         this.nickname = nickname;
-        this.sueldo = sueldo;
         this.rol = rol;
-        this.equipos = equipos;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getSueldo() {
-        return sueldo;
-    }
-
-    public void setSueldo(String sueldo) {
         this.sueldo = sueldo;
     }
 
-    public String[] getRol() {
-        return rol;
-    }
+    public String getNombre() { return nombre; }
 
-    public void setRol(String[] rol) {
-        this.rol = rol;
-    }
+    public String getApellido() { return apellido; }
 
-    public ArrayList<Equipo> getEquipos() {
-        return equipos;
-    }
+    public String getNacionalidad() { return nacionalidad; }
 
-    public void setEquipos(ArrayList<Equipo> equipos) {
-        this.equipos = equipos;
-    }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+
+    public String getNickname() { return nickname; }
+
+    public String getRol() { return rol; }
+
+    public double getSueldo() { return sueldo; }
+
+
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public void setApellido(String apellido) { this.apellido = apellido; }
+
+    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+
+    public void setNickname(String nickname) { this.nickname = nickname; }
+
+    public void setRol(String rol) { this.rol = rol; }
+
+    public void setSueldo(double sueldo) { this.sueldo = sueldo; }
 }

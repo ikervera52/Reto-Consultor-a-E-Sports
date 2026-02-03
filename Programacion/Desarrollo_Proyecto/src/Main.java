@@ -1,3 +1,5 @@
+import Exepciones.*;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -15,7 +17,6 @@ public class Main {
     public static String nombreEquipo, nombreJugador, apellidoJugador,nacionalidadJugador, nicknameJugador = " ", rol;
     public static int cantidadEquipo, contadorEquipos;
     public static LocalDate fechaEquipo, fechaJugador;
-    public static double sueldo, SMI = 16576;
 
     public static void main(String[] args) {
         try {
@@ -64,7 +65,6 @@ public class Main {
         fechaNacimiento();
         nickname();
         rolJugador();
-        sueldo();
         addEquipo();
         anadirMasJugadores();
     }
@@ -196,28 +196,7 @@ public class Main {
             }
         } while(error);
     }
-    public static void sueldo(){
-        boolean error = true;
-        do {
-            try{
-                System.out.print("Sueldo del jugador: ");
-                sueldo = sc.nextDouble();
-                sc.nextLine();
-                if(sueldo < SMI){
-                    throw new SueldoNoValido();
-                }
-                error = false;
-            }
-            catch (SueldoNoValido ex){
-                System.out.println("** El sueldo tiene que ser superior al SMI **");
-            }
-            catch (InputMismatchException ex) {
-                System.out.println("** Valor no valido**");
-                sc.nextLine();
-            }
 
-        } while(error);
-    }
     public static void anadirMasJugadores() throws Exception {
         boolean error = true;
         do {

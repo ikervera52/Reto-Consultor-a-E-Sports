@@ -454,6 +454,7 @@ public class Main {
             jugadores.add(new Jugador(1,
                     validarDato("Nombre", "Nombre jugador:","^[A-Z][a-z]+$"),
                     validarDato("Apellido", "Apellido jugador:","^[A-Z][a-z]+$"),
+                    validarFecha("Fecha Nacimiento", "Fecha Nacimiento:"),
                     validarDato("Nacinalidad", "Nacionalidad jugador:","^[A-Z][a-z]+$"),
                     validarDato("Nickname", "Nickname jugador:","^[A-Za-z0-9]+$"),
                     validarDato("Rol","Rol jugador (SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER):","^(SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER)$"),
@@ -461,6 +462,7 @@ public class Main {
         }else {
             String nombre = validarDato("Nombre", "Nombre jugador:","^[A-Z][a-z]+$");
             String apellido = validarDato("Apellido", "Apellido jugador:","^[A-Z][a-z]+$");
+            LocalDate fechaNacimiento = validarFecha("Fecha Nacimiento","Fecha Nacimiento:");
             String nacionalidad = validarDato("Nacinalidad", "Nacionalidad jugador:","^[A-Z][a-z]+$");
             String finalnickname = "";
             boolean error = true;
@@ -475,7 +477,7 @@ public class Main {
             }while (error);
             String rol = validarDato("Rol","Rol jugador (SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER):","^(SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER)$");
             double sueldo = validarSueldo("Sueldo","Sueldo jugador:");
-            jugadores.add(new Jugador(jugadores.size()+1,nombre,apellido,nacionalidad,finalnickname,rol,sueldo));
+            jugadores.add(new Jugador(jugadores.size()+1,nombre,apellido,fechaNacimiento,nacionalidad,finalnickname,rol,sueldo));
         }
     }
 
@@ -495,12 +497,13 @@ public class Main {
                     -- Menu Editar --
                     a) Nombre
                     b) Apellido
-                    c) Nacionalidad
-                    d) Nickname
-                    e) Rol
-                    f) Sueldo
-                    g) Equipo
-                    h) Salir
+                    c) Fecha Nacimiento
+                    d) Nacionalidad
+                    e) Nickname
+                    f) Rol
+                    g) Sueldo
+                    h) Equipo
+                    i) Salir
                     """);
                     String opcion = sc.nextLine();
                     switch (opcion) {
@@ -513,10 +516,13 @@ public class Main {
                             jugadores.get(posicionEditar).setApellido(apellidoNuevo);
                             break;
                         case "c":
+                            LocalDate fechaNacimientoNueva = validarFecha("Fecha Nacimiento","Nueva fecha nacimiento de jugador:");
+                            jugadores.get(posicionEditar).setFechaNacimiento(fechaNacimientoNueva);
+                        case "d":
                             String nacionalidadNueva = validarDato("Nacionalidad", "Nueva nacionalidad de Jugador:","^[A-Z][a-z]+$");
                             jugadores.get(posicionEditar).setNacionalidad(nacionalidadNueva);
                             break;
-                        case "d":
+                        case "e":
                             String finalnicknamenuevo = "";
                             boolean error = true;
                             do {
@@ -530,17 +536,17 @@ public class Main {
                             }while (error);
                             jugadores.get(posicionEditar).setNickname(finalnicknamenuevo);
                             break;
-                        case "e":
+                        case "f":
                             String rol = validarDato("Rol","Nuevo rol de jugador (SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER):","^(SUPPORT|AWPER|IGL|LURKER|RIFLER|ENTRYFRAGER)$");
                             jugadores.get(posicionEditar).setRol(rol);
                             break;
-                        case "f":
+                        case "g":
                             double sueldo = validarSueldo("Sueldo","Nuevo sueldo de jugador:");
                             jugadores.get(posicionEditar).setSueldo(sueldo);
-                        case "g":
+                        case "h":
                             editarJugadorEquipo(posicionEditar);
                             break;
-                        case "h":
+                        case "i":
                             editar = false;
                             break;
                         default:

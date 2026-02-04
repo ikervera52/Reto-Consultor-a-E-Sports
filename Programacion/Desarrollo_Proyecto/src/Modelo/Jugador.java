@@ -1,9 +1,12 @@
 package Modelo;
 
+import java.time.LocalDate;
+
 public class Jugador {
     private int id;
     private String nombre;
     private String apellido;
+    private LocalDate fechaNacimiento;
     private String nacionalidad;
     private String nickname;
     private String rol;
@@ -15,10 +18,11 @@ public class Jugador {
     public Jugador() {
     }
 
-    public Jugador(int id, String nombre, String apellido, String nacionalidad, String nickname, String rol, double sueldo) {
+    public Jugador(int id, String nombre, String apellido, LocalDate fechaNacimiento, String nacionalidad, String nickname, String rol, double sueldo) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.nickname = nickname;
         this.rol = rol;
@@ -87,5 +91,13 @@ public class Jugador {
 
     public void setEquipo(Equipo equipo) {
         this.equipo = equipo;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

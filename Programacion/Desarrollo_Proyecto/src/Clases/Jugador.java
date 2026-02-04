@@ -1,74 +1,52 @@
 package Clases;
 
-import java.time.LocalDate;
+import Exepciones.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Jugador {
-
     private String nombre;
-    private String apellido;
-    private String nacionalidad;
-    private LocalDate fechaNacimiento;
     private String nickname;
-    private String rol;
     private double sueldo;
 
-    public static String[] ROLES = {
-            "Entry Fragger", "Support", "AWPer", "IGL", "Lurker", "Rifler"
-    };
+    public enum Rol { Support, AWSPer, IGL, Lurker, Rifler, Entry_Fragger }
+    private Rol rol;
 
-    public Jugador(String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento,
-                   String nickname, String rol, double sueldo) {
-        if (sueldo < 16576) {
-            throw new IllegalArgumentException("Sueldo por debajo del mínimo permitido");
-        }
-
-        boolean rolValido = false;
-        for (String r : ROLES) {
-            if (r.equalsIgnoreCase(rol)) {
-                rolValido = true;
-                break;
-            }
-        }
-        if (!rolValido) {
-            System.out.println("Rol inválido. Se asignará 'Support' por defecto.");
-            rol = "Support";
-        }
-
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.nacionalidad = nacionalidad;
-        this.fechaNacimiento = fechaNacimiento;
-        this.nickname = nickname;
+    public Jugador(String nombre, String nickname, double sueldo, Rol rol) throws SueldoNoValido, NicknameNoExiste, NombreEquipoNoValido {
+        setNombre(nombre);
+        setNickname(nickname);
+        setSueldo(sueldo);
         this.rol = rol;
-        this.sueldo = sueldo;
     }
 
     public String getNombre() { return nombre; }
-
-    public String getApellido() { return apellido; }
-
-    public String getNacionalidad() { return nacionalidad; }
-
-    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setNombre(String nombre) throws NombreEquipoNoValido {
+        Pattern patronNombre = Pattern.compile("^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+$");
+        Matcher mNombre = patronNombre.matcher(nombre);
+        if (!mNombre.matches()) throw new NombreEquipoNoValido();
+        this.nombre = nombre;
+    }
 
     public String getNickname() { return nickname; }
-
-    public String getRol() { return rol; }
+    public void setNickname(String nickname) throws NicknameNoExiste {
+        Pattern patronNick = Pattern.compile("^[A-Za-z0-9_!@#$-]+$");
+        Matcher mNick = patronNick.matcher(nickname);
+        if (!mNick.matches()) throw new NicknameNoExiste();
+        this.nickname = nickname;
+    }
 
     public double getSueldo() { return sueldo; }
+    public void setSueldo(double sueldo) throws SueldoNoValido {
+        double smi = 16576.0;
+        if (sueldo < smi) throw new SueldoNoValido();
+        this.sueldo = sueldo;
+    }
 
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
 
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public void setApellido(String apellido) { this.apellido = apellido; }
-
-    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
-
-    public void setNickname(String nickname) { this.nickname = nickname; }
-
-    public void setRol(String rol) { this.rol = rol; }
-
-    public void setSueldo(double sueldo) { this.sueldo = sueldo; }
+    @Override
+    public String toString() {
+        return "Jugador: " + nombre + " (" + nickname + ") - " + rol + " - " + sueldo + "€";
+    }
 }

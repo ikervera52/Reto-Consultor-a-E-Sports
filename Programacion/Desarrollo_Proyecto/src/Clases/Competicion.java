@@ -4,74 +4,47 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Competicion {
-
     private Integer id;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    public static final String[] ETAPAS = {
-            "Inscripcion",
-            "Competicion"
-    };
+
+    public String[] nombresEtapas = { "Inscripcion", "Competicion" };
 
     private int etapa;
 
     private ArrayList<Jornada> jornadas;
+    private ArrayList<Equipo> equiposParticipantes;
 
-    public Competicion(Integer id, LocalDate fechaInicio, LocalDate fechaFin, int etapa) {
-
-        if (etapa < 0 || etapa >= ETAPAS.length) {
-            throw new IllegalArgumentException("Etapa inválida");
-        }
-
+    public Competicion(Integer id, LocalDate fechaInicio, LocalDate fechaFin) {
         this.id = id;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.etapa = etapa;
+        this.etapa = 0;
         this.jornadas = new ArrayList<>();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public String getEtapa() {
-        return ETAPAS[etapa];
-    }
-
-    public ArrayList<Jornada> getJornadas() {
-        return jornadas;
-    }
-
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public void setEtapa(int etapa) {
-        if (etapa < 0 || etapa >= ETAPAS.length) {
-            throw new IllegalArgumentException("Etapa inválida");
-        }
-        this.etapa = etapa;
+        this.equiposParticipantes = new ArrayList<>();
     }
 
     public void agregarJornada(Jornada jornada) {
-        if (jornada != null && !jornadas.contains(jornada)) {
-            jornadas.add(jornada);
-        }
+        jornadas.add(jornada);
     }
 
-    public void eliminarJornada(Jornada jornada) {
-        jornadas.remove(jornada);
+    public ArrayList<Jornada> getJornadas() { return jornadas; }
+
+    public ArrayList<Equipo> getEquipos() { return equiposParticipantes; }
+    public void setEquipos(ArrayList<Equipo> equipos) { this.equiposParticipantes = equipos; }
+
+    public String getNombreEtapa() { return nombresEtapas[etapa]; }
+
+    public int getEtapaIndex() { return etapa; }
+
+    public LocalDate getFechaInicio() { return fechaInicio; }
+
+    public void setEtapa(int nuevaEtapa) {
+
+        if (nuevaEtapa < 0 || nuevaEtapa > 1) {
+            System.out.println("Etapa no válida");
+        } else {
+            this.etapa = nuevaEtapa;
+        }
     }
 }

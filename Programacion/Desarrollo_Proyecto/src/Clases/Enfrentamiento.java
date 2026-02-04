@@ -1,40 +1,49 @@
 package Clases;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Random;
 
 public class Enfrentamiento {
+    private Equipo local;
+    private Equipo visitante;
+    private LocalTime hora;
+    private int rondasLocal;
+    private int rondasVisitante;
+    private boolean jugado;
 
-    private Equipo equipo1;
-    private Equipo equipo2;
-    private LocalDateTime fechaHora;
-    private String resultado;
-
-    public Enfrentamiento(Equipo equipo1, Equipo equipo2, LocalDateTime fechaHora) {
-        this.equipo1 = equipo1;
-        this.equipo2 = equipo2;
-        this.fechaHora = fechaHora;
-        this.resultado = "";
+    public Enfrentamiento(Equipo local, Equipo visitante, LocalTime hora) {
+        this.local = local;
+        this.visitante = visitante;
+        this.hora = hora;
+        this.jugado = false;
     }
 
-    // Getters
-    public Equipo getEquipo1() { return equipo1; }
+    public void simularResultado() {
+        if (jugado) return;
+        Random rand = new Random();
+        if (rand.nextDouble() < 0.10) {
+            this.rondasLocal = 15;
+            this.rondasVisitante = 15;
+        } else {
+            if (rand.nextBoolean()) {
+                this.rondasLocal = 16;
+                this.rondasVisitante = rand.nextInt(15);
+            } else {
+                this.rondasVisitante = 16;
+                this.rondasLocal = rand.nextInt(15);
+            }
+        }
+        this.jugado = true;
+    }
 
-    public Equipo getEquipo2() { return equipo2; }
+    public Equipo getLocal() { return local; }
+    public Equipo getVisitante() { return visitante; }
+    public int getRondasLocal() { return rondasLocal; }
+    public int getRondasVisitante() { return rondasVisitante; }
 
-    public LocalDateTime getFechaHora() { return fechaHora; }
-
-    public String getResultado() { return resultado; }
-
-    // Setters
-    public void setEquipo1(Equipo equipo1) { this.equipo1 = equipo1; }
-
-    public void setEquipo2(Equipo equipo2) { this.equipo2 = equipo2; }
-
-    public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }
-
-    public void setResultado(String resultado) { this.resultado = resultado; }
-
-    public String getEnfrentamientoInfo() {
-        return equipo1.getNombre() + " vs " + equipo2.getNombre() + " | " + resultado;
+    @Override
+    public String toString() {
+        String res = jugado ? " [" + rondasLocal + "-" + rondasVisitante + "]" : " [Pendiente]";
+        return local.getNombre() + " vs " + visitante.getNombre() + " (" + hora + ")" + res;
     }
 }

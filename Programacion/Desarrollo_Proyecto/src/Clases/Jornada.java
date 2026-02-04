@@ -1,39 +1,29 @@
 package Clases;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Jornada {
-    private Integer id;
-    private Integer num_jornada;
+    private int numero;
     private LocalDate fecha;
+    private ArrayList<Enfrentamiento> enfrentamientos;
 
-    public Jornada(Integer id, Integer num_jornada, LocalDate fecha) {
-        this.id = id;
-        this.num_jornada = num_jornada;
+    public Jornada(int numero, LocalDate fecha) {
+        this.numero = numero;
         this.fecha = fecha;
+        this.enfrentamientos = new ArrayList<>();
     }
 
-    public Integer getId() {
-        return id;
+    public void agregarEnfrentamiento(Enfrentamiento e) {
+        enfrentamientos.add(e);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public ArrayList<Enfrentamiento> getEnfrentamientos() {
+        return enfrentamientos;
     }
 
-    public Integer getNum_jornada() {
-        return num_jornada;
-    }
-
-    public void setNum_jornada(Integer num_jornada) {
-        this.num_jornada = num_jornada;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    @Override
+    public String toString() {
+        return "JORNADA " + numero + " (" + fecha + ")";
     }
 }

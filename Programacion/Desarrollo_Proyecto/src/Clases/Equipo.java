@@ -10,6 +10,7 @@ public class Equipo {
     private ArrayList<Jugador> jugadores;
     private int victorias;
     private int derrotas;
+    private int empates;
     private int puntos;
 
     public Equipo(String nombre) {
@@ -18,6 +19,7 @@ public class Equipo {
         this.jugadores = new ArrayList<>();
         this.victorias = 0;
         this.derrotas = 0;
+        this.empates = 0;
         this.puntos = 0;
     }
 
@@ -32,6 +34,11 @@ public class Equipo {
 
     public void sumarVictoria() {
         this.victorias++;
+        this.puntos += 3;
+    }
+
+    public void sumarEmpate() {
+        this.empates++;
         this.puntos += 1;
     }
 
@@ -47,6 +54,7 @@ public class Equipo {
     public int getPuntos() { return puntos; }
     public int getVictorias() { return victorias; }
     public int getDerrotas() { return derrotas; }
+    public int getEmpates() { return empates; }
 
     @Override
     public String toString() {

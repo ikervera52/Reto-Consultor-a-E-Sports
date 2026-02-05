@@ -5,7 +5,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -17,16 +19,14 @@ public class Main {
     public static void main(String[] args) {
 
         usuarios.add(new Admin(1, "admin", "1234"));
-        usuarios.add(new Usuario(2, "user", "1234"));
+        usuarios.add(new Usuario(2, "usuario", "1234"));
 
         competicionActual = new Competicion(1, LocalDate.now(), LocalDate.now().plusMonths(3));
 
         boolean salir = false;
         while (!salir) {
             try {
-                System.out.println("\n#################################");
                 System.out.println("###   SISTEMA E-SPORTS 2025   ###");
-                System.out.println("#################################");
                 System.out.println("1. Iniciar Sesión");
                 System.out.println("2. Salir");
                 System.out.print("Seleccione una opción: ");
@@ -191,7 +191,7 @@ public class Main {
                 try {
                     System.out.println("   > Datos Jugador (" + j + "/" + cantidad + "):");
                     System.out.print("     Nombre: "); String n = sc.nextLine();
-                    System.out.print("     Nickname: "); String ni = sc.nextLine();
+                    System.out.print("     Nick: "); String ni = sc.nextLine();
                     System.out.print("     Sueldo (Min 16576): ");
                     double s = Double.parseDouble(sc.nextLine());
                     System.out.println("     Roles: 1.Support 2.AWPer 3.IGL 4.Lurker 5.Rifler 6.Entry");
@@ -377,6 +377,8 @@ public class Main {
                 catch (CantidadJugadoresNoValida ex) { throw new RuntimeException(ex); }
             });
 
+            int jornadasIda = listaEquiposTemporal.size() - 1;
+            System.out.println(" * Recomendación: " + jornadasIda + " jornadas para IDA, " + (jornadasIda*2) + " para IDA/VUELTA.");
             System.out.print("¿Cuántas jornadas generar?: ");
             int numJornadas = Integer.parseInt(sc.nextLine());
 
@@ -400,7 +402,7 @@ public class Main {
 
             System.out.println("¿Estado de la competición?\n1. En Juego\n2. Finalizada (Simular)");
             if (sc.nextLine().equals("2")) {
-                System.out.println(" Simulando resultados...");
+                System.out.println(" Simulando resultados y calculando puntos...");
                 competicionActual.getJornadas().stream()
                         .flatMap(jor -> jor.getEnfrentamientos().stream())
                         .forEach(enf -> {
@@ -411,9 +413,12 @@ public class Main {
                             } else if (enf.getRondasVisitante() > enf.getRondasLocal()) {
                                 enf.getVisitante().sumarVictoria();
                                 enf.getLocal().sumarDerrota();
+                            } else {
+                                enf.getLocal().sumarEmpate();
+                                enf.getVisitante().sumarEmpate();
                             }
                         });
-                mostrarClasificacion();
+                System.out.println(" -> Resultados generados correctamente. Consulta los informes.");
             }
 
         } catch (Exception e) {
@@ -422,22 +427,32 @@ public class Main {
     }
 
     static void mostrarClasificacion() {
-        System.out.println("\n=== CLASIFICACIÓN ===");
-        System.out.println("POS | EQUIPO           | PTOS | V  | D ");
+        System.out.println("\n=== CLASIFICACIÓN (V:3pts / E:1pt) ===");
+        System.out.println("POS | EQUIPO           | PTOS | V  | E  | D ");
 
-        ArrayList<Equipo> tabla = new ArrayList<>(competicionActual.getEquipos());
-        tabla.stream()
+        List<Equipo> ordenados = competicionActual.getEquipos().stream()
                 .sorted(Comparator.comparingInt(Equipo::getPuntos).reversed())
-                .forEach(e -> System.out.printf(" -  | %-16s |  %-3d | %-2d | %-2d\n",
-                        e.getNombre(), e.getPuntos(), e.getVictorias(), e.getDerrotas()));
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < ordenados.size(); i++) {
+            Equipo e = ordenados.get(i);
+            System.out.printf(" %-2d | %-16s |  %-3d | %-2d | %-2d | %-2d\n",
+                    (i+1), e.getNombre(), e.getPuntos(), e.getVictorias(), e.getEmpates(), e.getDerrotas());
+        }
     }
 
     static void informeEquipos() {
         System.out.println("\n--- INFORME DE EQUIPOS ---");
         var lista = (competicionActual.getEtapaIndex() == 1) ? competicionActual.getEquipos() : listaEquiposTemporal;
 
-        lista.stream()
-                .forEach(e -> System.out.println("Equipo: " + e.getNombre() + " | Fundado: " + e.getFechaFundacion()));
+        lista.stream().forEach(e -> {
+            System.out.println("Equipo: " + e.getNombre() + " | Fundado: " + e.getFechaFundacion() + " | N.Jugadores: " + e.getJugadores().size());
+            String nombresJugadores = e.getJugadores().stream()
+                    .map(Jugador::getNombre)
+                    .collect(Collectors.joining(", "));
+            System.out.println(" -> Plantilla: " + nombresJugadores);
+            System.out.println("------------------------------------------------");
+        });
     }
 
     static void informeJugadores() {
@@ -475,14 +490,32 @@ public class Main {
     static void menuUsuario() {
         boolean atras = false;
         while (!atras) {
-            System.out.println("\n1. Ver Informe | 2. Ver Clasificación | 3. Salir");
-            switch (sc.nextLine()) {
-                case "1" -> informeCompleto();
-                case "2" -> {
-                    if(competicionActual.getEtapaIndex() == 1) mostrarClasificacion();
-                    else System.out.println("La competición no ha empezado.");
+            try {
+                System.out.println("\n=== MENÚ USUARIO ===");
+                System.out.println("1. Ver Clasificación");
+                System.out.println("2. Ver Informe Equipos");
+                System.out.println("3. Ver Informe Jugadores");
+                System.out.println("4. Ver Informe Partidos (Jornadas)");
+                System.out.println("5. Ver Informe Completo");
+                System.out.println("6. Salir");
+                System.out.print("Opción: ");
+
+                int op = Integer.parseInt(sc.nextLine());
+
+                switch (op) {
+                    case 1 -> {
+                        if(competicionActual.getEtapaIndex() == 1) mostrarClasificacion();
+                        else System.out.println("La competición no ha empezado.");
+                    }
+                    case 2 -> informeEquipos();
+                    case 3 -> informeJugadores();
+                    case 4 -> informeCompeticion();
+                    case 5 -> informeCompleto();
+                    case 6 -> atras = true;
+                    default -> System.out.println("Opción no válida.");
                 }
-                case "3" -> atras = true;
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }

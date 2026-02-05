@@ -12,12 +12,14 @@ public class Competicion {
     private String fecha_inicio;
     private String fecha_fin;
     private Etapa etapa;
+    private String tipo_puntuacion;
 
-    public Competicion(int id_competicion, Etapa etapa, String fecha_fin, String fecha_inicio) {
+    public Competicion(int id_competicion, String fecha_inicio, String fecha_fin, Etapa etapa, String tipo_puntuacion) {
         this.id_competicion = id_competicion;
-        this.etapa = etapa;
-        this.fecha_fin = fecha_fin;
         this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
+        this.etapa = etapa;
+        this.tipo_puntuacion = tipo_puntuacion;
     }
 
     public int getId_competicion() {
@@ -50,5 +52,13 @@ public class Competicion {
 
     public void setEtapa(Etapa etapa) {
         this.etapa = etapa;
+    }
+
+    public String getTipo_puntuacion() {
+        return tipo_puntuacion;
+    }
+
+    public void setTipo_puntuacion(String tipo_puntuacion) {
+        this.tipo_puntuacion = tipo_puntuacion;
     }
 }

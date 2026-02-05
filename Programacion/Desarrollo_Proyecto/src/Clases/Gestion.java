@@ -3,19 +3,28 @@ package Clases;
 import java.util.ArrayList;
 
 public class Gestion {
+
+    public enum TipoUsuario {
+        ADMINISTRADOR,
+        USUARIO
+    }
+
+
+
+
     protected int id_gestion;
     protected String nombre_usuario;
     protected String contrasena;
-    protected String tipo_usuario;
+    protected TipoUsuario tipo_usuario;
 
     public Gestion() {
     }
 
-    public Gestion(int id_gestion, String tipo_usuario, String contrasena, String nombre_usuario) {
+    public Gestion(int id_gestion, String nombre_usuario, String contrasena, TipoUsuario tipo_usuario) {
         this.id_gestion = id_gestion;
-        this.tipo_usuario = tipo_usuario;
-        this.contrasena = contrasena;
         this.nombre_usuario = nombre_usuario;
+        this.contrasena = contrasena;
+        this.tipo_usuario = tipo_usuario;
     }
 
     public int getId_gestion() {
@@ -42,11 +51,11 @@ public class Gestion {
         this.contrasena = contrasena;
     }
 
-    public String getTipo_usuario() {
+    public TipoUsuario getTipo_usuario() {
         return tipo_usuario;
     }
 
-    public void setTipo_usuario(String tipo_usuario) {
+    public void setTipo_usuario(TipoUsuario tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
     }
 }

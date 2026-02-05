@@ -10,26 +10,31 @@ public class Jugadores {
     private String fecha_nacimiento;
     private String nickname;
 
+    public enum Rol {
+        SUPPORT,
+        AWPER,
+        ENTRY_FRAGGER,
+        LURKER,
+        RIFLER,
+        IGL
+    }
 
-    private String rol;
+    private Rol rol;
     private int sueldo;
     private ArrayList<Equipos> equipo_asociado;
 
-    public Jugadores() {
+    public Jugadores(String nombre, String apellido, String nacionalidad, String fechaNacimiento, String nickname, int rol, double sueldo) {
     }
 
-    public Jugadores(int id_jugador, String nombre, String apellido, String nacionalidad, String fecha_nacimiento, String nickname, String rol, int sueldo, ArrayList<Equipos> equipo_asociado) {
+    public Jugadores(int id_jugador, String nombre, String apellido, String nacionalidad, String fecha_nacimiento, String nickname, Rol rol, int sueldo) {
         this.id_jugador = id_jugador;
         this.nombre = nombre;
         this.apellido = apellido;
         this.nacionalidad = nacionalidad;
         this.fecha_nacimiento = fecha_nacimiento;
         this.nickname = nickname;
-
-
         this.rol = rol;
         this.sueldo = sueldo;
-        this.equipo_asociado = equipo_asociado;
     }
 
     public int getId_jugador() {
@@ -48,20 +53,20 @@ public class Jugadores {
         this.nombre = nombre;
     }
 
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
-    }
-
     public String getApellido() {
         return apellido;
     }
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
     }
 
     public String getFecha_nacimiento() {
@@ -80,11 +85,11 @@ public class Jugadores {
         this.nickname = nickname;
     }
 
-    public String getRol() {
+    public Rol getRol() {
         return rol;
     }
 
-    public void setRol(String rol) {
+    public void setRol(Rol rol) {
         this.rol = rol;
     }
 

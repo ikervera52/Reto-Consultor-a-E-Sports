@@ -2,8 +2,8 @@ package Clases;
 
 public class Administrador extends Gestion{
 
-    public Administrador(int id_gestion, String tipo_usuario, String contrasena, String nombre_usuario) {
-        super(id_gestion, tipo_usuario, contrasena, nombre_usuario);
+    public Administrador(int id_gestion, String nombre_usuario, String contrasena, TipoUsuario tipo_usuario) {
+        super(id_gestion, nombre_usuario, contrasena, tipo_usuario);
     }
 
     public void CRUD_tablas(){

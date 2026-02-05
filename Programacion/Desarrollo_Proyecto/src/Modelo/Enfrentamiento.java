@@ -5,7 +5,6 @@ import java.time.LocalTime;
 public class Enfrentamiento {
     private int id;
     private LocalTime hora;
-    private String resultado;
     private Equipo[] equipos =new Equipo[2];
     private Jornada jornada;
 
@@ -30,14 +29,6 @@ public class Enfrentamiento {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    }
-
-    public String getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
     }
 
     public Equipo[] getEquipos() {

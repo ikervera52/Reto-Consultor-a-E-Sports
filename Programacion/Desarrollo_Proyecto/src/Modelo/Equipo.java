@@ -8,7 +8,7 @@ public class Equipo {
     private String nombre;
     private LocalDate fechaFundacion;
     private ArrayList<Jugador> jugadores = new ArrayList<>();
-    private ArrayList<Competicion> competiciones;
+    private ArrayList<Competicion> competiciones = new ArrayList<>();
 
     public Equipo() {
 
@@ -18,6 +18,13 @@ public class Equipo {
         this.id = id;
         this.nombre = nombre;
         this.fechaFundacion = fechaFundacion;
+    }
+
+    public Equipo(int id, String nombre, LocalDate fechaFundacion, ArrayList<Competicion> competiciones) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fechaFundacion = fechaFundacion;
+        this.competiciones = competiciones;
     }
 
     public int getId() {

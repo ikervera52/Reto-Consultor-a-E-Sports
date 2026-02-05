@@ -7,14 +7,16 @@ public class Jornada {
     private int id;
     private LocalDate fecha;
     private int NumJornada;
-    private ArrayList<Enfrentamiento> enfrentamientos;
+    private ArrayList<Enfrentamiento> enfrentamientos = new ArrayList<>();
     private Competicion competicion;
 
-    public Jornada(int id, LocalDate fecha, int numJornada, ArrayList<Enfrentamiento> enfrentamientos, Competicion competicion) {
+    public Jornada() {
+    }
+
+    public Jornada(int id, LocalDate fecha, int numJornada, Competicion competicion) {
         this.id = id;
         this.fecha = fecha;
         NumJornada = numJornada;
-        this.enfrentamientos = enfrentamientos;
         this.competicion = competicion;
     }
 

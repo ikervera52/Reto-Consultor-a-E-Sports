@@ -1,10 +1,15 @@
 import Excepciones.*;
 import Modelo.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -16,6 +21,9 @@ public class Main {
     public static ArrayList<Equipo> equipos = new ArrayList<>();
     public static ArrayList<Jugador> jugadores = new ArrayList<>();
     public static ArrayList<Usuario> usuarios = new ArrayList<>();
+    public static ArrayList<Competicion> competiciones = new ArrayList<>();
+    public static ArrayList<Jornada> jornadas = new ArrayList<>();
+    public static ArrayList<Enfrentamiento> enfrentamientos = new ArrayList<>();
     public static Usuario usuario;
     public static DateTimeFormatter formatofecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public static double SMI = 17094;
@@ -85,8 +93,9 @@ public class Main {
                             c) Gestionar Usuarios
                             d) Gestionar Equipos
                             e) Gestionar Jugadores
-                            f) Cerrar Sesion
-                            g) Salir
+                            f) Gestionar Competiciones
+                            g) Cerrar Sesion
+                            h) Salir
                             """);
                 } else {
                     System.out.print("""
@@ -125,12 +134,19 @@ public class Main {
                         break;
                     case "f":
                         if (usuario instanceof Admin) {
-                            finalizar = true;
+                            gestionarCompeticiones();
                         }else {
                             System.out.println("Opcion no valida");
                         }
                         break;
                     case "g":
+                        if (usuario instanceof Admin) {
+                            finalizar = true;
+                        }else {
+                            System.out.println("Opcion no valida");
+                        }
+                        break;
+                    case "h":
                         if (usuario instanceof Admin) {
                             finalizar = true;
                             cont = false;
@@ -280,14 +296,26 @@ public class Main {
 
     public static void crearEquipo(){
         if (equipos.isEmpty()){
-
-            equipos.add(new Equipo(1,validarDato("Nombre Equipo","Nombre Equipo:","^[A-Za-z0-9]+$"),validarFecha("Fecha Fundacion","Fecha Fundacion")));
+            if (competiciones.isEmpty()){
+                equipos.add(new Equipo(1,validarDato("Nombre Equipo","Nombre Equipo:","^[A-Za-z0-9]+$"),validarFecha("Fecha Fundacion","Fecha Fundacion")));
+            }else {
+                Competicion competicion = competiciones.getLast();
+                ArrayList<Competicion> competicionesEquipo = new ArrayList<>();
+                competicionesEquipo.add(competicion);
+                equipos.add(new Equipo(1,validarDato("Nombre Equipo","Nombre Equipo:","^[A-Za-z0-9]+$"),validarFecha("Fecha Fundacion","Fecha Fundacion"),competicionesEquipo));
+            }
 
         }else {
             String nombreEquipo = validarDato("Nombre Equipo", "Nombre Equipo:", "^[A-Za-z0-9]+$");
             if (equipos.stream().noneMatch(u -> u.getNombre().equalsIgnoreCase(nombreEquipo))) {
-
-                equipos.add(new Equipo(equipos.size()+1,nombreEquipo,validarFecha("Fecha Fundacion","Fecha Fundacion")));
+                if (competiciones.isEmpty()){
+                    equipos.add(new Equipo(equipos.size()+1,nombreEquipo,validarFecha("Fecha Fundacion","Fecha Fundacion")));
+                }else {
+                    Competicion competicion = competiciones.getLast();
+                    ArrayList<Competicion> competicionesEquipo = new ArrayList<>();
+                    competicionesEquipo.add(competicion);
+                    equipos.add(new Equipo(equipos.size()+1,validarDato("Nombre Equipo","Nombre Equipo:","^[A-Za-z0-9]+$"),validarFecha("Fecha Fundacion","Fecha Fundacion"),competicionesEquipo));
+                }
             }else  {
                 System.out.println("El equipo ya existe");
             }
@@ -625,6 +653,204 @@ public class Main {
         }
     }
 
+    public static void gestionarCompeticiones(){
+        boolean cont = true;
+        do {
+            System.out.print("""
+                    -- Menu Gestion Competiciones--
+                    a) Crear Competicion
+                    b) Editar Competicion
+                    c) Eliminar Competicion
+                    d) Cerrar etapa de la Competicion
+                    e) Salir
+                    """);
+            String opcion = sc.nextLine();
+            switch (opcion) {
+                case "a":
+                    crearCompeticion();
+                    break;
+                case "b":
+                    editarCompeticion();
+                    break;
+                case "c":
+                    eliminarCompeticion();
+                    break;
+                case "d":
+                    cerrarEtapa();
+                    break;
+                case "e":
+                    cont = false;
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
+            }
+        }while (cont);
+    }
+
+    public static void crearCompeticion(){
+        if (competiciones.isEmpty()){
+            competiciones.add(new Competicion(1,validarDato("Nombre","Nombre Competicion:","^[A-Za-z09]+$"),"Inscripcion",validarDato("Tipo Puntuacion","Tipo Puntuacion de la competicion","^[A-Za-z]+$"),equipos));
+        }else {
+            if (competiciones.getLast().getFechaFin() == null | competiciones.getLast().getFechaFin().isAfter(LocalDate.now())) {
+                System.out.println("La competicion no se puede crear por que hay una en curso");
+            }else{
+            String nombreCompeticion = validarDato("Nombre","Nombre Competicion:","^[A-Za-z09]+$");
+            if (competiciones.stream().noneMatch(u -> u.getNombre().equals(nombreCompeticion))) {
+                competiciones.add(new Competicion(competiciones.size()+1,nombreCompeticion,"Inscripcion",validarDato("Tipo Puntuacion","Tipo Puntuacion de la competicion","^[A-Za-z]+$"),equipos));
+            }else {
+                System.out.println("Ya existe una competicion con ese nombre");
+            }
+            }
+        }
+    }
+
+    public static void editarCompeticion(){
+        if (competiciones.isEmpty()){
+            System.out.println("No hay competiciones para editar");
+        }else {
+            String nombreCompeticion = validarDato("Nombre","Nombre Competicion para editar:","^[A-Za-z09]$");
+            if (competiciones.stream().noneMatch(u -> u.getNombre().equals(nombreCompeticion))) {
+                System.out.println("El nombre de la competicion no existe");
+            }else {
+                int posicionEditar = competiciones.indexOf(competiciones.stream().filter(u -> u.getNombre().equalsIgnoreCase(nombreCompeticion)).findFirst().orElse(null));
+                boolean editar = true;
+                do {
+                    System.out.print("""
+                    -- Menu Editar --
+                    a) Nombre
+                    b) Tipo Puntuacion
+                    c) Salir
+                    """);
+                    String opcion = sc.nextLine();
+                    switch (opcion) {
+                        case "a":
+                            String nombreNuevo = validarDato("Nombre","Nuevo nombre de la Competicion:","^[A-Za-z0-9]+$");
+                            if (competiciones.stream().noneMatch(u -> u.getNombre().equalsIgnoreCase(nombreNuevo))) {
+                                competiciones.get(posicionEditar).setNombre(nombreNuevo);
+                            }else  {
+                                System.out.println("El nombre de competicion ya existe");
+                            }
+                            break;
+                        case "b":
+                            String tipoPuntuacionNuevo = validarDato("Tipo Puntuacion", "Nuevo tipo de puntuacion de la Competicion:","^[A-Za-z]$");
+                            competiciones.get(posicionEditar).setTipoPuntuacion(tipoPuntuacionNuevo);
+                            break;
+                        case "c":
+                            editar = false;
+                            break;
+                        default:
+                            System.out.println("Opcion no valida");
+                            break;
+                    }
+                }while (editar);
+            }
+        }
+    }
+
+    public static void eliminarCompeticion(){
+        if (competiciones.isEmpty()){
+            System.out.println("No hay competiciones para eliminar");
+        }else {
+            String competicionEliminar = validarDato("Nombre","Nombre Competicion para eliminar:","^[A-Za-z0-9]+$");
+            if (competiciones.stream().noneMatch(u -> u.getNombre().equals(competicionEliminar))) {
+                System.out.println("El nombre de la competicion no existe");
+            }else {
+                Competicion competicion = competiciones.stream().filter(u -> u.getNombre().equals(competicionEliminar)).findFirst().orElse(null);
+                for (Equipo equipo : equipos) {
+                    if (equipo.getCompeticiones().stream().anyMatch(u -> u.getNombre().equals(competicionEliminar))) {
+                        equipo.getCompeticiones().remove(competicion);
+                    }
+                }
+                competiciones.remove(competicion);
+            }
+        }
+    }
+
+    public static void cerrarEtapa(){
+        if (competiciones.isEmpty()){
+            System.out.println("No hay competiciones para cerrar");
+        }else {
+            if (competiciones.getLast().getEtapa().equalsIgnoreCase("Competicion")){
+                System.out.println("La competicion ya esta cerrada");
+            }else {
+                Competicion competicion = competiciones.getLast();
+                competicion.setEtapa("Competicion");
+                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+                competicion.setFechaInicio(fechaInicio);
+                long diasHastaFinal = 7L * (long) (equipos.size()-1);
+                LocalDate fechaFin = fechaInicio.plusDays(diasHastaFinal);
+                competicion.setFechaFin(fechaFin);
+                ArrayList<Jornada> jornadasCompeticion = new ArrayList<>();
+                LocalTime horaEnfrentamiento = LocalTime.of(13,0);
+                ArrayList<Equipo> equiposCompeticion = new ArrayList<>(equipos);
+                for (int i = 1; i < equipos.size(); i++) {
+                    ArrayList<Enfrentamiento> enfrentamientoJornada = new ArrayList<>();
+                    if (jornadas.isEmpty()){
+                        Jornada jornada = new Jornada(1,fechaInicio,i,competicion);
+                        jornadas.add(jornada);
+                        jornadasCompeticion.add(jornada);
+                        for (int x = 0; x < equipos.size()/2; x++) {
+                            if (enfrentamientos.isEmpty()){
+                                Equipo equipolocal = equiposCompeticion.get(x);
+                                Equipo equipofinal = equiposCompeticion.get(equipos.size()-x-1);
+                                Equipo[] equiposEnfrentamiento = new Equipo[2];
+                                equiposEnfrentamiento[0] = equipolocal;
+                                equiposEnfrentamiento[1] = equipofinal;
+                                Enfrentamiento enfrentamiento = new Enfrentamiento(1,horaEnfrentamiento.plusHours(x),equiposEnfrentamiento,jornada);
+                                enfrentamientos.add(enfrentamiento);
+                                enfrentamientoJornada.add(enfrentamiento);
+                            }else {
+                                Equipo equipolocal = equiposCompeticion.get(x);
+                                Equipo equipofinal = equiposCompeticion.get(equipos.size()-x-1);
+                                Equipo[] equiposEnfrentamiento = new Equipo[2];
+                                equiposEnfrentamiento[0] = equipolocal;
+                                equiposEnfrentamiento[1] = equipofinal;
+                                Enfrentamiento enfrentamiento = new Enfrentamiento(enfrentamientos.size()+1,horaEnfrentamiento.plusHours(x),equiposEnfrentamiento,jornada);
+                                enfrentamientos.add(enfrentamiento);
+                                enfrentamientoJornada.add(enfrentamiento);
+                            }
+                        }
+                        equiposCompeticion.add(equiposCompeticion.get(1));
+                        equiposCompeticion.remove(equiposCompeticion.get(1));
+                        jornada.getEnfrentamientos().addAll(enfrentamientoJornada);
+                    }else {
+                        Jornada jornada = new Jornada(jornadas.size()+1, fechaInicio,i,competicion);
+                        jornadas.add(jornada);
+                        jornadasCompeticion.add(jornada);
+                        for (int x = 0; x < equipos.size()/2; x++) {
+                            if (enfrentamientos.isEmpty()) {
+                                Equipo equipolocal = equiposCompeticion.get(x);
+                                Equipo equipofinal = equiposCompeticion.get(equipos.size() - x-1);
+                                Equipo[] equiposEnfrentamiento = new Equipo[2];
+                                equiposEnfrentamiento[0] = equipolocal;
+                                equiposEnfrentamiento[1] = equipofinal;
+                                Enfrentamiento enfrentamiento = new Enfrentamiento(1, horaEnfrentamiento.plusHours(x), equiposEnfrentamiento, jornada);
+                                enfrentamientos.add(enfrentamiento);
+                                enfrentamientoJornada.add(enfrentamiento);
+                            }else {
+                                Equipo equipolocal = equiposCompeticion.get(x);
+                                Equipo equipofinal = equiposCompeticion.get(equipos.size()-x-1);
+                                Equipo[] equiposEnfrentamiento = new Equipo[2];
+                                equiposEnfrentamiento[0] = equipolocal;
+                                equiposEnfrentamiento[1] = equipofinal;
+                                Enfrentamiento enfrentamiento = new Enfrentamiento(enfrentamientos.size()+1,horaEnfrentamiento.plusHours(x),equiposEnfrentamiento,jornada);
+                                enfrentamientos.add(enfrentamiento);
+                                enfrentamientoJornada.add(enfrentamiento);
+                            }
+                        }
+                        equiposCompeticion.add(equiposCompeticion.get(1));
+                        equiposCompeticion.remove(equiposCompeticion.get(1));
+                        jornada.getEnfrentamientos().addAll(enfrentamientoJornada);
+                    }
+                    competicion.setJornadas(jornadasCompeticion);
+                }
+
+
+            }
+        }
+    }
+
     public static String validarDato(String dato, String mensaje, String exp){
         String respuesta = "";
         boolean error = false;
@@ -676,4 +902,6 @@ public class Main {
         }while (error);
         return sueldo;
     }
+
+
 }

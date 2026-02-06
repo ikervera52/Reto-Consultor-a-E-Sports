@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Jugador {
+    private int id;
     private String nombre;
     private String nickname;
     private double sueldo;
@@ -12,12 +13,15 @@ public class Jugador {
     public enum Rol { Support, AWSPer, IGL, Lurker, Rifler, Entry_Fragger }
     private Rol rol;
 
-    public Jugador(String nombre, String nickname, double sueldo, Rol rol) throws SueldoNoValido, NicknameNoExiste, NombreEquipoNoValido {
+    public Jugador(int id, String nombre, String nickname, double sueldo, Rol rol) throws SueldoNoValido, NicknameNoExiste, NombreEquipoNoValido {
+        this.id = id;
         setNombre(nombre);
         setNickname(nickname);
         setSueldo(sueldo);
         this.rol = rol;
     }
+
+    public int getId() { return id; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) throws NombreEquipoNoValido {
@@ -47,6 +51,6 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return "Jugador: " + nombre + " (" + nickname + ") - " + rol + " - " + sueldo + "€";
+        return "Jugador [" + id + "]: " + nombre + " (" + nickname + ") - " + rol + " - " + sueldo + "€";
     }
 }

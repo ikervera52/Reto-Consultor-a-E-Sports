@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Equipo {
+    private int id;
     private String nombre;
     private LocalDate fechaFundacion;
     private ArrayList<Jugador> jugadores;
@@ -13,7 +14,8 @@ public class Equipo {
     private int empates;
     private int puntos;
 
-    public Equipo(String nombre) {
+    public Equipo(int id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
         this.fechaFundacion = LocalDate.now();
         this.jugadores = new ArrayList<>();
@@ -22,6 +24,8 @@ public class Equipo {
         this.empates = 0;
         this.puntos = 0;
     }
+
+    public int getId() { return id; }
 
     public void agregarJugador(Jugador jugador) throws CantidadJugadoresNoValida {
         if (this.jugadores.size() >= 6) throw new CantidadJugadoresNoValida("Equipo lleno.");
@@ -58,6 +62,6 @@ public class Equipo {
 
     @Override
     public String toString() {
-        return "Equipo{" + nombre + " (" + jugadores.size() + " jug.)}";
+        return "Equipo " + id + ": " + nombre + " (" + jugadores.size() + " jug.)";
     }
 }

@@ -24,6 +24,8 @@ public class Competicion {
         this.equiposParticipantes = new ArrayList<>();
     }
 
+    public Integer getId() { return id; }
+
     public void agregarJornada(Jornada jornada) {
         jornadas.add(jornada);
     }
@@ -40,7 +42,6 @@ public class Competicion {
     public LocalDate getFechaInicio() { return fechaInicio; }
 
     public void setEtapa(int nuevaEtapa) {
-
         if (nuevaEtapa < 0 || nuevaEtapa > 1) {
             System.out.println("Etapa no válida");
         } else {

@@ -4,6 +4,9 @@ import java.time.LocalTime;
 import java.util.Random;
 
 public class Enfrentamiento {
+    private static int contadorId = 1;
+    private int id;
+
     private Equipo local;
     private Equipo visitante;
     private LocalTime hora;
@@ -12,11 +15,14 @@ public class Enfrentamiento {
     private boolean jugado;
 
     public Enfrentamiento(Equipo local, Equipo visitante, LocalTime hora) {
+        this.id = contadorId++;
         this.local = local;
         this.visitante = visitante;
         this.hora = hora;
         this.jugado = false;
     }
+
+    public int getId() { return id; }
 
     public void simularResultado() {
         if (jugado) return;
@@ -44,6 +50,6 @@ public class Enfrentamiento {
     @Override
     public String toString() {
         String res = jugado ? " [" + rondasLocal + "-" + rondasVisitante + "]" : " [Pendiente]";
-        return local.getNombre() + " vs " + visitante.getNombre() + " (" + hora + ")" + res;
+        return "(ID:" + id + ") " + local.getNombre() + " vs " + visitante.getNombre() + " (" + hora + ")" + res;
     }
 }

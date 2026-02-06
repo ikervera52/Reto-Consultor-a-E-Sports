@@ -9,6 +9,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,9 +25,11 @@ public class Main {
     public static ArrayList<Competicion> competiciones = new ArrayList<>();
     public static ArrayList<Jornada> jornadas = new ArrayList<>();
     public static ArrayList<Enfrentamiento> enfrentamientos = new ArrayList<>();
+    public static ArrayList<Resultado> resultados = new ArrayList<>();
     public static Usuario usuario;
     public static DateTimeFormatter formatofecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     public static double SMI = 17094;
+    public static LocalDate fechaHoy = LocalDate.now();
 
     public static void main(String[] args) {
         try {
@@ -96,6 +99,7 @@ public class Main {
                             f) Gestionar Competiciones
                             g) Cerrar Sesion
                             h) Salir
+                            i) Cambiar Fecha Hoy
                             """);
                 } else {
                     System.out.print("""
@@ -107,8 +111,10 @@ public class Main {
                 String opcion = sc.nextLine();
                 switch (opcion) {
                     case "a":
+                        verEquiposCompeticion();
                         break;
                     case "b":
+                        verInformeUltimaJornada();
                         break;
                     case "c":
                         if (usuario instanceof Estandar) {
@@ -150,6 +156,13 @@ public class Main {
                         if (usuario instanceof Admin) {
                             finalizar = true;
                             cont = false;
+                        }else {
+                            System.out.println("Opcion no valida");
+                        }
+                        break;
+                    case "i":
+                        if (usuario instanceof Admin) {
+                            fechaHoy = LocalDate.parse(validarDato("Fecha Hoy","Dime cual quieres que sea la fecha de hoy:","^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(19|20)[0-9]{2}$"),formatofecha);
                         }else {
                             System.out.println("Opcion no valida");
                         }
@@ -264,34 +277,38 @@ public class Main {
     }
 
     public static void gestionarEquipos(){
-        boolean cont = true;
-        do {
-            System.out.print("""
-                    -- Menu Gestion Equipos--
-                    a) Crear Equipo
-                    b) Editar Equipo
-                    c) Eliminar Equipo
-                    d) Salir
-                    """);
-            String opcion = sc.nextLine();
-            switch (opcion) {
-                case "a":
-                    crearEquipo();
-                    break;
-                case "b":
-                    editarEquipo();
-                    break;
-                case "c":
-                    eliminarEquipo();
-                    break;
-                case "d":
-                    cont = false;
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
-                    break;
-            }
-        }while (cont);
+        if (competiciones.isEmpty() ||competiciones.getLast().getEtapa().equalsIgnoreCase("Inscripcion")) {
+            boolean cont = true;
+            do {
+                System.out.print("""
+                        -- Menu Gestion Equipos--
+                        a) Crear Equipo
+                        b) Editar Equipo
+                        c) Eliminar Equipo
+                        d) Salir
+                        """);
+                String opcion = sc.nextLine();
+                switch (opcion) {
+                    case "a":
+                        crearEquipo();
+                        break;
+                    case "b":
+                        editarEquipo();
+                        break;
+                    case "c":
+                        eliminarEquipo();
+                        break;
+                    case "d":
+                        cont = false;
+                        break;
+                    default:
+                        System.out.println("Opcion no valida");
+                        break;
+                }
+            } while (cont);
+        }else  {
+            System.out.println("Hay una competicion en curso, no se puede gestionar equipos");
+        }
     }
 
     public static void crearEquipo(){
@@ -335,19 +352,19 @@ public class Main {
                 boolean editar = true;
                 do {
                     System.out.print("""
-                    -- Menu Editar --
-                    a) Nombre
-                    b) Fecha Fundacion
-                    c) Jugadores
-                    d) Salir
-                    """);
+                            -- Menu Editar --
+                            a) Nombre
+                            b) Fecha Fundacion
+                            c) Jugadores
+                            d) Salir
+                            """);
                     String opcion = sc.nextLine();
                     switch (opcion) {
                         case "a":
-                            String nombreNuevo = validarDato("Nombre","Nuevo nombre de Equipo:","^[A-Za-z0-9]+$");
+                            String nombreNuevo = validarDato("Nombre", "Nuevo nombre de Equipo:", "^[A-Za-z0-9]+$");
                             if (equipos.stream().noneMatch(u -> u.getNombre().equalsIgnoreCase(nombreNuevo))) {
                                 equipos.get(posicionEditar).setNombre(nombreNuevo);
-                            }else  {
+                            } else {
                                 System.out.println("El nombre de usuario ya existe");
                             }
                             break;
@@ -365,7 +382,7 @@ public class Main {
                             System.out.println("Opcion no valida");
                             break;
                     }
-                }while (editar);
+                } while (editar);
             }
         }
     }
@@ -447,34 +464,38 @@ public class Main {
     }
 
     public static void gestionarJugadores(){
-        boolean cont = true;
-        do {
-            System.out.print("""
-                    -- Menu Gestion Jugadores--
-                    a) Crear Jugador
-                    b) Editar Jugador
-                    c) Eliminar Jugador
-                    d) Salir
-                    """);
-            String opcion = sc.nextLine();
-            switch (opcion) {
-                case "a":
-                    crearJugador();
-                    break;
-                case "b":
-                    editarJugador();
-                    break;
-                case "c":
-                    eliminarJugador();
-                    break;
-                case "d":
-                    cont = false;
-                    break;
-                default:
-                    System.out.println("Opcion no valida");
-                    break;
-            }
-        }while (cont);
+        if (competiciones.isEmpty() || competiciones.getLast().getEtapa().equalsIgnoreCase("Inscripcion")) {
+            boolean cont = true;
+            do {
+                System.out.print("""
+                        -- Menu Gestion Jugadores--
+                        a) Crear Jugador
+                        b) Editar Jugador
+                        c) Eliminar Jugador
+                        d) Salir
+                        """);
+                String opcion = sc.nextLine();
+                switch (opcion) {
+                    case "a":
+                        crearJugador();
+                        break;
+                    case "b":
+                        editarJugador();
+                        break;
+                    case "c":
+                        eliminarJugador();
+                        break;
+                    case "d":
+                        cont = false;
+                        break;
+                    default:
+                        System.out.println("Opcion no valida");
+                        break;
+                }
+            } while (cont);
+        }else {
+            System.out.println("Hay una competicion en curso, no se puede gestionar jugadores");
+        }
     }
 
     public static void crearJugador(){
@@ -662,7 +683,8 @@ public class Main {
                     b) Editar Competicion
                     c) Eliminar Competicion
                     d) Cerrar etapa de la Competicion
-                    e) Salir
+                    e) Guardar Resultado
+                    f) Salir
                     """);
             String opcion = sc.nextLine();
             switch (opcion) {
@@ -679,6 +701,9 @@ public class Main {
                     cerrarEtapa();
                     break;
                 case "e":
+                    resultado();
+                    break;
+                case "f":
                     cont = false;
                     break;
                 default:
@@ -692,7 +717,7 @@ public class Main {
         if (competiciones.isEmpty()){
             competiciones.add(new Competicion(1,validarDato("Nombre","Nombre Competicion:","^[A-Za-z09]+$"),"Inscripcion",validarDato("Tipo Puntuacion","Tipo Puntuacion de la competicion","^[A-Za-z]+$"),equipos));
         }else {
-            if (competiciones.getLast().getFechaFin() == null | competiciones.getLast().getFechaFin().isAfter(LocalDate.now())) {
+            if (competiciones.getLast().getFechaFin() == null | competiciones.getLast().getFechaFin().isAfter(fechaHoy)) {
                 System.out.println("La competicion no se puede crear por que hay una en curso");
             }else{
             String nombreCompeticion = validarDato("Nombre","Nombre Competicion:","^[A-Za-z09]+$");
@@ -709,7 +734,7 @@ public class Main {
         if (competiciones.isEmpty()){
             System.out.println("No hay competiciones para editar");
         }else {
-            String nombreCompeticion = validarDato("Nombre","Nombre Competicion para editar:","^[A-Za-z09]$");
+            String nombreCompeticion = validarDato("Nombre","Nombre Competicion para editar:","^[A-Za-z09]+$");
             if (competiciones.stream().noneMatch(u -> u.getNombre().equals(nombreCompeticion))) {
                 System.out.println("El nombre de la competicion no existe");
             }else {
@@ -776,7 +801,7 @@ public class Main {
             }else {
                 Competicion competicion = competiciones.getLast();
                 competicion.setEtapa("Competicion");
-                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+                LocalDate fechaInicio = fechaHoy.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
                 competicion.setFechaInicio(fechaInicio);
                 long diasHastaFinal = 7L * (long) (equipos.size()-1);
                 LocalDate fechaFin = fechaInicio.plusDays(diasHastaFinal);
@@ -844,9 +869,88 @@ public class Main {
                         jornada.getEnfrentamientos().addAll(enfrentamientoJornada);
                     }
                     competicion.setJornadas(jornadasCompeticion);
+                    fechaInicio = fechaInicio.plusDays(7);
                 }
 
 
+            }
+        }
+    }
+
+    public static void verEquiposCompeticion(){
+        if (competiciones.isEmpty()){
+            System.out.println("No hay competiciones creadas");
+        }else {
+            String nombreCompeticion = validarDato("Nombre", "Nombre Competicion a buscar:", "^[A-Za-z0-9]+$");
+            Competicion competicion = competiciones.stream().filter(competicion1 ->  competicion1.getNombre().equalsIgnoreCase(nombreCompeticion)).findFirst().orElse(null);
+            if (competicion != null){
+                System.out.println("--Lista de equipos de "+ competicion.getNombre()+"--");
+                for (Equipo equipo : competicion.getEquipos()){
+                    System.out.println("-"+equipo.getNombre());
+                }
+            }else {
+                System.out.println("La competicion no tiene equipos");
+            }
+        }
+    }
+
+    public static void resultado(){
+        if (competiciones.isEmpty()){
+            System.out.println("No hay competiciones creadas");
+        }else {
+            if (competiciones.getLast().getEtapa().equalsIgnoreCase("Incripcion")){
+                System.out.println("La competicion no ha sido iniciada");
+            }else {
+                boolean jugado = false;
+                for (Jornada jornada : competiciones.getLast().getJornadas()){
+                    if (jornada.getFecha().isBefore(fechaHoy)){
+                        System.out.println("--Jornada "+jornada.getNumJornada()+"--");
+                        for (Enfrentamiento enfrentamiento : jornada.getEnfrentamientos()){
+                            System.out.println("--"+enfrentamiento.getEquipos()[0].getNombre()+" VS "+enfrentamiento.getEquipos()[1].getNombre()+"--");
+                            resultados.add(new Resultado(enfrentamiento.getEquipos()[0],
+                                    enfrentamiento,
+                                    Integer.parseInt(validarDato("Puntuacion","Puntuacion del equipo "+ enfrentamiento.getEquipos()[0].getNombre(),"^[0-9]+$"))));
+                            resultados.add(new Resultado(enfrentamiento.getEquipos()[1],
+                                    enfrentamiento,
+                                    Integer.parseInt(validarDato("Puntuacion","Puntuacion del equipo "+ enfrentamiento.getEquipos()[1].getNombre(),"^[0-9]+$"))));
+                        }
+                        jugado = true;
+                    }
+                }
+                if (!jugado){
+                    System.out.println("No se ha jugado niguna jornada");
+                }else {
+                    System.out.println("No se ha jugado ninguna jornada mas o no quedan jornadas");
+                }
+            }
+        }
+    }
+
+    public static void verInformeUltimaJornada(){
+        boolean jugado = false;
+        if (jornadas.isEmpty()){
+            System.out.println("No hay jornadas creadas");
+        }else {
+            Jornada ultimaJornada = null;
+            StringBuilder marcador =  new StringBuilder();
+            for (Jornada jornada : jornadas){
+                if (jornada.getFecha().isBefore(fechaHoy)){
+                    ultimaJornada=jornada;
+                }
+            }
+            for (Resultado resultado : resultados){
+                if (resultado.getEnfrentamiento().getJornada() == ultimaJornada){
+                    jugado=true;
+                    marcador.append(" - ").append(resultado.getPuntuacion());
+                }
+            }
+            if (jugado){
+                if (ultimaJornada != null) {
+                    for (Enfrentamiento enfrentamiento : ultimaJornada.getEnfrentamientos()){
+                        System.out.println("--"+enfrentamiento.getEquipos()[0].getNombre()+" VS "+enfrentamiento.getEquipos()[1].getNombre()+"--");
+
+                    }
+                }
             }
         }
     }
@@ -875,7 +979,7 @@ public class Main {
         do {
             try {
                 fechaFundacion = LocalDate.parse(validarDato(dato,mensaje,"^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(19|20)[0-9]{2}$"),formatofecha);
-                if (fechaFundacion.isAfter(LocalDate.now())) {
+                if (fechaFundacion.isAfter(fechaHoy)) {
                     throw new FechaMayorHoy();
                 }
                 error =false;
@@ -902,6 +1006,4 @@ public class Main {
         }while (error);
         return sueldo;
     }
-
-
 }

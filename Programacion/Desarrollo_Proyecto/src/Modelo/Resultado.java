@@ -9,6 +9,12 @@ public class Resultado {
     public Resultado() {
     }
 
+    public Resultado(Equipo equipo, Enfrentamiento enfrentamiento, int puntuacion) {
+        this.equipo = equipo;
+        this.enfrentamiento = enfrentamiento;
+        this.resultado = puntuacion;
+    }
+
     public Equipo getEquipo() {
         return equipo;
     }

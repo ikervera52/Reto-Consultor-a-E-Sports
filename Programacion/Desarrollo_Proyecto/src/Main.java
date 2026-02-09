@@ -374,8 +374,8 @@ public class Main {
             try {
                 int op = Integer.parseInt(sc.nextLine());
                 switch (op) {
-                    case 1 -> editarEquipoFlow();
-                    case 2 -> editarJugadorFlow();
+                    case 1 -> editarEquipo();
+                    case 2 -> editarJugador();
                     case 3 -> volver = true;
                     default -> throw new OpcionNoValida();
                 }
@@ -385,7 +385,7 @@ public class Main {
         }
     }
 
-    static void editarEquipoFlow() {
+    static void editarEquipo() {
         if (listaEquiposTemporal.isEmpty()) { System.out.println("No hay equipos."); return; }
         listarEquipos();
         System.out.print("Introduce el ID del equipo a editar: ");
@@ -421,7 +421,7 @@ public class Main {
         }
     }
 
-    static void editarJugadorFlow() {
+    static void editarJugador() {
         if (listaEquiposTemporal.isEmpty()) { System.out.println("No hay equipos."); return; }
 
         System.out.println("--- JUGADORES DISPONIBLES ---");

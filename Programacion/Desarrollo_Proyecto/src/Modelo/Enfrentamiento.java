@@ -3,40 +3,34 @@ package Modelo;
 import java.time.LocalTime;
 
 public class Enfrentamiento {
-    private int id;
-    private LocalTime hora;
-    private Equipo[] equipos =new Equipo[2];
+    private int idEnfrentamiento;
+    private LocalTime horaEnfrentamiento;
     private Jornada jornada;
+    private Equipo[] equipos;
 
-    public Enfrentamiento(int id, LocalTime hora, Equipo[] equipos, Jornada jornada) {
-        this.id = id;
-        this.hora = hora;
-        this.equipos = equipos;
+    public Enfrentamiento() {
+    }
+
+    public Enfrentamiento(int idEnfrentamiento, LocalTime horaEnfrentamiento, String resultado, Jornada jornada, Equipo[] equipos) {
+        this.idEnfrentamiento = idEnfrentamiento;
+        this.horaEnfrentamiento = horaEnfrentamiento;
         this.jornada = jornada;
     }
 
-    public int getId() {
-        return id;
+    public int getIdEnfrentamiento() {
+        return idEnfrentamiento;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEnfrentamiento(int idEnfrentamiento) {
+        this.idEnfrentamiento = idEnfrentamiento;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalTime getHoraEnfrentamiento() {
+        return horaEnfrentamiento;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-
-    public Equipo[] getEquipos() {
-        return equipos;
-    }
-
-    public void setEquipos(Equipo[] equipos) {
-        this.equipos = equipos;
+    public void setHoraEnfrentamiento(LocalTime horaEnfrentamiento) {
+        this.horaEnfrentamiento = horaEnfrentamiento;
     }
 
     public Jornada getJornada() {
@@ -45,5 +39,13 @@ public class Enfrentamiento {
 
     public void setJornada(Jornada jornada) {
         this.jornada = jornada;
+    }
+
+    public Equipo[] getEquipos() {
+        return equipos;
+    }
+
+    public void setEquipos(Equipo[] equipos) {
+        this.equipos = equipos;
     }
 }

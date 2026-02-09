@@ -1,7 +1,11 @@
 package Modelo;
 
 public class Admin extends Usuario {
-    public Admin(int id, String nombre, String contrasena) {
-        super(id, nombre, contrasena);
+
+    public Admin() {
+    }
+
+    public Admin(int idUsuario, String nombreUsuario, String contrasena) {
+        super(idUsuario, nombreUsuario, contrasena);
     }
 }

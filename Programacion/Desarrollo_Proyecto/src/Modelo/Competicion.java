@@ -4,40 +4,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Competicion {
-    private int id;
-    private String nombre;
+    private int idCompeticion;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private String etapa;
+    private TipoEtapa etapa;
+    private ArrayList<Jornada> jornadas;
+    private ArrayList<Equipo> equipos;
     private String tipoPuntuacion;
-    private ArrayList<Jornada> jornadas = new ArrayList<>();
-    private ArrayList<Equipo> equipos = new ArrayList<>();
+
+    public enum TipoEtapa {
+        COMPETICION, INSCRIPCION
+    }
 
     public Competicion() {
     }
 
-    public Competicion(int id, String nombre, String etapa, String tipoPuntuacion, ArrayList<Equipo> equipos) {
-        this.id = id;
-        this.nombre = nombre;
+    public Competicion(int id, TipoEtapa etapa ) {
+        this.idCompeticion = id;
         this.etapa = etapa;
-        this.tipoPuntuacion = tipoPuntuacion;
-        this.equipos = equipos;
+        this.jornadas = new ArrayList<>();
+        this.equipos = new ArrayList<>();
     }
 
-    public String getNombre() {
-        return nombre;
+    public int getIdCompeticion() {
+        return idCompeticion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setIdCompeticion(int idCompeticion) {
+        this.idCompeticion = idCompeticion;
     }
 
     public LocalDate getFechaInicio() {
@@ -56,20 +50,12 @@ public class Competicion {
         this.fechaFin = fechaFin;
     }
 
-    public String getEtapa() {
+    public TipoEtapa getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(String etapa) {
+    public void setEtapa(TipoEtapa etapa) {
         this.etapa = etapa;
-    }
-
-    public String getTipoPuntuacion() {
-        return tipoPuntuacion;
-    }
-
-    public void setTipoPuntuacion(String tipoPuntuacion) {
-        this.tipoPuntuacion = tipoPuntuacion;
     }
 
     public ArrayList<Jornada> getJornadas() {
@@ -84,13 +70,26 @@ public class Competicion {
         return equipos;
     }
 
+    public void setJornada(Jornada jornada){
+        if(jornadas == null){
+            jornadas = new ArrayList<>();
+            jornadas.add(jornada);
+        }
+        else{
+            jornadas.add(jornada);
+        }
+        jornada.setCompeticion(this);
+    }
+
     public void setEquipos(ArrayList<Equipo> equipos) {
         this.equipos = equipos;
     }
 
-    public void anadirCompeticionEquipo(){
-        for (Equipo equipo : equipos){
-            equipo.anadirCompeticion(this);
-        }
+    public String getTipoPuntuacion() {
+        return tipoPuntuacion;
+    }
+
+    public void setTipoPuntuacion(String tipoPuntuacion) {
+        this.tipoPuntuacion = tipoPuntuacion;
     }
 }

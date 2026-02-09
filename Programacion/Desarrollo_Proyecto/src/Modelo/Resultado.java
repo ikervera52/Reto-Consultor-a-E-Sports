@@ -1,17 +1,12 @@
 package Modelo;
 
 public class Resultado {
+
     private Equipo equipo;
     private Enfrentamiento enfrentamiento;
-    private int puntuacion;
+    private int resultado;
 
     public Resultado() {
-    }
-
-    public Resultado(Equipo equipo, Enfrentamiento enfrentamiento, int puntuacion) {
-        this.equipo = equipo;
-        this.enfrentamiento = enfrentamiento;
-        this.puntuacion = puntuacion;
     }
 
     public Equipo getEquipo() {
@@ -30,11 +25,11 @@ public class Resultado {
         this.enfrentamiento = enfrentamiento;
     }
 
-    public int getPuntuacion() {
-        return puntuacion;
+    public int getResultado() {
+        return resultado;
     }
 
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
+    public void setResultado(int resultado) {
+        this.resultado = resultado;
     }
 }

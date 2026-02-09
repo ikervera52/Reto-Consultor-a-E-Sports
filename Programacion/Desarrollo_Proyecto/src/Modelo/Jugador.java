@@ -1,72 +1,37 @@
 package Modelo;
 
-import java.time.LocalDate;
-
 public class Jugador {
     private int id;
+    private String nickname;
     private String nombre;
     private String apellido;
-    private LocalDate fechaNacimiento;
     private String nacionalidad;
-    private String nickname;
     private String rol;
     private double sueldo;
     private Equipo equipo;
 
-
-
     public Jugador() {
     }
 
-    public Jugador(int id, String nombre, String apellido, LocalDate fechaNacimiento, String nacionalidad, String nickname, String rol, double sueldo) {
+    public Jugador(int id, String nickname, String nombre, String apellido, String nacionalidad, String rol) {
         this.id = id;
+        this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
-        this.nickname = nickname;
         this.rol = rol;
-        this.sueldo = sueldo;
     }
 
-    public int getId() {
-        return id;
+    public double getSueldo() {
+        return sueldo;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public boolean setSueldo(double sueldo, double SMI) {
+        if (sueldo > SMI) {
+            this.sueldo = sueldo;
+            return true;
+        }
+        else return false;
     }
 
     public String getRol() {
@@ -77,12 +42,36 @@ public class Jugador {
         this.rol = rol;
     }
 
-    public double getSueldo() {
-        return sueldo;
+    public String getNacionalidad() {
+        return nacionalidad;
     }
 
-    public void setSueldo(double sueldo) {
-        this.sueldo = sueldo;
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Equipo getEquipo() {
@@ -93,24 +82,30 @@ public class Jugador {
         this.equipo = equipo;
     }
 
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
     }
 
     @Override
     public String toString() {
-        return "Jugador: "+this.nickname
-                +"\n  - Id: "+this.id
-                +"\n  - Nombre: "+this.nombre
-                +"\n  - Apellido: "+this.apellido
-                +"\n  - Fecha de nacimiento: "+this.fechaNacimiento
-                +"\n  - Nacionalidad: "+this.nacionalidad
-                +"\n  - Rol: "+this.rol
-                +"\n  - Sueldo: "+this.sueldo
-                +"\n  - Equipo: "+this.equipo.getNombre();
+        String nombreEquipo;
+        if (this.equipo == null){
+            nombreEquipo = "Sin equipo";
+        } else nombreEquipo = this.equipo.getNombre();
+        return "Nickname: " + nickname + '\n' +
+                "Nombre: " + nombre + '\n' +
+                "Apellido: " + apellido + '\n' +
+                "Nacionalidad: " + nacionalidad + '\n' +
+                "Rol: " + rol + '\n' +
+                "Sueldo: " + sueldo + "\n" +
+                "Equipo: " + nombreEquipo + "\n" ;
     }
 }

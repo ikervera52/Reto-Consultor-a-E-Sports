@@ -4,35 +4,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Equipo {
-    private int id;
+    private int idEquipo;
     private String nombre;
     private LocalDate fechaFundacion;
-    private ArrayList<Jugador> jugadores = new ArrayList<>();
-    private ArrayList<Competicion> competiciones = new ArrayList<>();
+    private ArrayList<Jugador> jugadores;
+    private Competicion competicion;
 
     public Equipo() {
-
     }
 
-    public Equipo(int id, String nombre, LocalDate fechaFundacion) {
-        this.id = id;
+    public Equipo(int idEquipo, String nombre) {
+        this.idEquipo = idEquipo;
         this.nombre = nombre;
-        this.fechaFundacion = fechaFundacion;
+        this.jugadores = new ArrayList<>();
     }
 
-    public Equipo(int id, String nombre, LocalDate fechaFundacion, ArrayList<Competicion> competiciones) {
-        this.id = id;
-        this.nombre = nombre;
-        this.fechaFundacion = fechaFundacion;
-        this.competiciones = competiciones;
+    public int getIdEquipo() {
+        return idEquipo;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEquipo(int idEquipo) {
+        this.idEquipo = idEquipo;
     }
 
     public String getNombre() {
@@ -59,23 +51,37 @@ public class Equipo {
         this.jugadores = jugadores;
     }
 
-    public ArrayList<Competicion> getCompeticiones() {
-        return competiciones;
+    public void setJugador(Jugador jugador){
+        if(this.jugadores == null){
+            this.jugadores = new ArrayList<>();
+            this.jugadores.add(jugador);
+        }
+        else {
+            this.jugadores.add(jugador);
+        }
+        jugador.setEquipo(this);
     }
 
-    public void setCompeticiones(ArrayList<Competicion> competiciones) {
-        this.competiciones = competiciones;
+    public Competicion getCompeticion() {
+        return competicion;
     }
 
-    public void anadirCompeticion(Competicion competicion){
-        this.competiciones.add(competicion);
+    public void setCompeticion(Competicion competicion) {
+        this.competicion = competicion;
     }
 
     @Override
     public String toString() {
-        return "Equipo: "+this.nombre
-                +"\n  - Id: "+this.id
-                +"\n  - Fecha Fundacion: "+this.fechaFundacion
-                +"\n  - Numero Jugadores: "+this.jugadores.size();
+
+        StringBuilder sb = new StringBuilder();
+        if (jugadores != null) {
+            for(Jugador jugador : jugadores){
+                sb.append(jugador.getNickname()).append(" ");
+            }
+        } else sb.append("Sin jugadores");
+
+        return "Nombre: " + nombre + '\n' +
+                "Fecha de fundación: " + fechaFundacion + "\n" +
+                "Jugadores: " + sb  + "\n";
     }
 }

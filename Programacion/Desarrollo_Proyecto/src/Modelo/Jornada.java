@@ -4,44 +4,46 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Jornada {
-    private int id;
-    private LocalDate fecha;
-    private int NumJornada;
-    private ArrayList<Enfrentamiento> enfrentamientos = new ArrayList<>();
+    private int idJornada;
+    private LocalDate fechaJornada;
+    private int numeroJornada;
     private Competicion competicion;
+    private ArrayList<Enfrentamiento> enfrentamientos;
 
     public Jornada() {
+        this.enfrentamientos = new ArrayList<>();
     }
 
-    public Jornada(int id, LocalDate fecha, int numJornada, Competicion competicion) {
-        this.id = id;
-        this.fecha = fecha;
-        NumJornada = numJornada;
+    public int getIdJornada() {
+        return idJornada;
+    }
+
+    public void setIdJornada(int idJornada) {
+        this.idJornada = idJornada;
+    }
+
+    public LocalDate getFechaJornada() {
+        return fechaJornada;
+    }
+
+    public void setFechaJornada(LocalDate fechaJornada) {
+        this.fechaJornada = fechaJornada;
+    }
+
+    public int getNumeroJornada() {
+        return numeroJornada;
+    }
+
+    public void setNumeroJornada(int numeroJornada) {
+        this.numeroJornada = numeroJornada;
+    }
+
+    public Competicion getCompeticion() {
+        return competicion;
+    }
+
+    public void setCompeticion(Competicion competicion) {
         this.competicion = competicion;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public int getNumJornada() {
-        return NumJornada;
-    }
-
-    public void setNumJornada(int numJornada) {
-        NumJornada = numJornada;
     }
 
     public ArrayList<Enfrentamiento> getEnfrentamientos() {
@@ -51,12 +53,13 @@ public class Jornada {
     public void setEnfrentamientos(ArrayList<Enfrentamiento> enfrentamientos) {
         this.enfrentamientos = enfrentamientos;
     }
-
-    public Competicion getCompeticion() {
-        return competicion;
-    }
-
-    public void setCompeticion(Competicion competicion) {
-        this.competicion = competicion;
+    public void setEnfrentamiento(Enfrentamiento enfrentamiento) {
+        if (this.enfrentamientos == null) {
+            this.enfrentamientos = new ArrayList<>();
+            this.enfrentamientos.add(enfrentamiento);
+        } else {
+            this.enfrentamientos.add(enfrentamiento);
+        }
+        enfrentamiento.setJornada(this);
     }
 }

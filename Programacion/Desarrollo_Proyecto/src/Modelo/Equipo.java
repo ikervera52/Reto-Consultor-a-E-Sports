@@ -69,4 +69,19 @@ public class Equipo {
     public void setCompeticion(Competicion competicion) {
         this.competicion = competicion;
     }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        if (jugadores != null) {
+            for(Jugador jugador : jugadores){
+                sb.append(jugador.getNickname()).append(" ");
+            }
+        } else sb.append("Sin jugadores");
+
+        return "Nombre: " + nombre + '\n' +
+                "Fecha de fundación: " + fechaFundacion + "\n" +
+                "Jugadores: " + sb  + "\n";
+    }
 }

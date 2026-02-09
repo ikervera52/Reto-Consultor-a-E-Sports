@@ -16,6 +16,9 @@ public class Competicion {
         COMPETICION, INSCRIPCION
     }
 
+    public Competicion() {
+    }
+
     public Competicion(int id, TipoEtapa etapa ) {
         this.idCompeticion = id;
         this.etapa = etapa;

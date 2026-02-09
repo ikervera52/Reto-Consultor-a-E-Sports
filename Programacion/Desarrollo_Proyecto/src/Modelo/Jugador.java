@@ -93,4 +93,19 @@ public class Jugador {
     public void setSueldo(double sueldo) {
         this.sueldo = sueldo;
     }
+
+    @Override
+    public String toString() {
+        String nombreEquipo;
+        if (this.equipo == null){
+            nombreEquipo = "Sin equipo";
+        } else nombreEquipo = this.equipo.getNombre();
+        return "Nickname: " + nickname + '\n' +
+                "Nombre: " + nombre + '\n' +
+                "Apellido: " + apellido + '\n' +
+                "Nacionalidad: " + nacionalidad + '\n' +
+                "Rol: " + rol + '\n' +
+                "Sueldo: " + sueldo + "\n" +
+                "Equipo: " + nombreEquipo + "\n" ;
+    }
 }

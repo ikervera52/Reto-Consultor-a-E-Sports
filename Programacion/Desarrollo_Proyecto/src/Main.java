@@ -176,7 +176,8 @@ public class Main {
                         a) Añadir puntuación
                         b) Ver informes
                         c) Terminar Competición
-                        d) Cerrar sesión
+                        d) Cambiar Fecha Hoy
+                        e) Cerrar sesión
                         Que quieres hacer:
                         """);
                 String respuesta = sc.nextLine();
@@ -184,7 +185,8 @@ public class Main {
                     case "a" -> resultado();
                     case "b" -> verInformes();
                     case "c" -> terminarCompeticion();
-                    case "d" -> salir = true;
+                    case "d" -> cambiarFechaHoy();
+                    case "e" -> salir = true;
                     default -> throw new Error();
                 }
             }
@@ -1098,5 +1100,9 @@ public class Main {
             }
         }while (error);
         return fechaFundacion;
+    }
+    public static void cambiarFechaHoy(){
+        fechaHoy = LocalDate.parse(
+                validarDato("Fecha Hoy","Dime cual quieres que sea la fecha de hoy:","^([0-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(19|20)[0-9]{2}$"),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

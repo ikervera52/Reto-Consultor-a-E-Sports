@@ -100,4 +100,17 @@ public class Jugador {
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    @Override
+    public String toString() {
+        return "Jugador: "+this.nickname
+                +"\n  - Id: "+this.id
+                +"\n  - Nombre: "+this.nombre
+                +"\n  - Apellido: "+this.apellido
+                +"\n  - Fecha de nacimiento: "+this.fechaNacimiento
+                +"\n  - Nacionalidad: "+this.nacionalidad
+                +"\n  - Rol: "+this.rol
+                +"\n  - Sueldo: "+this.sueldo
+                +"\n  - Equipo: "+this.equipo.getNombre();
+    }
 }

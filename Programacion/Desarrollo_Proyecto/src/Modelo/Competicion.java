@@ -87,4 +87,10 @@ public class Competicion {
     public void setEquipos(ArrayList<Equipo> equipos) {
         this.equipos = equipos;
     }
+
+    public void anadirCompeticionEquipo(){
+        for (Equipo equipo : equipos){
+            equipo.anadirCompeticion(this);
+        }
+    }
 }

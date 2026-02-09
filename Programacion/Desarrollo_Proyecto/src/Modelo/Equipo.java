@@ -66,4 +66,16 @@ public class Equipo {
     public void setCompeticiones(ArrayList<Competicion> competiciones) {
         this.competiciones = competiciones;
     }
+
+    public void anadirCompeticion(Competicion competicion){
+        this.competiciones.add(competicion);
+    }
+
+    @Override
+    public String toString() {
+        return "Equipo: "+this.nombre
+                +"\n  - Id: "+this.id
+                +"\n  - Fecha Fundacion: "+this.fechaFundacion
+                +"\n  - Numero Jugadores: "+this.jugadores.size();
+    }
 }

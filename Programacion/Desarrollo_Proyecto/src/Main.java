@@ -758,17 +758,17 @@ public class Main {
                             System.out.println("--" + enfrentamiento.getEquipos()[0].getNombre() + " VS " + enfrentamiento.getEquipos()[1].getNombre() + "--");
                             resultados.add(new Resultado(enfrentamiento.getEquipos()[0],
                                     enfrentamiento,
-                                    Integer.parseInt(validarDato("Puntuacion", "Puntuacion del equipo " + enfrentamiento.getEquipos()[0].getNombre() + ":", "^[0-9]+$"))));
+                                    Integer.parseInt(validarDato("Puntuación", "Puntuación del equipo " + enfrentamiento.getEquipos()[0].getNombre() + ":", "^[0-9]+$"))));
                             resultados.add(new Resultado(enfrentamiento.getEquipos()[1],
                                     enfrentamiento,
-                                    Integer.parseInt(validarDato("Puntuacion", "Puntuacion del equipo " + enfrentamiento.getEquipos()[1].getNombre() + ":", "^[0-9]+$"))));
+                                    Integer.parseInt(validarDato("Puntuación", "Puntuación del equipo " + enfrentamiento.getEquipos()[1].getNombre() + ":", "^[0-9]+$"))));
                         }
                         jugado = true;
                     }
                 }
             }
             if (!jugado) {
-                System.out.println("No se ha jugado niguna jornada");
+                System.out.println("No se ha jugado ninguna jornada");
             } else {
                 System.out.println("No se ha jugado ninguna jornada mas o no quedan jornadas");
             }
@@ -790,23 +790,13 @@ public class Main {
                 if (resultado1.getEnfrentamiento().getJornada() == ultimaJornada && !mostrado){
                     if (ultimaJornada != null) {
                         System.out.println("--Resultados ultima jornada--");
-                        for (Enfrentamiento enfrentamiento : ultimaJornada.getEnfrentamientos()){
-                            System.out.println("--"+enfrentamiento.getEquipos()[0].getNombre()+" VS "+enfrentamiento.getEquipos()[1].getNombre()+"--");
-                            for (Resultado resultado : resultados){
-                                if (resultado.getEnfrentamiento()==enfrentamiento && resultado.getEquipo()==enfrentamiento.getEquipos()[0]){
-                                    System.out.print(resultado.getResultado() + " - ");
-                                }else if(resultado.getEnfrentamiento()==enfrentamiento && resultado.getEquipo()==enfrentamiento.getEquipos()[1]){
-                                    System.out.print(resultado.getResultado() + " - ");
-                                    System.out.println();
-                                }
-                            }
-                        }
+                        imprimirResultados(ultimaJornada);
                         mostrado = true;
                     }
                 }
             }
             if (!mostrado){
-                System.out.println("No se han guardado datos de ningun enfrentamiento");
+                System.out.println("No se han guardado datos de ningún enfrentamiento");
             }
         }
     }
@@ -819,11 +809,11 @@ public class Main {
             }
 
             // Mirar si hay dos jugadores por lo menos por equipo
-        /*boolean dosJugadoresMinimo = equipos.stream()
+            boolean dosJugadoresMinimo = equipos.stream()
                 .anyMatch(e -> e.getJugadores().size() < 2);
-        if (dosJugadoresMinimo){
+            if (dosJugadoresMinimo){
             throw new Error();
-        }*/
+            }
 
             competicion.setEtapa(Competicion.TipoEtapa.COMPETICION);
 
@@ -960,7 +950,7 @@ public class Main {
                 switch (respuesta){
                     case "a" -> verEquiposPorCompeticion();
                     case "b" -> verJugadores();
-                   // case "c" -> verResultadosJornadas();
+                    case "c" -> verResultadosJornadas();
                     case "d" -> verClasificacion();
                     case "e" -> salir = true;
                     default -> throw new OpcionNoValida();
@@ -1005,11 +995,10 @@ public class Main {
                     }
                 }
             }
-            System.out.println("--Clasificacion--");
+            System.out.println("-- Clasificación --");
             clasificacion.entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).forEach(e -> {
-                        System.out.println(e.getKey().getNombre() + " -> " + e.getValue());
-                    });
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .forEach(e -> System.out.println(e.getKey().getNombre() + " -> " + e.getValue()));
         }
     }
 
@@ -1050,15 +1039,51 @@ public class Main {
             }
         }
         catch (Error e){
-            System.out.println("\n * No hay ningun jugador en este momento * \n");
+            System.out.println("\n * No hay ningún jugador en este momento * \n");
+        }
+    }
+    public static void verResultadosJornadas(){
+        try {
+            if (resultados.isEmpty()){
+                throw new OpcionNoValida();
+            }
+            for (Jornada jornada : jornadas){
+                boolean mostrado = false;
+                for (Resultado resultado1 : resultados) {
+                    if( resultado1.getEnfrentamiento().getJornada() == jornada && !mostrado){
+                        System.out.println("Jornada numero " + jornada.getNumeroJornada() + ")");
+                        imprimirResultados(jornada);
+                        mostrado = true;
+                    }
+                }
+
+            }
+        }
+        catch (OpcionNoValida e){
+            System.out.println("\n * No se ha guardado ninguna jornada todavía * \n");
+        }
+    }
+    public static void imprimirResultados(Jornada jornada){
+        for (Enfrentamiento enfrentamiento : jornada.getEnfrentamientos()){
+            System.out.println("--"+enfrentamiento.getEquipos()[0].getNombre()+" VS "+enfrentamiento.getEquipos()[1].getNombre()+"--");
+            for (Resultado resultado : resultados){
+                if (resultado.getEnfrentamiento()==enfrentamiento && resultado.getEquipo()==enfrentamiento.getEquipos()[0]){
+                    System.out.print(resultado.getResultado() + " - ");
+                }else if(resultado.getEnfrentamiento()==enfrentamiento && resultado.getEquipo()==enfrentamiento.getEquipos()[1]){
+                    System.out.print(resultado.getResultado());
+                    System.out.println();
+                }
+            }
         }
     }
 
     //Terminar competición
     public static void terminarCompeticion(){
         if (competicion.getFechaFin().plusDays(1).isBefore(LocalDate.now())){
-            competicion = new Competicion();
-            competicion.setEtapa(Competicion.TipoEtapa.INSCRIPCION);
+            resultados = new ArrayList<>();
+            jornadas = new ArrayList<>();
+            enfrentamientos = new ArrayList<>();
+            competicion = new Competicion(0, Competicion.TipoEtapa.INSCRIPCION);
         }
         else {
             System.out.println("\n * No puedes cerrar la competición, todavía no ha terminado * \n");

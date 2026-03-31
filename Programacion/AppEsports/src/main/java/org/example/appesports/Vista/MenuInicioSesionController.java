@@ -3,7 +3,7 @@ package org.example.appesports.Vista;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class MenuPrincipalController {
+public class MenuInicioSesionController {
     @FXML
     private Label welcomeText;
 

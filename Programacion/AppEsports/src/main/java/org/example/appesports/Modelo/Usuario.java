@@ -14,6 +14,11 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public Usuario(String nombreUsuario, String contrasena){
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+    }
+
     public String getContrasena() {
         return contrasena;
     }

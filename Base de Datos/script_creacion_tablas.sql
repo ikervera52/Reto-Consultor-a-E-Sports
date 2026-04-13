@@ -10,7 +10,7 @@ DROP TABLE usuarios;
 CREATE TABLE usuarios(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
     nombre VARCHAR2(30)NOT NULL,
-    constrasena VARCHAR2(30) NOT NULL,
+    contrasena VARCHAR2(30) NOT NULL,
     tipo_usuario VARCHAR2(10)NOT NULL,
     CONSTRAINT us_id_pk PRIMARY KEY (id),
     CONSTRAINT us_id_ck CHECK (tipo_usuario IN('admin','estandar'))

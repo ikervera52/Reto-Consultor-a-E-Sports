@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.appesports.Vista.MenuPrincipalAdminController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: WHITE; -fx-background-radius: 20;" BorderPane.alignment="CENTER">
          <children>
@@ -33,7 +32,7 @@
                      </children>
                   </VBox>
                   <Region VBox.vgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #FF2C2C; -fx-border-radius: 20;" text="Cerrar Sesion" textFill="#ff2c2c" />
+                  <Button mnemonicParsing="false" onAction="#onCerrarSesion" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #FF2C2C; -fx-border-radius: 20;" text="Cerrar Sesion" textFill="#ff2c2c" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

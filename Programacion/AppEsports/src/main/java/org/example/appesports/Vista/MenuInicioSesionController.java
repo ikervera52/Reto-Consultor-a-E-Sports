@@ -47,7 +47,7 @@ public class MenuInicioSesionController {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-principal-admin.fxml"));
                 Parent root = fxmlLoader.load();
 
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(root, 1200, 800);
                 Stage stage = new Stage();
                 stage.setTitle("Menu");
                 stage.setScene(scene);

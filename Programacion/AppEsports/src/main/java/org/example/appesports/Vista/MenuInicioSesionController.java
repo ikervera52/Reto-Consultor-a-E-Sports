@@ -51,8 +51,11 @@ public class MenuInicioSesionController {
 
                 MenuPrincipalAdminController controller = fxmlLoader.getController();
 
-                controller.init(stage, this);
+                controller.init(stage, this, username);
                 stage.show();
+
+                tfUsuario.clear();
+                pfContrasena.clear();
 
                 this.stage.close();
 

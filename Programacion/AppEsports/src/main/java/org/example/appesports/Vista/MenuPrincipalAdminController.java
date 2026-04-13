@@ -5,8 +5,8 @@ import javafx.stage.Stage;
 
 public class MenuPrincipalAdminController {
 
-    private Stage stage;
-    private MenuInicioSesionController controller;
+    public Stage stage;
+    public MenuInicioSesionController controller;
 
     public void init (Stage stage, MenuInicioSesionController menu){
         this.controller = menu;

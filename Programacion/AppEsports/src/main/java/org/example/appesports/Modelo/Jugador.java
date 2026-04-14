@@ -1,11 +1,14 @@
 package org.example.appesports.Modelo;
 
+import java.time.LocalDate;
+
 public class Jugador {
     private int id;
-    private String nickname;
     private String nombre;
     private String apellido;
     private String nacionalidad;
+    private LocalDate fechaNacimiento;
+    private String nickname;
     private String rol;
     private double sueldo;
     private Equipo equipo;
@@ -13,13 +16,24 @@ public class Jugador {
     public Jugador() {
     }
 
-    public Jugador(int id, String nickname, String nombre, String apellido, String nacionalidad, String rol) {
+    public Jugador(int id, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, String nickname, String rol, double sueldo, Equipo equipo) {
         this.id = id;
-        this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.nacionalidad = nacionalidad;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nickname = nickname;
         this.rol = rol;
+        this.sueldo = sueldo;
+        this.equipo = equipo;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public double getSueldo() {

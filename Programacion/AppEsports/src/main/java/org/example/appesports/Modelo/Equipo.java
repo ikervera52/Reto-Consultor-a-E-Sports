@@ -19,6 +19,13 @@ public class Equipo {
         this.jugadores = new ArrayList<>();
     }
 
+    public Equipo(int idEquipo, String nombre, LocalDate fechaFundacion, ArrayList<Jugador> jugadores) {
+        this.idEquipo = idEquipo;
+        this.nombre = nombre;
+        this.fechaFundacion = fechaFundacion;
+        this.jugadores = jugadores;
+    }
+
     public int getIdEquipo() {
         return idEquipo;
     }

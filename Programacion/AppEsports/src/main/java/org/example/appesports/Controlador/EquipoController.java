@@ -1,6 +1,5 @@
 package org.example.appesports.Controlador;
 
-import javafx.collections.ObservableList;
 import org.example.appesports.DAO.EquipoDAO;
 import org.example.appesports.Modelo.Equipo;
 
@@ -24,5 +23,9 @@ public class EquipoController {
 
     public static Equipo equipoPorId(int id){
         return EquipoDAO.equipoPorId(id);
+    }
+
+    public static Equipo equipoPorNombre(String nombre){
+        return EquipoDAO.equipoPorNombre(nombre);
     }
 }

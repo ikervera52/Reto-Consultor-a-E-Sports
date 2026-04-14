@@ -24,7 +24,7 @@ public class ValidarDatos {
 
     public static void validarString(String nombre) throws Exception{
 
-        Matcher m = Pattern.compile("^[A-Z][a-z]+$").matcher(nombre);
+        Matcher m = Pattern.compile("^[A-Z][a-zñ]+$").matcher(nombre);
         if (!m.matches()){
             throw new Exception("Datos no validos");
         }

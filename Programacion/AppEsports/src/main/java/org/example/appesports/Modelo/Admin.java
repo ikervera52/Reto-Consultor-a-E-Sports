@@ -8,4 +8,8 @@ public class Admin extends Usuario {
     public Admin(int idUsuario, String nombreUsuario, String contrasena) {
         super(idUsuario, nombreUsuario, contrasena);
     }
+
+    public Admin(String nombreUsuario, String contrasena) {
+        super(nombreUsuario, contrasena);
+    }
 }

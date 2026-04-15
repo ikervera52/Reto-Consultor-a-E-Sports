@@ -31,7 +31,17 @@ public class EquipoController {
         EquipoDAO.insertarEquipo(equipo);
     }
   
-    public static Equipo equipoPorNombre(String nombre){
+    public static Equipo equipoPorNombre(String nombre) throws Exception {
         return EquipoDAO.equipoPorNombre(nombre);
+    }
+
+    public static void editarEquipo(String nombreV, String nombre, LocalDate fechaFundacion){
+        Equipo equipo = new Equipo(nombre, fechaFundacion);
+
+        EquipoDAO.editarEquipo(nombreV, equipo);
+    }
+
+    public static void borrarEquipo(String nombre){
+        EquipoDAO.borrarEquipo(nombre);
     }
 }

@@ -93,9 +93,8 @@ public class EquipoDAO {
         return equipo;
     }
 
-    public static Equipo equipoPorNombre(String nombre){
+    public static Equipo equipoPorNombre(String nombre) throws Exception{
         Equipo equipo = null;
-        try {
             Connection con = ConexionBD.getConexion();
             String sql = "SELECt * FROM equipos WHERE nombre = ?";
 
@@ -106,15 +105,12 @@ public class EquipoDAO {
             if (rs.next()){
                 equipo = new Equipo(
                         rs.getInt("id"),
-                        rs.getString("nombre")
+                        rs.getString("nombre"),
+                        rs.getDate("fecha_fundacion").toLocalDate()
                 );
-            }
+            }else throw new Exception("No se ha encontrado el equipo con el nombre: " + nombre);
 
             ConexionBD.closeConexion(con);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
         return equipo;
     }
@@ -126,6 +122,34 @@ public class EquipoDAO {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, equipo.getNombre());
             ps.setDate(2, java.sql.Date.valueOf(equipo.getFechaFundacion()));
+            ps.executeUpdate();
+            ConexionBD.closeConexion(con);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void editarEquipo(String nombreV, Equipo equipo){
+        try {
+            Connection con = ConexionBD.getConexion();
+            String sql = "UPDATE equipos SET nombre = ?, fecha_fundacion = ? WHERE nombre = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, equipo.getNombre());
+            ps.setDate(2, java.sql.Date.valueOf(equipo.getFechaFundacion()));
+            ps.setString(3, nombreV);
+            ps.executeUpdate();
+            ConexionBD.closeConexion(con);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void borrarEquipo(String nombre){
+        try {
+            Connection con = ConexionBD.getConexion();
+            String sql = "DELETE FROM equipos WHERE nombre = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
             ps.executeUpdate();
             ConexionBD.closeConexion(con);
         }catch (SQLException e){

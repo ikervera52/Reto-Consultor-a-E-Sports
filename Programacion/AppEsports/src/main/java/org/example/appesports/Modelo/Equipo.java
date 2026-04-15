@@ -30,6 +30,12 @@ public class Equipo {
         this.fechaFundacion = fechaFundacion;
     }
 
+    public Equipo(int idEquipo, String nombre, LocalDate fechaFundacion) {
+        this.idEquipo = idEquipo;
+        this.nombre = nombre;
+        this.fechaFundacion = fechaFundacion;
+    }
+
     public int getIdEquipo() {
         return idEquipo;
     }

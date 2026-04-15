@@ -50,7 +50,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Button>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Cerrar Competición">
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCerrarCompeticion" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Cerrar Competición">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font></Button>

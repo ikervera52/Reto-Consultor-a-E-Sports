@@ -6,17 +6,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.example.appesports.Controlador.EquipoController;
-import org.example.appesports.Controlador.JugadorController;
+import org.example.appesports.Controlador.*;
 import javafx.scene.layout.AnchorPane;
-import org.example.appesports.Controlador.UsuarioController;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
 import org.example.appesports.Modelo.Usuario;
 import org.example.appesports.Utilidades.ValidarDatos;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -223,6 +224,7 @@ public class MenuPrincipalAdminController {
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarEquiposPrincipal.setVisible(false);
 
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -691,9 +693,7 @@ public class MenuPrincipalAdminController {
     public void onAnadirEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposAnadir.setVisible(true);
         apGestionarEquiposEditar.setVisible(false);
-        apGestionarEquiposAnadir.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
-
     }
 
     //Funcion boton volver al apartado GESTIONAR EQUIPOS
@@ -703,12 +703,6 @@ public class MenuPrincipalAdminController {
         apGestionarEquiposEditar.setVisible(false);
 
         vaciarOpcionesEquipo();
-    }
-
-    //Funcion abrir panel Anadir Equipo
-    public void onAnadirEquipo(MouseEvent mouseEvent) {
-        apGestionarEquiposAnadir.setVisible(true);
-
     }
 
     //Funcion anadir equipo al pulsar boton
@@ -738,13 +732,15 @@ public class MenuPrincipalAdminController {
 
     }
 
-    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje){
+    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titulo);
         alert.setContentText(mensaje);
 
         return alert.showAndWait();
+    }
+
     //Funcion abrir panel Eliminar Equipo
     public void onEliminarEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposBorrar.setVisible(true);
@@ -822,5 +818,72 @@ public class MenuPrincipalAdminController {
         tfNombreEquipoBuscar.clear();
         tfNombreEquipoEditar.clear();
         dpFechaFundacionEditar.setValue(null);
+    }
+
+    //Funcion para cerrar la competición
+    @FXML
+    public void onCerrarCompeticion(){
+
+        Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación para cerrar la Competición");
+
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            try {
+
+                // FALTA PONER UN PANEL PARA QUE PONGA EL TIPO DE PUNTUACION QUE SE VA A USAR
+
+                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+
+                int numeroDeEtapas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
+
+                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroDeEtapas);
+
+                LocalDate fechaJornada = fechaInicio;
+
+                crearJornadas(fechaInicio, numeroDeEtapas);
+
+                crearEnfrentamientos(numeroDeEtapas);
+
+                CompeticionController.cerrarCompeticion();
+
+
+
+            }catch (Exception e){
+                mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+
+            mostarMensaje("Confirmación", "El usuario se ha editado con éxito", Alert.AlertType.INFORMATION);
+
+        }
+    }
+
+    public void crearJornadas(LocalDate fechaInicio, int numeroEtapas) throws Exception{
+
+        for (int i = 1; i < numeroEtapas + 1; i++) {
+
+            JornadaController.crearJornada(fechaInicio, i );
+
+            fechaInicio = fechaInicio.plusDays(7);
+
+        }
+    }
+
+    public void crearEnfrentamientos(int numeroEtapas){
+        int numeroEnfrentamientos = (numeroEtapas + 1) / 2;
+
+        for (int i = 0; i < numeroEtapas; i++) {
+
+            LocalTime horaEnfrentamiento = LocalTime.of(13, 0);
+
+            for (int j = 0; i < numeroEnfrentamientos; j++) {
+                Enfrentamiento enfrentamiento = new Enfrentamiento();
+
+                enfrentamiento.setIdEnfrentamiento(jornada.getEnfrentamientos().size());
+                horaEnfrentamiento = horaEnfrentamiento.plusHours(1);
+                enfrentamiento.setHoraEnfrentamiento(horaEnfrentamiento);
+
+                jornada.setEnfrentamiento(enfrentamiento);
+                enfrentamientos.add(enfrentamiento);
+            }
+        }
     }
 }

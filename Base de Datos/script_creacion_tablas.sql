@@ -9,22 +9,12 @@ DROP TABLE usuarios;
 
 CREATE TABLE usuarios(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
-    nombre VARCHAR2(30)NOT NULL,
+    nombre VARCHAR2(30)NOT NULL CONSTRAINT us_nombre_uq UNIQUE,
     contrasena VARCHAR2(30) NOT NULL,
     tipo_usuario VARCHAR2(10)NOT NULL,
     CONSTRAINT us_id_pk PRIMARY KEY (id),
     CONSTRAINT us_id_ck CHECK (tipo_usuario IN('admin','estandar'))
 );
-
-DESC usuarios;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'USUARIOS';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'USUARIOS';
 
 CREATE TABLE competiciones(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -36,16 +26,6 @@ CREATE TABLE competiciones(
     CONSTRAINT co_etapa_ck CHECK (etapa IN('inscripcion','competicion'))
 );
 
-DESC competiciones;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'COMPETICIONES';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'COMPETICIONES';
-
 CREATE TABLE jornadas(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
     num_jornada NUMBER NOT NULL,
@@ -55,16 +35,6 @@ CREATE TABLE jornadas(
     CONSTRAINT jo_id_competicion_fk FOREIGN KEY (id_competicion) 
                                     REFERENCES competiciones(id)
 );
-
-DESC jornadas;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'JORNADAS';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'JORNADAS';
 
 CREATE TABLE enfrentamientos(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -76,16 +46,6 @@ CREATE TABLE enfrentamientos(
                                 ON DELETE CASCADE    
 );
 
-DESC enfrentamientos;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'ENFRENTAMIENTOS';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'ENFRENTAMIENTOS';
-
 CREATE TABLE equipos(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
     nombre VARCHAR2(20) NOT NULL,
@@ -93,16 +53,6 @@ CREATE TABLE equipos(
     CONSTRAINT eq_id_pk PRIMARY KEY (id),
     CONSTRAINT eq_nombre_uq UNIQUE (nombre)
 );
-
-DESC equipos;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'EQUIPOS';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'EQUIPOS';
 
 CREATE TABLE jugadores(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -127,16 +77,6 @@ CREATE TABLE jugadores(
                                 ON DELETE SET NULL
 );
 
-DESC jugadores;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'JUGADORES';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'JUGADORES';
-
 CREATE TABLE resultados(
     id_equipo NUMBER,
     id_enfrentamiento NUMBER,
@@ -146,12 +86,3 @@ CREATE TABLE resultados(
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)
 );
 
-DESC resultados;
-
-SELECT constraint_name, constraint_type, table_name, search_condition
-FROM user_constraints
-WHERE UPPER(table_name) = 'RESULTADOS';
-
-SELECT constraint_name, table_name, column_name
-FROM user_cons_columns
-WHERE UPPER(table_name) = 'RESULTADOS';

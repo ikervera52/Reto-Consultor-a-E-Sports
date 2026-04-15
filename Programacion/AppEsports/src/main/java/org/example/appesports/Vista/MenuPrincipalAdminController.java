@@ -8,10 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.appesports.Controlador.*;
 import javafx.scene.layout.AnchorPane;
-import org.example.appesports.Modelo.Admin;
-import org.example.appesports.Modelo.Equipo;
-import org.example.appesports.Modelo.Jugador;
-import org.example.appesports.Modelo.Usuario;
+import org.example.appesports.Modelo.*;
 import org.example.appesports.Utilidades.ValidarDatos;
 
 import java.time.DayOfWeek;
@@ -33,15 +30,6 @@ public class MenuPrincipalAdminController {
 
         @FXML
         public Label lbNombreBienvenida;
-
-        @FXML
-        public Button bGestionarUsuarios;
-
-        @FXML
-        public Button bGestionarEquipos;
-
-        @FXML
-        public Button bGestionarJugadores;
 
         @FXML
         public Button bVolverMenuPrincipal;
@@ -136,6 +124,9 @@ public class MenuPrincipalAdminController {
         @FXML
         public AnchorPane apGestionarUsuariosEditar;
 
+        @FXML
+        public AnchorPane apCerrarCompeticion;
+
         // Variables para añadir usuarios
         @FXML
         public TextField tfNombreUsuario;
@@ -203,6 +194,8 @@ public class MenuPrincipalAdminController {
         @FXML
         public Button bEditarEquipo;
 
+        @FXML
+        public TextField tfTipoPuntuacion;
 
 
     public Stage stage;
@@ -225,18 +218,13 @@ public class MenuPrincipalAdminController {
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarUsuariosPrincipal.setVisible(false);
         apGestionarEquiposPrincipal.setVisible(false);
-
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
     }
 
     // Función que abre el menu principal de gestion de Jugadores
     @FXML
-    public void onGestionarJugadores(ActionEvent event) {
+    public void onGestionarJugadores(MouseEvent MouseEvent) {
 
         apGestionarJugadoresPrincipal.setVisible(true);
         apGestionarJugadoresAnadir.setVisible(false);
@@ -251,19 +239,16 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
 
-
-        bGestionarJugadores.setTextFill(Color.WHITE);
-        bGestionarJugadores.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
 
         apGestionarEquiposEditar.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
         apGestionarEquiposAnadir.setVisible(false);
 
+        vaciarOpcionesEquipo();
         vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
 
     }
 
@@ -272,15 +257,8 @@ public class MenuPrincipalAdminController {
     public void onAnadirJugador(MouseEvent mouseEvent) {
         apGestionarJugadoresAnadir.setVisible(true);
 
-        // Rellenar el apartado de ROL
-        cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+        llenarComboBoxJugador();
 
-        //Rellenar el apartado de EQUIPOS
-        cbSeleccionEquipoParaJugador.getItems().clear();
-        ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
-        for (String nombre : nombreEquipos){
-            cbSeleccionEquipoParaJugador.getItems().add(nombre);
-        }
     }
 
     // Función que añade un jugador a la base de datos
@@ -309,6 +287,7 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Confirmación", "El jugador se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesJugador();
+            llenarComboBoxJugador();
 
         } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -367,14 +346,7 @@ public class MenuPrincipalAdminController {
             Jugador jugador = JugadorController.buscarPorNickname(tfNicknameBuscar.getText());
 
             // Rellenar el ComboBox de ROL
-            cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
-
-            //Rellenar el ComboBox de EQUIPOS
-            cbSeleccionEquipoParaJugadorEditar.getItems().clear();
-            ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
-            for (String nombre : nombreEquipos){
-                cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
-            }
+            llenarComboBoxJugador();
 
             tfNombreJugadorEditar.setDisable(false);
             tfApellidoJugadorEditar.setDisable(false);
@@ -429,15 +401,48 @@ public class MenuPrincipalAdminController {
 
             vaciarOpcionesJugador();
 
+            tfNombreJugadorEditar.setDisable(true);
+            tfApellidoJugadorEditar.setDisable(true);
+            tfNacionalidadEditar.setDisable(true);
+            dpFechaNacimientoEditar.setDisable(true);
+            tfNicknameEditar.setDisable(true);
+            cbRolEditar.setDisable(true);
+            tfSueldoEditar.setDisable(true);
+            cbSeleccionEquipoParaJugadorEditar.setDisable(true);
+            bEditar.setDisable(true);
+
         }
         catch (Exception e){
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
+    private void llenarComboBoxJugador(){
+        // Rellenar el apartado de ROL
+        cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+
+        //Rellenar el apartado de EQUIPOS
+        cbSeleccionEquipoParaJugador.getItems().clear();
+        ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
+        for (String nombre : nombreEquipos){
+            cbSeleccionEquipoParaJugador.getItems().add(nombre);
+        }
+
+        cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+
+        //Rellenar el ComboBox de EQUIPOS
+        cbSeleccionEquipoParaJugadorEditar.getItems().clear();
+        ArrayList<String> nombreEquiposEditar = EquipoController.rellenarComboEquipo();
+        for (String nombre : nombreEquiposEditar){
+            cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
+        }
+
+
+    }
+
     // Funciones para apartado de GESTIONAR USUARIOS
     @FXML
-    public void onGestionarUsuarios(ActionEvent event){
+    public void onGestionarUsuarios(MouseEvent MouseEvent){
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -451,18 +456,20 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
 
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.WHITE);
-        bGestionarUsuarios.setStyle("-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
+
+
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresBorrar.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
         apGestionarEquiposEditar.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
          apGestionarEquiposAnadir.setVisible(false);
+
+        vaciarOpcionesEquipo();
+        vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
 
     }
 
@@ -492,6 +499,7 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Confirmación", "El usuario se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesUsuario();
+            cbTipoUsuario.getItems().addAll("admin", "estandar");
 
 
         }catch (Exception e){
@@ -587,6 +595,11 @@ public class MenuPrincipalAdminController {
 
             vaciarOpcionesUsuario();
 
+            tfNombreUsuarioEditar.setDisable(true);
+            pfContrasenaEditar.setDisable(true);
+            cbTipoUsuarioEditar.setDisable(true);
+            bEditarUsuario.setDisable(true);
+
 
         } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -655,7 +668,7 @@ public class MenuPrincipalAdminController {
 
     // Función para volver al Inicio de Sesión
     @FXML
-    public void onCerrarSesion(javafx.event.ActionEvent actionEvent) {
+    public void onCerrarSesion(MouseEvent MouseEvent) {
         controller.show();
         stage.close();
     }
@@ -668,7 +681,7 @@ public class MenuPrincipalAdminController {
     }
 
     //Funciones para apartado GESTION EQUIPOS
-    public void onGestionarEquipos(ActionEvent actionEvent) {
+    public void onGestionarEquipos(MouseEvent MouseEvent) {
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -682,12 +695,10 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
 
-        bGestionarEquipos.setTextFill(Color.WHITE);
-        bGestionarEquipos.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
+
+
     }
 
     public void onAnadirEquipo(MouseEvent mouseEvent) {
@@ -703,6 +714,8 @@ public class MenuPrincipalAdminController {
         apGestionarEquiposEditar.setVisible(false);
 
         vaciarOpcionesEquipo();
+        vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
     }
 
     //Funcion anadir equipo al pulsar boton
@@ -822,14 +835,35 @@ public class MenuPrincipalAdminController {
 
     //Funcion para cerrar la competición
     @FXML
-    public void onCerrarCompeticion(){
+    public void onCerrarCompeticion(MouseEvent MouseEvent){
+
+        apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresEditar.setVisible(false);
+        apGestionarJugadoresBorrar.setVisible(false);
+
+        apGestionarEquiposPrincipal.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarUsuariosAnadir.setVisible(false);
+        apGestionarUsuariosEditar.setVisible(false);
+        apGestionarUsuariosBorrar.setVisible(false);
+
+        apCerrarCompeticion.setVisible(true);
+    }
+
+    @FXML
+    public void onCerrarCompeticionAceptada(ActionEvent actionEvent){
 
         Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación para cerrar la Competición");
 
         if (result.isPresent() && result.get() == ButtonType.OK){
             try {
 
-                // FALTA PONER UN PANEL PARA QUE PONGA EL TIPO DE PUNTUACION QUE SE VA A USAR
+                ValidarDatos.validarString(tfTipoPuntuacion.getText());
+
+                String tipoPuntuacion = tfTipoPuntuacion.getText();
 
                 LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
@@ -837,22 +871,21 @@ public class MenuPrincipalAdminController {
 
                 LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroDeEtapas);
 
-                LocalDate fechaJornada = fechaInicio;
+                System.out.println("ahora");
+
+                CompeticionController.cerrarCompeticion(fechaInicio, fechaFin, tipoPuntuacion);
+
+                System.out.println("despues");
 
                 crearJornadas(fechaInicio, numeroDeEtapas);
 
                 crearEnfrentamientos(numeroDeEtapas);
 
-                CompeticionController.cerrarCompeticion();
-
-
+                mostarMensaje("Confirmación", "La competición se ha cerrado con éxito", Alert.AlertType.INFORMATION);
 
             }catch (Exception e){
                 mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
-
-            mostarMensaje("Confirmación", "El usuario se ha editado con éxito", Alert.AlertType.INFORMATION);
-
         }
     }
 
@@ -867,23 +900,48 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    public void crearEnfrentamientos(int numeroEtapas){
+    public void crearEnfrentamientos(int numeroEtapas) throws Exception{
+
+        ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
         int numeroEnfrentamientos = (numeroEtapas + 1) / 2;
 
-        for (int i = 0; i < numeroEtapas; i++) {
+        for (Jornada jornada : jornadas) {
 
-            LocalTime horaEnfrentamiento = LocalTime.of(13, 0);
+            LocalTime horaEnfrentamiento = LocalTime.of(14, 0);
 
-            for (int j = 0; i < numeroEnfrentamientos; j++) {
-                Enfrentamiento enfrentamiento = new Enfrentamiento();
+            for (int j = 0; j < numeroEnfrentamientos; j++) {
 
-                enfrentamiento.setIdEnfrentamiento(jornada.getEnfrentamientos().size());
+                EnfrentamientoController.crearEnfrentamiento(horaEnfrentamiento, jornada.getIdJornada());
                 horaEnfrentamiento = horaEnfrentamiento.plusHours(1);
-                enfrentamiento.setHoraEnfrentamiento(horaEnfrentamiento);
 
-                jornada.setEnfrentamiento(enfrentamiento);
-                enfrentamientos.add(enfrentamiento);
             }
+        }
+        distribuirEquiposPorEnfrentamientos(jornadas);
+    }
+
+    public void distribuirEquiposPorEnfrentamientos(ArrayList<Jornada> jornadas) throws Exception{
+
+        ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+
+
+        for (Jornada jornada : jornadas){
+
+            ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
+            int i = 0;
+            for (Enfrentamiento enfrentamiento : enfrentamientos){
+                Equipo[] equiposArray = new Equipo[2];
+                equiposArray[0] = equipos.get(1);
+                equiposArray[1] = equipos.get(equipos.size() - i - 1);
+
+                ResultadoController.crearResultado(equiposArray[0].getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+                ResultadoController.crearResultado(equiposArray[1].getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+
+                i++;
+            }
+
+            Equipo equipoCambiar = equipos.get(1);
+            equipos.remove(equipoCambiar);
+            equipos.add(equipoCambiar);
         }
     }
 }

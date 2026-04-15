@@ -3,6 +3,8 @@ package org.example.appesports.Controlador;
 import org.example.appesports.DAO.CompeticionDAO;
 import org.example.appesports.Modelo.Competicion;
 
+import java.time.LocalDate;
+
 public class CompeticionController {
 
     public static Competicion buscarCompeticion() throws Exception{
@@ -10,9 +12,13 @@ public class CompeticionController {
 
     }
 
-    public static void cerrarCompeticion() throws Exception{
+    public static void cerrarCompeticion(LocalDate fechaInicio, LocalDate fechaFin, String tipoPuntuacion) throws Exception{
         Competicion competicion = buscarCompeticion();
         competicion.setEtapa("competicion");
+        competicion.setFechaInicio(fechaInicio);
+        competicion.setFechaFin(fechaFin);
+        competicion.setTipoPuntuacion(tipoPuntuacion);
+
         CompeticionDAO.cerrarCompeticion(competicion);
     }
 

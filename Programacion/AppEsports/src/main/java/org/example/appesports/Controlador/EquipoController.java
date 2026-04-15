@@ -44,4 +44,8 @@ public class EquipoController {
     public static void borrarEquipo(String nombre){
         EquipoDAO.borrarEquipo(nombre);
     }
+
+    public static ArrayList<Equipo> listarEquipos(){
+        return EquipoDAO.verEquipos();
+    }
 }

@@ -25,26 +25,27 @@ END tri_com_salario_smi;
 
 
 CREATE OR REPLACE TRIGGER tri_max_jugadores_equipo
-FOR INSERT OR UPDATE OF id_equipo ON jugadores COMPOUND TRIGGER
+BEFORE INSERT OR UPDATE OF id_equipo ON jugadores
+FOR EACH ROW
 
+DECLARE
     v_num_jugadores NUMBER;
 
-BEFORE EACH ROW IS
 BEGIN
 
-    SELECT COUNT(*) INTO v_num_jugadores
-    FROM jugadores
-    WHERE id_equipo = :NEW.id_equipo;
-    
+    IF INSERTING OR (:OLD.id_equipo != :NEW.id_equipo) THEN
+
+        SELECT COUNT(*) INTO v_num_jugadores
+        FROM jugadores
+        WHERE id_equipo = :NEW.id_equipo;
+
         IF v_num_jugadores >= 6 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+            RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+        END IF;
+
     END IF;
 
-
-END BEFORE EACH ROW;
-    
-END tri_max_jugadores_equipo;
-
+END;
 
 
 CREATE OR REPLACE TRIGGER tri_cal_jugadores

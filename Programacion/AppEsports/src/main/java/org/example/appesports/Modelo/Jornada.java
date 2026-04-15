@@ -16,6 +16,12 @@ public class Jornada {
         this.competicion = competicion;
     }
 
+    public Jornada(int idJornada, LocalDate fechaJornada, int numeroJornada) {
+        this.idJornada = idJornada;
+        this.fechaJornada = fechaJornada;
+        this.numeroJornada = numeroJornada;
+    }
+
     public Jornada() {
         this.enfrentamientos = new ArrayList<>();
     }

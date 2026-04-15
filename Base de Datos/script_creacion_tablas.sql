@@ -80,7 +80,7 @@ CREATE TABLE jugadores(
 CREATE TABLE resultados(
     id_equipo NUMBER,
     id_enfrentamiento NUMBER,
-    puntuacion NUMBER NOT NULL,
+    puntuacion NUMBER,
     CONSTRAINT pu_eq_en_pk PRIMARY KEY (id_equipo,id_enfrentamiento),
     CONSTRAINT pu_id_equipo_fk FOREIGN KEY (id_equipo) REFERENCES equipos(id),
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)

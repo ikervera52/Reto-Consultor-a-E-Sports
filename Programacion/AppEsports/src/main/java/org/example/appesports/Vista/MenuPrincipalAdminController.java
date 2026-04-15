@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
@@ -30,6 +31,12 @@ public class MenuPrincipalAdminController {
 
         @FXML
         public Button bGestionarUsuarios;
+
+        @FXML
+        public Button bGestionarEquipos;
+
+        @FXML
+        public Button bGestionarJugadores;
 
         @FXML
         public Button bVolverMenuPrincipal;
@@ -74,6 +81,18 @@ public class MenuPrincipalAdminController {
         @FXML
         public ComboBox<String> cbSeleccionEquipoParaJugador;
 
+        @FXML
+        public AnchorPane apGestionarEquiposPrincipal;
+
+        @FXML
+        public AnchorPane apGestionarEquiposAnadir;
+
+        @FXML
+        public TextField tfNombreEquipo;
+
+        @FXML
+        public DatePicker dpFechaFundacion;
+
 
     public Stage stage;
     public MenuInicioSesionController controller;
@@ -91,7 +110,15 @@ public class MenuPrincipalAdminController {
 
         apGestionarJugadoresPrincipal.setVisible(true);
         apGestionarJugadoresAnadir.setVisible(false);
-        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarEquiposPrincipal.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        bGestionarJugadores.setTextFill(Color.WHITE);
+        bGestionarJugadores.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.BLACK);
+        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarEquipos.setTextFill(Color.BLACK);
+        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
 
     }
 
@@ -148,6 +175,14 @@ public class MenuPrincipalAdminController {
 
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarEquiposPrincipal.setVisible(false);
+
+        bGestionarJugadores.setTextFill(Color.BLACK);
+        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.BLACK);
+        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarEquipos.setTextFill(Color.BLACK);
+        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
     }
 
     @FXML
@@ -157,7 +192,12 @@ public class MenuPrincipalAdminController {
 
     @FXML
     public void onGestionarUsuarios(ActionEvent event){
-
+        bGestionarUsuarios.setTextFill(Color.WHITE);
+        bGestionarUsuarios.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarJugadores.setTextFill(Color.BLACK);
+        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarEquipos.setTextFill(Color.BLACK);
+        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
     }
 
     @FXML
@@ -170,5 +210,46 @@ public class MenuPrincipalAdminController {
         lbNombreBienvenida.setText(username);
         lbCantJugadores.setText(JugadorController.contarJugadores());
         lbCantEquipos.setText(EquipoController.contarEquipos());
+    }
+
+    public void onGestionarEquipos(ActionEvent actionEvent) {
+        apGestionarEquiposPrincipal.setVisible(true);
+        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresPrincipal.setVisible(false);
+
+        bGestionarEquipos.setTextFill(Color.WHITE);
+        bGestionarEquipos.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.BLACK);
+        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarJugadores.setTextFill(Color.BLACK);
+        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+
+    }
+
+    public void onAnadirEquipo(MouseEvent mouseEvent) {
+        apGestionarEquiposAnadir.setVisible(true);
+
+    }
+
+    public void onVolverGestionarEquipos(ActionEvent actionEvent) {
+        apGestionarEquiposAnadir.setVisible(false);
+    }
+
+    public void onAnadirDatosEquipo(ActionEvent actionEvent) {
+        try {
+            ValidarDatos.validarString(tfNombreEquipo.getText());
+
+            String nombre = tfNombreEquipo.getText();
+            LocalDate fechaFundacion = dpFechaFundacion.getValue();
+
+            EquipoController.insertarEquipo(nombre, fechaFundacion);
+
+            tfNombreEquipo.clear();
+            dpFechaFundacion.setValue(null);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

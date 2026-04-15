@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import org.example.appesports.DAO.EquipoDAO;
 import org.example.appesports.Modelo.Equipo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class EquipoController {
@@ -24,5 +25,10 @@ public class EquipoController {
 
     public static Equipo equipoPorId(int id){
         return EquipoDAO.equipoPorId(id);
+    }
+
+    public static void insertarEquipo(String nombre, LocalDate fechaFundacion){
+        Equipo equipo = new Equipo(nombre, fechaFundacion);
+        EquipoDAO.insertarEquipo(equipo);
     }
 }

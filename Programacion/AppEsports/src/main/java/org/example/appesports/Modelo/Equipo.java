@@ -26,6 +26,11 @@ public class Equipo {
         this.jugadores = jugadores;
     }
 
+    public Equipo(String nombre, LocalDate fechaFundacion) {
+        this.nombre = nombre;
+        this.fechaFundacion = fechaFundacion;
+    }
+
     public int getIdEquipo() {
         return idEquipo;
     }

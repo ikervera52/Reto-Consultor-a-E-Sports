@@ -27,6 +27,7 @@ public class JugadorDAO {
             if (rs.next()){
                 cantidad = rs.getInt(1);
             }
+            ConexionBD.closeConexion(con);
 
 
         } catch (SQLException e) {
@@ -60,6 +61,7 @@ public class JugadorDAO {
                         EquipoController.equipoPorId(idEquipo)
                 ));
             }
+            ConexionBD.closeConexion(con);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

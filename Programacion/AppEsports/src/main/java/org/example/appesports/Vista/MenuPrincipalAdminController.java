@@ -18,6 +18,7 @@ import org.example.appesports.Utilidades.ValidarDatos;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class MenuPrincipalAdminController {
 
@@ -198,6 +199,13 @@ public class MenuPrincipalAdminController {
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarUsuariosPrincipal.setVisible(false);
+
+        bGestionarJugadores.setTextFill(Color.BLACK);
+        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.BLACK);
+        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarEquipos.setTextFill(Color.BLACK);
+        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
     }
 
     // Función que abre el menu principal de gestion de Jugadores
@@ -206,8 +214,17 @@ public class MenuPrincipalAdminController {
 
         apGestionarJugadoresPrincipal.setVisible(true);
         apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresEditar.setVisible(false);
+        apGestionarJugadoresBorrar.setVisible(false);
+
         apGestionarEquiposPrincipal.setVisible(false);
         apGestionarEquiposAnadir.setVisible(false);
+
+        apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarUsuariosAnadir.setVisible(false);
+        apGestionarUsuariosEditar.setVisible(false);
+        apGestionarUsuariosBorrar.setVisible(false);
+
 
         bGestionarJugadores.setTextFill(Color.WHITE);
         bGestionarJugadores.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -215,10 +232,6 @@ public class MenuPrincipalAdminController {
         bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         bGestionarEquipos.setTextFill(Color.BLACK);
         bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-      
-        apGestionarJugadoresAnadir.setVisible(false);
-        apGestionarJugadoresBorrar.setVisible(false);
-        apGestionarJugadoresEditar.setVisible(false);
 
         vaciarOpcionesJugador();
 
@@ -263,11 +276,12 @@ public class MenuPrincipalAdminController {
             JugadorController.anadirJugador(nombre, apellido, nacionalidad, fechaNacimiento, nickname, rol, sueldo, nombreEquipo);
 
             // AQUI TIENE QUE MOSTRARSE UNA VENTANA QUE PONGA QUE SE CONFIRMA QUE SE HA AÑADIDO
+            mostarMensaje("Confirmación", "El jugador se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesJugador();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -283,14 +297,18 @@ public class MenuPrincipalAdminController {
     public void onBorrarDatosJugador(ActionEvent event){
         try {
 
-            JugadorController.borrarJugador(tfNicknameBorrar.getText());
-
             // MENSAJE DE CONFIMRACION
+            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
+
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                JugadorController.borrarJugador(tfNicknameBorrar.getText());
+                mostarMensaje("Confirmación", "El jugador se ha borrado con éxito", Alert.AlertType.INFORMATION);
+            }
 
             vaciarOpcionesJugador();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -347,10 +365,12 @@ public class MenuPrincipalAdminController {
             tfNicknameEditar.setText(jugador.getNickname());
             cbRolEditar.getSelectionModel().select(jugador.getRol());
             tfSueldoEditar.setText(String.valueOf(jugador.getSueldo()));
-            cbSeleccionEquipoParaJugadorEditar.getSelectionModel().select(jugador.getEquipo().getNombre());
+            if (jugador.getEquipo() != null){
+                cbSeleccionEquipoParaJugadorEditar.getSelectionModel().select(jugador.getEquipo().getNombre());
+            }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -362,7 +382,7 @@ public class MenuPrincipalAdminController {
             String nombre = tfNombreJugadorEditar.getText();
             String apellido = tfApellidoJugadorEditar.getText();
             String nacionalidad = tfNacionalidadEditar.getText();
-            LocalDate fechaNacimiento = dpFechaNacimiento.getValue();
+            LocalDate fechaNacimiento = dpFechaNacimientoEditar.getValue();
             String nuevoNickname = tfNicknameEditar.getText();
             String rol = cbRolEditar.getValue();
             double sueldo = Double.parseDouble(tfSueldoEditar.getText());
@@ -370,32 +390,41 @@ public class MenuPrincipalAdminController {
 
 
             // MENSAJE DE SI QUIERE ACEPTAR LOS CAMBIOS O NO
-            // SI ES QUE SI QUE SE HAGA ESTO
-            JugadorController.editarJugador(nickname, nombre, apellido, nacionalidad, fechaNacimiento, nuevoNickname, rol, sueldo, nombreEquipo);
+            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
 
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                JugadorController.editarJugador(nickname, nombre, apellido, nacionalidad, fechaNacimiento, nuevoNickname, rol, sueldo, nombreEquipo);
+                mostarMensaje("Confirmación", "El jugador se ha editado con éxito", Alert.AlertType.INFORMATION);
+            }
 
             vaciarOpcionesJugador();
 
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     // Funciones para apartado de GESTIONAR USUARIOS
     @FXML
     public void onGestionarUsuarios(ActionEvent event){
-        // Activar la ventana
-        apGestionarUsuariosPrincipal.setVisible(true);
-
-        //Desactivar las demás ventanas
         apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresEditar.setVisible(false);
+        apGestionarJugadoresBorrar.setVisible(false);
+
         apGestionarEquiposPrincipal.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        apGestionarUsuariosPrincipal.setVisible(true);
+        apGestionarUsuariosAnadir.setVisible(false);
+        apGestionarUsuariosEditar.setVisible(false);
+        apGestionarUsuariosBorrar.setVisible(false);
 
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.WHITE);
+        bGestionarUsuarios.setStyle("-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         bGestionarEquipos.setTextFill(Color.BLACK);
         bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         apGestionarJugadoresAnadir.setVisible(false);
@@ -427,12 +456,13 @@ public class MenuPrincipalAdminController {
             UsuarioController.anadirUsuario(username, contrasena, tipoUsuario);
 
             // Mensaje de confimración de que se ha añadido
+            mostarMensaje("Confirmación", "El usuario se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesUsuario();
 
 
         }catch (Exception e){
-            System.out.println("Error al añadir Usuario");
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -450,14 +480,20 @@ public class MenuPrincipalAdminController {
             String username = tfNombreUsuarioBorrar.getText();
 
             // Panel para que confirme si quiere borrar o no
+            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
+
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                UsuarioController.borrarUsuario(username);
+                mostarMensaje("Confirmación", "El usuario se ha borrado con éxito", Alert.AlertType.INFORMATION);
+
+            }
             // Si quiere que se haga esto
-            UsuarioController.borrarUsuario(username);
 
 
             vaciarOpcionesUsuario();
 
         }catch (Exception e){
-            System.out.println("Error al borrar Usuario");
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
    }
 
@@ -491,7 +527,7 @@ public class MenuPrincipalAdminController {
             bEditarUsuario.setDisable(false);
 
         } catch (Exception e){
-            System.out.println("Error al buscar Por nombre");
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
    }
 
@@ -507,14 +543,20 @@ public class MenuPrincipalAdminController {
             String tipoUsuario = cbTipoUsuarioEditar.getValue();
 
             // Menu para pedir al usuario si quiere realizar los cambios
+            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
+
+            if (result.isPresent() && result.get() == ButtonType.OK){
+                UsuarioController.editarUsuario(username, usernameNuevo, contrasena, tipoUsuario);
+                mostarMensaje("Confirmación", "El usuario se ha editado con éxito", Alert.AlertType.INFORMATION);
+
+            }
             // Si si que pase esto
-            UsuarioController.editarUsuario(username, usernameNuevo, contrasena, tipoUsuario);
 
             vaciarOpcionesUsuario();
 
 
         } catch (Exception e) {
-            System.out.println("Error al editar usuario");
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
    }
 
@@ -523,6 +565,8 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
+
+        vaciarOpcionesUsuario();
     }
 
     // Función que vuelve al menu principal de gestion de jugadores desde añadir, eliminar y editar
@@ -535,15 +579,7 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesJugador();
     }
 
-    @FXML
-    public void onGestionarUsuarios(ActionEvent event){
-        bGestionarUsuarios.setTextFill(Color.WHITE);
-        bGestionarUsuarios.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-    // Función que vacia los huecos donde el usuario introduce los datos en Gestión Jugadores
+
     private void vaciarOpcionesJugador(){
         tfNombreJugador.clear();
         tfApellidoJugador.clear();
@@ -583,6 +619,7 @@ public class MenuPrincipalAdminController {
         cbTipoUsuarioEditar.getItems().clear();
     }
 
+
     // Función para volver al Inicio de Sesión
     @FXML
     public void onCerrarSesion(javafx.event.ActionEvent actionEvent) {
@@ -598,9 +635,18 @@ public class MenuPrincipalAdminController {
     }
 
     public void onGestionarEquipos(ActionEvent actionEvent) {
-        apGestionarEquiposPrincipal.setVisible(true);
-        apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresEditar.setVisible(false);
+        apGestionarJugadoresBorrar.setVisible(false);
+
+        apGestionarEquiposPrincipal.setVisible(true);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarUsuariosAnadir.setVisible(false);
+        apGestionarUsuariosEditar.setVisible(false);
+        apGestionarUsuariosBorrar.setVisible(false);
 
         bGestionarEquipos.setTextFill(Color.WHITE);
         bGestionarEquipos.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -608,7 +654,6 @@ public class MenuPrincipalAdminController {
         bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-
     }
 
     public void onAnadirEquipo(MouseEvent mouseEvent) {
@@ -629,12 +674,36 @@ public class MenuPrincipalAdminController {
 
             EquipoController.insertarEquipo(nombre, fechaFundacion);
 
+            mostarMensaje("Confirmación", "El Equipo se ha guardado con éxito", Alert.AlertType.INFORMATION);
+
             tfNombreEquipo.clear();
             dpFechaFundacion.setValue(null);
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    public void onBorrarDatosEquipo(){
+
+    }
+
+    public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+
+        Alert alert = new Alert(alerta);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.show();
+
+    }
+
+    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje){
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+
+        return alert.showAndWait();
     }
 }

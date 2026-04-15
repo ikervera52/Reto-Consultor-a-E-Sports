@@ -932,7 +932,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apGestionarEquiposAnadir" style="-fx-background-color: white; -fx-background-radius: 20;">
+            <AnchorPane fx:id="apGestionarEquiposAnadir" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
                <children>
                   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -1004,7 +1004,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apGestionarEquiposBorrar" style="-fx-background-color: white; -fx-background-radius: 20;">
+            <AnchorPane fx:id="apGestionarEquiposBorrar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
                <children>
                   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>

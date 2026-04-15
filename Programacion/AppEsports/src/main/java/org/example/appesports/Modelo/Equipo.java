@@ -8,7 +8,6 @@ public class Equipo {
     private String nombre;
     private LocalDate fechaFundacion;
     private ArrayList<Jugador> jugadores;
-    private Competicion competicion;
 
     public Equipo() {
     }
@@ -72,14 +71,6 @@ public class Equipo {
             this.jugadores.add(jugador);
         }
         jugador.setEquipo(this);
-    }
-
-    public Competicion getCompeticion() {
-        return competicion;
-    }
-
-    public void setCompeticion(Competicion competicion) {
-        this.competicion = competicion;
     }
 
     @Override

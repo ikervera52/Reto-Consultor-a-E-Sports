@@ -118,4 +118,18 @@ public class EquipoDAO {
 
         return equipo;
     }
+
+    public static void insertarEquipo(Equipo equipo){
+        try {
+            Connection con = ConexionBD.getConexion();
+            String sql = "INSERT INTO equipos (nombre, fecha_fundacion) VALUES (?,?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, equipo.getNombre());
+            ps.setDate(2, java.sql.Date.valueOf(equipo.getFechaFundacion()));
+            ps.executeUpdate();
+            ConexionBD.closeConexion(con);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

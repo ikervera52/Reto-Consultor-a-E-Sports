@@ -27,6 +27,7 @@ public class JugadorDAO {
             if (rs.next()){
                 cantidad = rs.getInt(1);
             }
+            ConexionBD.closeConexion(con);
 
             ConexionBD.closeConexion(con);
 
@@ -62,6 +63,7 @@ public class JugadorDAO {
                         EquipoController.equipoPorId(idEquipo)
                 ));
             }
+            ConexionBD.closeConexion(con);
 
             ConexionBD.closeConexion(con);
 

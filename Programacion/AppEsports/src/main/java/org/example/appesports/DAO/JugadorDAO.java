@@ -153,8 +153,10 @@ public class JugadorDAO {
         ps.setString(3,jugador.getNacionalidad());
         ps.setDate(4, java.sql.Date.valueOf(jugador.getFechaNacimiento()));
         ps.setString(5, jugador.getNickname());
-        ps.setDouble(6, jugador.getSueldo());
-        ps.setInt(7, jugador.getEquipo().getIdEquipo());
+        ps.setString(6, jugador.getRol());
+        ps.setDouble(7, jugador.getSueldo());
+        ps.setInt(8, jugador.getEquipo().getIdEquipo());
+        ps.setString(9, nickname);
 
         int e = ps.executeUpdate();
 

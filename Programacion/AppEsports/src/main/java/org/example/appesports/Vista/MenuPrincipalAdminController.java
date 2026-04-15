@@ -179,6 +179,7 @@ public class MenuPrincipalAdminController {
 
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarUsuariosPrincipal.setVisible(false);
     }
 
     // Función que abre el menu principal de gestion de Jugadores
@@ -272,7 +273,7 @@ public class MenuPrincipalAdminController {
         tfNombreJugadorEditar.setDisable(true);
         tfApellidoJugadorEditar.setDisable(true);
         tfNacionalidadEditar.setDisable(true);
-        dpFechaNacimiento.setDisable(true);
+        dpFechaNacimientoEditar.setDisable(true);
         tfNicknameEditar.setDisable(true);
         cbRolEditar.setDisable(true);
         tfSueldoEditar.setDisable(true);
@@ -302,7 +303,7 @@ public class MenuPrincipalAdminController {
             tfNombreJugadorEditar.setDisable(false);
             tfApellidoJugadorEditar.setDisable(false);
             tfNacionalidadEditar.setDisable(false);
-            dpFechaNacimiento.setDisable(false);
+            dpFechaNacimientoEditar.setDisable(false);
             tfNicknameEditar.setDisable(false);
             cbRolEditar.setDisable(false);
             tfSueldoEditar.setDisable(false);
@@ -349,7 +350,7 @@ public class MenuPrincipalAdminController {
 
         }
         catch (Exception e){
-            System.out.println("Error editar datos jugador");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -433,7 +434,7 @@ public class MenuPrincipalAdminController {
 
        apGestionarUsuariosEditar.setVisible(true);
 
-       cbTipoUsuario.getItems().addAll("admin", "estandar");
+       cbTipoUsuarioEditar.getItems().addAll("admin", "estandar");
    }
 
    @FXML

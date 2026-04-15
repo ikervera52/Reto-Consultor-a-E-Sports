@@ -44,7 +44,7 @@ public class UsuarioDAO {
         if (usuario instanceof Admin){
             ps.setString(3, "admin");
         } else
-            ps.setString(3, "estándar");
+            ps.setString(3, "estandar");
 
         int e = ps.executeUpdate();
 
@@ -97,7 +97,7 @@ public class UsuarioDAO {
         if (usuario instanceof Admin){
             ps.setString(3, "admin");
         } else
-            ps.setString(3, "estándar");
+            ps.setString(3, "estandar");
 
         ps.setString(4, username);
 

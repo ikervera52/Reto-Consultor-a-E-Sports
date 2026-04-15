@@ -84,17 +84,6 @@ public class MenuPrincipalAdminController {
         @FXML
         public ComboBox<String> cbSeleccionEquipoParaJugador;
 
-        @FXML
-        public AnchorPane apGestionarEquiposPrincipal;
-
-        @FXML
-        public AnchorPane apGestionarEquiposAnadir;
-
-        @FXML
-        public TextField tfNombreEquipo;
-
-        @FXML
-        public DatePicker dpFechaFundacion;
         // Datos para eliminar Jugador
         @FXML
         public AnchorPane apGestionarJugadoresBorrar;
@@ -175,7 +164,42 @@ public class MenuPrincipalAdminController {
         @FXML
         public Button bEditarUsuario;
 
+        //Variables para gestion equipos
+        @FXML
+        public AnchorPane apGestionarEquiposPrincipal;
 
+        //Variables para anadir equipo
+        @FXML
+        public AnchorPane apGestionarEquiposAnadir;
+
+        @FXML
+        public TextField tfNombreEquipo;
+
+        @FXML
+        public DatePicker dpFechaFundacion;
+
+        //Variables para borrar equipos
+        @FXML
+        public AnchorPane apGestionarEquiposBorrar;
+
+        @FXML
+        public TextField tfNombreEquipoBorrar;
+
+        //Variables para editar equipos
+        @FXML
+        public AnchorPane apGestionarEquiposEditar;
+
+        @FXML
+        public TextField tfNombreEquipoBuscar;
+
+        @FXML
+        public TextField tfNombreEquipoEditar;
+
+        @FXML
+        public DatePicker dpFechaFundacionEditar;
+
+        @FXML
+        public Button bEditarEquipo;
 
 
 
@@ -219,6 +243,10 @@ public class MenuPrincipalAdminController {
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresBorrar.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
+
+        apGestionarEquiposEditar.setVisible(false);
+        apGestionarEquiposBorrar.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
 
         vaciarOpcionesJugador();
 
@@ -394,13 +422,16 @@ public class MenuPrincipalAdminController {
 
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        bGestionarUsuarios.setTextFill(Color.WHITE);
+        bGestionarUsuarios.setStyle("-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         bGestionarEquipos.setTextFill(Color.BLACK);
         bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresBorrar.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
+        apGestionarEquiposEditar.setVisible(false);
+        apGestionarEquiposBorrar.setVisible(false);
+         apGestionarEquiposAnadir.setVisible(false);
 
     }
 
@@ -535,14 +566,6 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesJugador();
     }
 
-    @FXML
-    public void onGestionarUsuarios(ActionEvent event){
-        bGestionarUsuarios.setTextFill(Color.WHITE);
-        bGestionarUsuarios.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
     // Función que vacia los huecos donde el usuario introduce los datos en Gestión Jugadores
     private void vaciarOpcionesJugador(){
         tfNombreJugador.clear();
@@ -597,6 +620,7 @@ public class MenuPrincipalAdminController {
         lbCantEquipos.setText(EquipoController.contarEquipos());
     }
 
+    //Funciones para apartado GESTION EQUIPOS
     public void onGestionarEquipos(ActionEvent actionEvent) {
         apGestionarEquiposPrincipal.setVisible(true);
         apGestionarJugadoresAnadir.setVisible(false);
@@ -609,32 +633,121 @@ public class MenuPrincipalAdminController {
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
 
+        apGestionarEquiposEditar.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+        apGestionarEquiposBorrar.setVisible(false);
+
     }
 
+    //Funcion boton volver al apartado GESTIONAR EQUIPOS
+    public void onVolverGestionarEquipos(ActionEvent actionEvent) {
+        apGestionarEquiposAnadir.setVisible(false);
+        apGestionarEquiposBorrar.setVisible(false);
+        apGestionarEquiposEditar.setVisible(false);
+
+        vaciarOpcionesEquipo();
+    }
+
+    //Funcion abrir panel Anadir Equipo
     public void onAnadirEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposAnadir.setVisible(true);
 
     }
 
-    public void onVolverGestionarEquipos(ActionEvent actionEvent) {
-        apGestionarEquiposAnadir.setVisible(false);
-    }
-
+    //Funcion anadir equipo al pulsar boton
     public void onAnadirDatosEquipo(ActionEvent actionEvent) {
         try {
-            ValidarDatos.validarString(tfNombreEquipo.getText());
+            ValidarDatos.validarUsername(tfNombreEquipo.getText());
 
             String nombre = tfNombreEquipo.getText();
             LocalDate fechaFundacion = dpFechaFundacion.getValue();
 
             EquipoController.insertarEquipo(nombre, fechaFundacion);
 
-            tfNombreEquipo.clear();
-            dpFechaFundacion.setValue(null);
+            vaciarOpcionesEquipo();
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //Funcion abrir panel Eliminar Equipo
+    public void onEliminarEquipo(MouseEvent mouseEvent) {
+        apGestionarEquiposBorrar.setVisible(true);
+    }
+
+    //Funcion borrar equipo al pulsar boton
+    public void onBorrarDatosEquipo(ActionEvent actionEvent) {
+        try {
+
+            ValidarDatos.validarString(tfNombreEquipoBorrar.getText());
+
+            String nombre = tfNombreEquipoBorrar.getText();
+
+            // Panel para que confirme si quiere borrar o no
+            // Si quiere que se haga esto
+            EquipoController.borrarEquipo(nombre);
+
+            vaciarOpcionesEquipo();
+
+        }catch (Exception e){
+            System.out.println("Error al borrar Equipo");
+        }
+    }
+
+    //Funcion abrir panel Editar Equipo
+    public void onEditarEquipo(MouseEvent mouseEvent) {
+
+        tfNombreEquipoEditar.setDisable(true);
+        dpFechaFundacionEditar.setDisable(true);
+        bEditarEquipo.setDisable(true);
+
+        apGestionarEquiposEditar.setVisible(true);
+    }
+
+    //Funcion buscar el equipo a editar
+    public void onBuscarNombreEquipo(ActionEvent actionEvent) {
+        try {
+            Equipo equipo = EquipoController.equipoPorNombre(tfNombreEquipoBuscar.getText());
+
+            tfNombreEquipoEditar.setDisable(false);
+            dpFechaFundacionEditar.setDisable(false);
+            bEditarEquipo.setDisable(false);
+
+            tfNombreEquipoEditar.setText(equipo.getNombre());
+            dpFechaFundacionEditar.setValue(equipo.getFechaFundacion());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Funcion editar equipo al pulsar boton
+    public void onEditarDatosEquipo(ActionEvent actionEvent) {
+        try {
+            ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
+
+            String nombre = tfNombreEquipoEditar.getText();
+            LocalDate fechaFundacion = dpFechaFundacionEditar.getValue();
+
+            EquipoController.editarEquipo(tfNombreEquipoBuscar.getText(), nombre, fechaFundacion);
+
+            vaciarOpcionesEquipo();
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Funcion vaciar todos los apartados de gestionar equipos
+    public void vaciarOpcionesEquipo(){
+        tfNombreEquipo.clear();
+        dpFechaFundacion.setValue(null);
+        tfNombreEquipoBorrar.clear();
+        tfNombreEquipoBuscar.clear();
+        tfNombreEquipoEditar.clear();
+        dpFechaFundacionEditar.setValue(null);
     }
 }

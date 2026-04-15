@@ -1,5 +1,6 @@
 package org.example.appesports.DAO;
 
+import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Estandar;
 import org.example.appesports.Modelo.Usuario;
@@ -14,35 +15,116 @@ public class UsuarioDAO {
 
     public static Usuario validarUsuario(String username, String contrasena) throws Exception{
         Usuario usuario = null;
-        try {
-            Connection con = ConexionBD.getConexion();
 
-            String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
+        Connection con = ConexionBD.getConexion();
 
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,username);
-            ps.setString(2,contrasena);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ?";
 
-            if (rs.next()){
-                String tipo = rs.getString("tipo_usuario");
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1,username);
+        ps.setString(2,contrasena);
+        ResultSet rs = ps.executeQuery();
 
-                if (tipo.equals("estandar")){
-                    usuario = new Estandar(rs.getInt("id"),
-                            rs.getString("nombre"),
-                            rs.getString("contrasena")
-                            );
+        usuario = crearUsuario(rs);
 
-                } else if (tipo.equals("admin")){
-                    usuario =new Admin (rs.getInt("id"),
-                            rs.getString("nombre"),
-                            rs.getString("contrasena"));
-                }
-            } else throw new Exception("El usuario no existe");
+        ConexionBD.closeConexion(con);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return usuario;
+    }
+
+    public static void anadirUsuario(Usuario usuario) throws Exception{
+
+        Connection con = ConexionBD.getConexion();
+        String sql = "INSERT INTO usuarios (nombre, contrasena, tipo_usuario) VALUES (?,?,?)";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, usuario.getNombreUsuario());
+        ps.setString(2, usuario.getContrasena());
+
+        if (usuario instanceof Admin){
+            ps.setString(3, "admin");
+        } else
+            ps.setString(3, "estandar");
+
+        int e = ps.executeUpdate();
+
+        if (e == 0)
+            throw new Exception("Error al añadir Usuario");
+
+        ConexionBD.closeConexion(con);
+
+    }
+
+    public static void borrarUsuario(String username) throws Exception{
+        Connection con = ConexionBD.getConexion();
+        String sql = "DELETE FROM usuarios WHERE nombre = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, username);
+        int e = ps.executeUpdate();
+
+        if (e == 0) throw new Exception("Error al eliminar el Usuario");
+
+        ConexionBD.closeConexion(con);
+    }
+
+    public static Usuario buscarPorNombreUsuario(String username) throws Exception{
+
+        Usuario usuario = null;
+
+        Connection con = ConexionBD.getConexion();
+
+        String sql = "SELECT * FROM usuarios WHERE nombre = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1,username);
+        ResultSet rs = ps.executeQuery();
+
+        usuario = crearUsuario(rs);
+
+        ConexionBD.closeConexion(con);
+
+        return usuario;
+    }
+
+    public static void editarUsuario(String username, Usuario usuario) throws Exception{
+        Connection con = ConexionBD.getConexion();
+        String sql = "UPDATE usuarios SET nombre = ?, contrasena = ?, tipo_usuario = ? WHERE nombre = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, usuario.getNombreUsuario());
+        ps.setString(2, usuario.getContrasena());
+        if (usuario instanceof Admin){
+            ps.setString(3, "admin");
+        } else
+            ps.setString(3, "estandar");
+
+        ps.setString(4, username);
+
+        int e = ps.executeUpdate();
+
+        if (e == 0) throw new Exception("Error al editar el Usuario");
+    }
+
+    public static Usuario crearUsuario (ResultSet rs)throws Exception{
+        Usuario usuario = null;
+
+        if (rs.next()){
+            String tipo = rs.getString("tipo_usuario");
+
+            if (tipo.equals("estandar")){
+                usuario = new Estandar(rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("contrasena")
+                );
+
+            } else if (tipo.equals("admin")){
+                usuario =new Admin (rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("contrasena"));
+            }
+        } else throw new Exception("El usuario no existe");
+
         return usuario;
     }
 }

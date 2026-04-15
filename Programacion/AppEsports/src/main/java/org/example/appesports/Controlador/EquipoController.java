@@ -1,6 +1,5 @@
 package org.example.appesports.Controlador;
 
-import javafx.collections.ObservableList;
 import org.example.appesports.DAO.EquipoDAO;
 import org.example.appesports.Modelo.Equipo;
 
@@ -30,5 +29,9 @@ public class EquipoController {
     public static void insertarEquipo(String nombre, LocalDate fechaFundacion){
         Equipo equipo = new Equipo(nombre, fechaFundacion);
         EquipoDAO.insertarEquipo(equipo);
+    }
+  
+    public static Equipo equipoPorNombre(String nombre){
+        return EquipoDAO.equipoPorNombre(nombre);
     }
 }

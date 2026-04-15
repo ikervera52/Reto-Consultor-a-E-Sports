@@ -28,6 +28,17 @@ public class Jugador {
         this.equipo = equipo;
     }
 
+    public Jugador(String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, String nickname, String rol, double sueldo, Equipo equipo) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.nacionalidad = nacionalidad;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nickname = nickname;
+        this.rol = rol;
+        this.sueldo = sueldo;
+        this.equipo = equipo;
+    }
+
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }

@@ -15,4 +15,28 @@ public class UsuarioController {
             return "estandar";
         } else return null;
     }
+
+    public static void anadirUsuario (String username, String contrasena, String tipoUsuario) throws Exception{
+        if (tipoUsuario.equals("admin")){
+            UsuarioDAO.anadirUsuario(new Admin (username, contrasena));
+        } else
+            UsuarioDAO.anadirUsuario(new Estandar(username, contrasena));
+    }
+
+    public static void borrarUsuario(String username) throws Exception{
+        UsuarioDAO.borrarUsuario(username);
+    }
+
+    public static Usuario buscarPorNombreUsusario(String username) throws Exception{
+        return UsuarioDAO.buscarPorNombreUsuario(username);
+    }
+
+    public static void editarUsuario(String username, String usernameNuevo, String contrasena, String tipoUsuario) throws Exception{
+        Usuario usuario;
+        if (tipoUsuario.equals("admin")){
+            usuario = new Admin(usernameNuevo, contrasena);
+        } else usuario = new Estandar(usernameNuevo, contrasena);
+
+        UsuarioDAO.editarUsuario(username, usuario);
+    }
 }

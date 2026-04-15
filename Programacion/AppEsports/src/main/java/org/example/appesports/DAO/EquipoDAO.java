@@ -28,6 +28,7 @@ public class EquipoDAO {
             }
 
             ConexionBD.closeConexion(con);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +58,9 @@ public class EquipoDAO {
                         )
                 );
             }
+
             ConexionBD.closeConexion(con);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,6 +85,33 @@ public class EquipoDAO {
             }
 
             ConexionBD.closeConexion(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return equipo;
+    }
+
+    public static Equipo equipoPorNombre(String nombre){
+        Equipo equipo = null;
+        try {
+            Connection con = ConexionBD.getConexion();
+            String sql = "SELECt * FROM equipos WHERE nombre = ?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,nombre);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                equipo = new Equipo(
+                        rs.getInt("id"),
+                        rs.getString("nombre")
+                );
+            }
+
+            ConexionBD.closeConexion(con);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

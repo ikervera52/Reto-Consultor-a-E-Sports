@@ -20,5 +20,7 @@ public class ResultadoDAO {
 
         if (e == 0) throw new Exception("Error al crear el Resultado");
 
+        ConexionBD.closeConexion(con);
+
     }
 }

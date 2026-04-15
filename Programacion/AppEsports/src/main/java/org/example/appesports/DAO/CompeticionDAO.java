@@ -26,6 +26,8 @@ public class CompeticionDAO {
             );
         } else throw new Exception("Error al buscar Competición");
 
+        ConexionBD.closeConexion(con);
+
         return competicion;
     }
 
@@ -44,5 +46,7 @@ public class CompeticionDAO {
             int e = ps.executeUpdate();
 
             if (e == 0) throw new Exception();
+
+            ConexionBD.closeConexion(con);
     }
 }

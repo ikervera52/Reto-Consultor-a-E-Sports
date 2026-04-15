@@ -70,6 +70,11 @@ public class MenuInicioSesionController {
         }
     }
 
+    @FXML
+    public void onSalir(){
+        System.exit(0);
+    }
+
     public void setStage(Stage stage){
         this.stage = stage;
     }

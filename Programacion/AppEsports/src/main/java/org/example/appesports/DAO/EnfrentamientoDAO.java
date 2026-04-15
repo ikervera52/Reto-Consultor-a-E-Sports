@@ -25,6 +25,8 @@ public class EnfrentamientoDAO {
 
         if (e == 0) throw new Exception("Error al crear el Enfrentamiento");
 
+        ConexionBD.closeConexion(con);
+
     }
 
     public static ArrayList<Enfrentamiento> buscarPorJornada(int idJornada) throws Exception{
@@ -43,6 +45,8 @@ public class EnfrentamientoDAO {
                     JornadaController.jornadaPorId(rs.getInt("id_jornada"))
             ));
         }
+
+        ConexionBD.closeConexion(con);
 
         return enfrentamientos;
     }
@@ -64,6 +68,9 @@ public class EnfrentamientoDAO {
                     JornadaController.jornadaPorId(rs.getInt("id_jornada"))
             );
         }
+
+        ConexionBD.closeConexion(con);
+
         return enfrentamiento;
 
     }

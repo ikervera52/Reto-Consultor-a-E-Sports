@@ -25,6 +25,8 @@ public class JornadaDAO {
 
         if(e == 0) throw new Exception("Error al crear Jornada");
 
+        ConexionBD.closeConexion(con);
+
     }
 
     public static ArrayList<Jornada> listarJornadas() throws Exception{
@@ -42,6 +44,8 @@ public class JornadaDAO {
                     rs.getInt("num_jornada")
             ));
         }
+
+        ConexionBD.closeConexion(con);
 
         return jornadas;
     }
@@ -65,6 +69,8 @@ public class JornadaDAO {
                     rs.getInt("num_jornada")
             );
         }
+
+        ConexionBD.closeConexion(con);
 
         return jornada;
 

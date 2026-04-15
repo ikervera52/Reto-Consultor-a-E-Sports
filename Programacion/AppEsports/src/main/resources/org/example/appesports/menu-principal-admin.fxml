@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.appesports.Vista.MenuPrincipalAdminController">
+   <left>
+      <AnchorPane prefWidth="300.0" style="-fx-background-color: WHITE; -fx-background-radius: 20;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label text="Menu Administrador">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Region VBox.vgrow="ALWAYS" />
+                  <VBox alignment="CENTER" spacing="15.0">
+                     <children>
+                        <Button fx:id="bGestionarUsuarios" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGestionarUsuarios" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Gestionar Usuarios">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
+                        <Button fx:id="bGestionarEquipos" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGestionarEquipos" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Gestionar Equipos">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
+                        <Button fx:id="bGestionarJugadores" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onGestionarJugadores" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Gestionar Jugadores">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Ver Informes">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;" text="Cerrar Competición">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
+                     </children>
+                  </VBox>
+                  <Region VBox.vgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#onCerrarSesion" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #FF2C2C; -fx-border-radius: 20;" text="Cerrar Sesion" textFill="#ff2c2c">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Button>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane fx:id="apMenuPrincipal" style="-fx-background-color: white; -fx-background-radius: 20;">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label text="Bienvenido,">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbNombreBienvenida" text="Label" textFill="#0086ed">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <VBox alignment="CENTER" prefHeight="180.0" prefWidth="150.0" style="-fx-background-color: #0086ED; -fx-background-radius: 20;" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lbCantJugadores" text="8" textFill="WHITE">
+                                       <font>
+                                          <Font size="96.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" text="Jugadores" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <VBox alignment="CENTER" prefHeight="180.0" prefWidth="150.0" style="-fx-background-color: #0086ED; -fx-background-radius: 20;" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lbCantEquipos" text="8" textFill="WHITE">
+                                       <font>
+                                          <Font size="96.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" text="Equipos" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin></Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarJugadoresPrincipal" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverMenuPrincipal" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Gestionar Jugadores">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox alignment="CENTER" onMouseClicked="#onAnadirJugador" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 15.75 23.884 L 15.75 58.75 L -29.25 58.75 C -29.25 38.86765 -13.13226 22.75 6.75 22.75 C 9.8577 22.75 12.8736 23.14375 15.75 23.884 Z M 6.75 18.25 C -8.1675 18.25 -20.25 6.1675 -20.25 -8.75 C -20.25 -23.6675 -8.1675 -35.75 6.75 -35.75 C 21.6675 -35.75 33.75 -23.6675 33.75 -8.75 C 33.75 6.1675 21.6675 18.25 6.75 18.25 Z M 33.75 36.25 L 33.75 22.75 L 42.75 22.75 L 42.75 36.25 L 56.25 36.25 L 56.25 45.25 L 42.75 45.25 L 42.75 58.75 L 33.75 58.75 L 33.75 45.25 L 20.25 45.25 L 20.25 36.25 L 33.75 36.25 Z" fill="WHITE" />
+                                    <Label text="Añadir Jugador" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" onMouseClicked="#onEliminarJugador" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 15.75 23.884 L 15.75 58.75 L -29.25 58.75 C -29.25 38.86765 -13.13226 22.75 6.75 22.75 C 9.8577 22.75 12.8736 23.14375 15.75 23.884 Z M 6.75 18.25 C -8.1675 18.25 -20.25 6.1675 -20.25 -8.75 C -20.25 -23.6675 -8.1675 -35.75 6.75 -35.75 C 21.6675 -35.75 33.75 -23.6675 33.75 -8.75 C 33.75 6.1675 21.6675 18.25 6.75 18.25 Z M 56.25 40.75 L 56.25 49.75 L 20.25 49.75 L 20.25 40.75 L 56.25 40.75 Z" fill="WHITE" />
+                                    <Label text="Eliminar Jugador" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" onMouseClicked="#onEditarJugador" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 7.8049 21.875 L 7.8049 57.875 L -28.1951 57.875 C -28.1951 37.99265 -12.07736 21.875 7.8049 21.875 Z M 7.8049 17.375 C -7.1126 17.375 -19.1951 5.2925 -19.1951 -9.625 C -19.1951 -24.5425 -7.1126 -36.625 7.8049 -36.625 C 22.7224 -36.625 34.8049 -24.5425 34.8049 -9.625 C 34.8049 5.2925 22.7224 17.375 7.8049 17.375 Z M 19.4806 43.52675 C 19.20205 42.35495 19.0549 41.1323 19.0549 39.875 C 19.0549 38.61815 19.20205 37.3955 19.48015 36.2237 L 15.01795 33.64745 L 19.51795 25.853 L 23.9833 28.43105 C 25.75225 26.75795 27.9091 25.4903 30.3049 24.77705 L 30.3049 19.625 L 39.3049 19.625 L 39.3049 24.77705 C 41.7007 25.4903 43.8571 26.75795 45.62605 28.43105 L 50.09185 25.85255 L 54.5923 33.647 L 50.12965 36.22325 C 50.40775 37.3955 50.5549 38.61815 50.5549 39.875 C 50.5549 41.13185 50.40775 42.3545 50.12965 43.5263 L 54.5923 46.10255 L 50.0923 53.897 L 45.6265 51.3185 C 43.85755 52.99205 41.70115 54.2597 39.30535 54.9725 L 39.30535 60.125 L 30.30535 60.125 L 30.30535 54.97295 C 27.90955 54.26015 25.7527 52.9925 23.98375 51.31895 L 19.5184 53.89745 L 15.01795 46.103 L 19.4806 43.52675 Z M 34.8049 35.375 C 32.31955 35.375 30.3049 37.38965 30.3049 39.875 C 30.3049 42.36035 32.31955 44.375 34.8049 44.375 C 37.29025 44.375 39.3049 42.36035 39.3049 39.875 C 39.3049 37.38965 37.29025 35.375 34.8049 35.375 Z" fill="WHITE" />
+                                    <Label text="Editar Jugador" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarJugadoresAnadir" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarJugadores" mnemonicParsing="false" onAction="#onVolverGestionarJugadores" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Añadir Jugador">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="400.0" prefWidth="400.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="126.0098876953125" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.1031494140625" minWidth="0.0" prefWidth="189.9901123046875" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Nombre">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Apellido" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Nacionalidad" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Fecha de Nacimiento" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Nickname" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Sueldo" GridPane.rowIndex="6">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Rol" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Equipo" GridPane.rowIndex="7">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreJugador" prefWidth="400.0" GridPane.columnIndex="1" />
+                                          <TextField fx:id="tfApellidoJugador" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="tfNacionalidad" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <DatePicker fx:id="dpFechaNacimiento" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <TextField fx:id="tfNickname" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <ComboBox fx:id="cbRol" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TextField fx:id="tfSueldo" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <ComboBox fx:id="cbSeleccionEquipoParaJugador" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onAnadirDatosJugador" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Añadir" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarJugadoresBorrar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarJugadores1" mnemonicParsing="false" onAction="#onVolverGestionarJugadores" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Eliminar Jugador">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="50.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="84.69830322265625" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.613037109375" minWidth="0.0" prefWidth="315.80169677734375" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nickname">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNicknameBorrar" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onBorrarDatosJugador" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Eliminar" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarJugadoresEditar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarJugadores2" mnemonicParsing="false" onAction="#onVolverGestionarJugadores" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Editar Jugador">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox prefHeight="480.0" prefWidth="288.0">
+                                 <children>
+                                    <GridPane alignment="CENTER" style="-fx-background-color: #0089ED; -fx-background-radius: 10;">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="97.43392944335938" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.4335021972656" minWidth="0.0" prefWidth="202.56607055664062" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nickname" textFill="WHITE">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNicknameBuscar" onAction="#onBuscarNickname" prefWidth="400.0" GridPane.columnIndex="1" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="400.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="126.0098876953125" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.1031494140625" minWidth="0.0" prefWidth="189.9901123046875" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nickname">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Apellido" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Nacionalidad" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Fecha de Nacimiento" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Nickname" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Sueldo" GridPane.rowIndex="6">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Rol" GridPane.rowIndex="5">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Equipo" GridPane.rowIndex="7">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreJugadorEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" />
+                                          <TextField fx:id="tfApellidoJugadorEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="tfNacionalidadEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <DatePicker fx:id="dpFechaNacimientoEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <TextField fx:id="tfNicknameEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <ComboBox fx:id="cbRolEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                          <TextField fx:id="tfSueldoEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <ComboBox fx:id="cbSeleccionEquipoParaJugadorEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button fx:id="bEditar" disable="true" mnemonicParsing="false" onAction="#onEditarDatosJugador" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Editar" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarUsuariosPrincipal" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverMenuPrincipal1" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Gestionar Usuarios">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <VBox alignment="CENTER" onMouseClicked="#onAnadirUsuario" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 15.75 23.884 L 15.75 58.75 L -29.25 58.75 C -29.25 38.86765 -13.13226 22.75 6.75 22.75 C 9.8577 22.75 12.8736 23.14375 15.75 23.884 Z M 6.75 18.25 C -8.1675 18.25 -20.25 6.1675 -20.25 -8.75 C -20.25 -23.6675 -8.1675 -35.75 6.75 -35.75 C 21.6675 -35.75 33.75 -23.6675 33.75 -8.75 C 33.75 6.1675 21.6675 18.25 6.75 18.25 Z M 33.75 36.25 L 33.75 22.75 L 42.75 22.75 L 42.75 36.25 L 56.25 36.25 L 56.25 45.25 L 42.75 45.25 L 42.75 58.75 L 33.75 58.75 L 33.75 45.25 L 20.25 45.25 L 20.25 36.25 L 33.75 36.25 Z" fill="WHITE" />
+                                    <Label text="Añadir Usuario" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" onMouseClicked="#onEliminarUsuario" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 15.75 23.884 L 15.75 58.75 L -29.25 58.75 C -29.25 38.86765 -13.13226 22.75 6.75 22.75 C 9.8577 22.75 12.8736 23.14375 15.75 23.884 Z M 6.75 18.25 C -8.1675 18.25 -20.25 6.1675 -20.25 -8.75 C -20.25 -23.6675 -8.1675 -35.75 6.75 -35.75 C 21.6675 -35.75 33.75 -23.6675 33.75 -8.75 C 33.75 6.1675 21.6675 18.25 6.75 18.25 Z M 56.25 40.75 L 56.25 49.75 L 20.25 49.75 L 20.25 40.75 L 56.25 40.75 Z" fill="WHITE" />
+                                    <Label text="Eliminar Usuario" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" onMouseClicked="#onEditarUsuario" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 7.8049 21.875 L 7.8049 57.875 L -28.1951 57.875 C -28.1951 37.99265 -12.07736 21.875 7.8049 21.875 Z M 7.8049 17.375 C -7.1126 17.375 -19.1951 5.2925 -19.1951 -9.625 C -19.1951 -24.5425 -7.1126 -36.625 7.8049 -36.625 C 22.7224 -36.625 34.8049 -24.5425 34.8049 -9.625 C 34.8049 5.2925 22.7224 17.375 7.8049 17.375 Z M 19.4806 43.52675 C 19.20205 42.35495 19.0549 41.1323 19.0549 39.875 C 19.0549 38.61815 19.20205 37.3955 19.48015 36.2237 L 15.01795 33.64745 L 19.51795 25.853 L 23.9833 28.43105 C 25.75225 26.75795 27.9091 25.4903 30.3049 24.77705 L 30.3049 19.625 L 39.3049 19.625 L 39.3049 24.77705 C 41.7007 25.4903 43.8571 26.75795 45.62605 28.43105 L 50.09185 25.85255 L 54.5923 33.647 L 50.12965 36.22325 C 50.40775 37.3955 50.5549 38.61815 50.5549 39.875 C 50.5549 41.13185 50.40775 42.3545 50.12965 43.5263 L 54.5923 46.10255 L 50.0923 53.897 L 45.6265 51.3185 C 43.85755 52.99205 41.70115 54.2597 39.30535 54.9725 L 39.30535 60.125 L 30.30535 60.125 L 30.30535 54.97295 C 27.90955 54.26015 25.7527 52.9925 23.98375 51.31895 L 19.5184 53.89745 L 15.01795 46.103 L 19.4806 43.52675 Z M 34.8049 35.375 C 32.31955 35.375 30.3049 37.38965 30.3049 39.875 C 30.3049 42.36035 32.31955 44.375 34.8049 44.375 C 37.29025 44.375 39.3049 42.36035 39.3049 39.875 C 39.3049 37.38965 37.29025 35.375 34.8049 35.375 Z" fill="WHITE" />
+                                    <Label text="Editar Usuario" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarUsuariosAnadir" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarUsuarios" mnemonicParsing="false" onAction="#onVolverGestionarUsuarios" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Añadir Usuario">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="100.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="158.6490478515625" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.87640380859375" minWidth="0.0" prefWidth="241.3509521484375" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nombre de usuario">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Contraseña" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreUsuario" prefWidth="400.0" GridPane.columnIndex="1" />
+                                          <Label text="Tipo de usuario" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="cbTipoUsuario" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <PasswordField fx:id="pfContrasena" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onAnadirDatosUsuario" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Añadir" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarUsuariosBorrar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarUsuarios1" mnemonicParsing="false" onAction="#onVolverGestionarUsuarios" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Eliminar Usuario">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="50.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="150.482177734375" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.613037109375" minWidth="0.0" prefWidth="249.517822265625" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label prefHeight="20.0" prefWidth="158.0" text="Nombre de Usuario">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreUsuarioBorrar" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onBorrarDatosUsuario" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Eliminar" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarUsuariosEditar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarJugadores21" mnemonicParsing="false" onAction="#onVolverGestionarUsuarios" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Editar Jugador">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="400.0">
+                                 <children>
+                                    <GridPane alignment="CENTER" prefWidth="200.0" style="-fx-background-color: #0089ED; -fx-background-radius: 10;">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="156.93438720703125" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.4335021972656" minWidth="0.0" prefWidth="223.56561279296875" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label prefHeight="20.0" prefWidth="158.0" text="Nombre de Usuario" textFill="WHITE">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreUsuarioBuscar" onAction="#onBuscarNombreUsuario" prefWidth="400.0" GridPane.columnIndex="1" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="150.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="126.0098876953125" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.1031494140625" minWidth="0.0" prefWidth="189.9901123046875" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nombre de Usuario">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Contraseña" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Tipo de Usuario" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreUsuarioEditar" disable="true" prefWidth="400.0" GridPane.columnIndex="1" />
+                                          <PasswordField fx:id="pfContrasenaEditar" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="cbTipoUsuarioEditar" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button fx:id="bEditarUsuario" disable="true" mnemonicParsing="false" onAction="#onEditarDatosUsuario" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Editar" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarEquiposPrincipal" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverMenuPrincipal1" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Gestionar Equipos">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                           <children>
+                              <VBox alignment="CENTER" onMouseClicked="#onAnadirEquipo" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 60 55 Z Z M 90 85 V 70 H 100 V 85 H 115 V 95 H 100 V 110 H 90 V 95 H 75 V 85 H 90 Z M 60 50 C 71.0455 50 80 41.0455 80 30 C 80 18.9545 71.0455 10 60 10 C 48.9545 10 40 18.9545 40 30 C 40 41.0455 48.9545 50 60 50 Z M 27.5 65 C 34.4035 65 40 59.4035 40 52.5 C 40 45.5965 34.4035 40 27.5 40 C 20.5965 40 15 45.5965 15 52.5 C 15 59.4035 20.5965 65 27.5 65 Z Z M 60 55 C 73.807 55 70 55 70 55 L 70 80 V 110 H 35 V 80 C 35 66.193 46.193 55 60 55 Z M 25 79.9995 C 25 76.535 25.5035 73.188 26.441 70.028 L 25.593 70.102 C 16.825 71.052 10 78.479 10 87.4995 V 109.9995 H 25 V 79.9995 Z V 109.9995 Z" fill="WHITE" />
+                                    <Label text="Añadir Equipo" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 60 55 Z Z M 90 85 H 115 V 95 H 100 H 90 V 95 H 75 V 85 Z M 60 50 C 71.0455 50 80 41.0455 80 30 C 80 18.9545 71.0455 10 60 10 C 48.9545 10 40 18.9545 40 30 C 40 41.0455 48.9545 50 60 50 Z M 27.5 65 C 34.4035 65 40 59.4035 40 52.5 C 40 45.5965 34.4035 40 27.5 40 C 20.5965 40 15 45.5965 15 52.5 C 15 59.4035 20.5965 65 27.5 65 Z Z M 60 55 C 73.807 55 70 55 70 55 L 70 80 V 110 H 35 V 80 C 35 66.193 46.193 55 60 55 Z M 25 79.9995 C 25 76.535 25.5035 73.188 26.441 70.028 L 25.593 70.102 C 16.825 71.052 10 78.479 10 87.4995 V 109.9995 H 25 V 79.9995 Z V 109.9995 Z" fill="WHITE" />
+                                    <Label text="Eliminar Equipo" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                                 <children>
+                                    <SVGPath content="M 60 55 Z Z Z M 60 50 C 71.0455 50 80 41.0455 80 30 C 80 18.9545 71.0455 10 60 10 C 48.9545 10 40 18.9545 40 30 C 40 41.0455 48.9545 50 60 50 Z M 27.5 65 C 34.4035 65 40 59.4035 40 52.5 C 40 45.5965 34.4035 40 27.5 40 C 20.5965 40 15 45.5965 15 52.5 C 15 59.4035 20.5965 65 27.5 65 Z Z M 60 55 C 73.807 55 70 55 70 55 L 70 80 V 110 H 35 V 80 C 35 66.193 46.193 55 60 55 Z M 25 79.9995 C 25 76.535 25.5035 73.188 26.441 70.028 L 25.593 70.102 C 16.825 71.052 10 78.479 10 87.4995 V 109.9995 H 25 V 79.9995 Z V 109.9995 Z M 67.8049 71.875 Z Z M 79.4806 93.5267 C 79.202 92.355 79.0549 91.1323 79.0549 89.875 C 79.0549 88.6181 79.202 87.3955 79.4801 86.2237 L 75.018 83.6474 L 79.5179 75.853 L 83.9833 78.431 C 85.7523 76.758 87.9091 75.4903 90.3049 74.777 L 90.3049 69.625 L 99.3049 69.625 L 99.3049 74.777 C 101.7007 75.4903 103.8571 76.758 105.626 78.431 L 110.0919 75.8526 L 114.5923 83.647 L 110.1296 86.2233 C 110.4078 87.3955 110.5549 88.6181 110.5549 89.875 C 110.5549 91.1319 110.4078 92.3545 110.1296 93.5263 L 114.5923 96.1026 L 110.0923 103.897 L 105.6265 101.3185 C 103.8576 102.992 101.7011 104.2597 99.3053 104.9725 L 99.3053 110.125 L 90.3054 110.125 L 90.3054 104.9729 C 87.9095 104.2602 85.7527 102.9925 83.9838 101.319 L 79.5184 103.8974 L 75.018 96.103 L 79.4806 93.5267 Z M 94.8049 85.375 C 92.3195 85.375 90.3049 87.3897 90.3049 89.875 C 90.3049 92.3603 92.3195 94.375 94.8049 94.375 C 97.2903 94.375 99.3049 92.3603 99.3049 89.875 C 99.3049 87.3897 97.2903 85.375 94.8049 85.375 Z" fill="WHITE" />
+                                    <Label text="Editar Equipo" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="25.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarEquiposAnadir" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarEquipos" mnemonicParsing="false" onAction="#onVolverGestionarEquipos" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Añadir Equipo">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="100.0" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="126.0098876953125" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.1031494140625" minWidth="0.0" prefWidth="189.9901123046875" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nombre">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Fecha de Fundacion" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreEquipo" prefWidth="400.0" GridPane.columnIndex="1" />
+                                          <DatePicker fx:id="dpFechaFundacion" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onAnadirDatosEquipo" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Añadir" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold Italic" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apGestionarEquiposBorrar" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverGestionarEquipos1" mnemonicParsing="false" onAction="#onVolverGestionarEquipos" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Eliminar Equipo">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <GridPane alignment="CENTER" prefWidth="400.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="126.0098876953125" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.1031494140625" minWidth="0.0" prefWidth="189.9901123046875" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label text="Nombre">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfNombreEquipoBorrar" prefWidth="400.0" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" prefHeight="80.0" spacing="20.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#onBorrarDatosEquipo" style="-fx-background-color: #0089ED; -fx-background-radius: 10;" text="Eliminar" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </StackPane>
+   </center>
+</BorderPane>

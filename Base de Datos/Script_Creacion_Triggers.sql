@@ -25,27 +25,37 @@ END tri_com_salario_smi;
 
 
 CREATE OR REPLACE TRIGGER tri_max_jugadores_equipo
-BEFORE INSERT OR UPDATE OF id_equipo ON jugadores
-FOR EACH ROW
+FOR INSERT OR UPDATE OF id_equipo ON jugadores
+COMPOUND TRIGGER
 
-DECLARE
     v_num_jugadores NUMBER;
+    v_id_equipo NUMBER;
+    v_id_equipo_old NUMBER;
+    
+BEFORE EACH ROW IS
+    BEGIN 
+        v_id_equipo_old := :OLD.id_equipo;
+        v_id_equipo := :NEW.id_equipo;
+        
+    END;
+END BEFORE EACH ROW;
 
-BEGIN
-
-    IF INSERTING OR (:OLD.id_equipo != :NEW.id_equipo) THEN
-
+BEFORE STATEMENT IS
+    BEGIN 
+    
+    IF INSERTING OR (v_id_equipo_old != v_id_equipo) THEN
+    
         SELECT COUNT(*) INTO v_num_jugadores
         FROM jugadores
-        WHERE id_equipo = :NEW.id_equipo;
-
+        WHERE id_equipo = v_id_equipo;
+        
         IF v_num_jugadores >= 6 THEN
             RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
         END IF;
-
     END IF;
+END BEFORE STATEMENT;
 
-END;
+END tri_max_jugadores_equipo;
 
 
 CREATE OR REPLACE TRIGGER tri_cal_jugadores
@@ -72,8 +82,8 @@ BEGIN
 
 EXCEPTION
     WHEN e_equipos_incompletos THEN
-    RAISE_APPLICATION_ERROR(-20003,'Los equipos tienen que tener al menos 
-                                    2 jugadores para comenzar la competición');
+    RAISE_APPLICATION_ERROR(-20003,'Los equipos tienen que tener al menos ' || 
+                                    '2 jugadores para comenzar la competición');
     WHEN OTHERS THEN
     RAISE;
    
@@ -98,7 +108,7 @@ BEGIN
    
 EXCEPTION
     WHEN e_competicion_cerrada THEN
-        RAISE_APPLICATION_ERROR(-20004,'La competicion esta actualmente cerrada');
+        RAISE_APPLICATION_ERROR(-20004,'La Competición esta actualmente cerrada');
     
     WHEN OTHERS THEN 
     RAISE;
@@ -124,7 +134,7 @@ BEGIN
    
 EXCEPTION
     WHEN e_competicion_cerrada THEN
-    RAISE_APPLICATION_ERROR(-20004,'La competicion esta actualmente cerrada');
+    RAISE_APPLICATION_ERROR(-20004,'La Competición esta actualmente cerrada');
     
     WHEN OTHERS THEN
     RAISE;
@@ -150,8 +160,8 @@ BEGIN
    
 EXCEPTION
     WHEN e_equipos_impares THEN
-        RAISE_APPLICATION_ERROR(-20005,'Los equipos tienen que ser pares
-                                        para comenzar la competicion');
+        RAISE_APPLICATION_ERROR(-20005,'Los equipos tienen que ser pares ' ||
+                                        'para comenzar la Competición');
                                         
     WHEN OTHERS THEN
     RAISE ;
@@ -170,7 +180,7 @@ BEGIN
     
     IF SYSDATE < :NEW.fecha_fin AND :NEW.etapa = 'inscripcion' THEN
         RAISE_APPLICATION_ERROR(-20007, 
-        'La competición no ha terminado todavía');
+        'La Competición no ha terminado todavía');
     
     ELSIF :NEW.etapa = 'inscripcion' THEN
         :NEW.fecha_inicio := NULL;

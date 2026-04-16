@@ -1,20 +1,24 @@
 package org.example.appesports.Vista;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.example.appesports.Controlador.EnfrentamientoController;
-import org.example.appesports.Controlador.JornadaController;
-import org.example.appesports.Controlador.ResultadoController;
-import org.example.appesports.Controlador.UsuarioController;
-import org.example.appesports.Modelo.Enfrentamiento;
-import org.example.appesports.Modelo.Jornada;
-import org.example.appesports.Modelo.Resultado;
+import org.example.appesports.Controlador.*;
+import org.example.appesports.Modelo.*;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.example.appesports.Controlador.JornadaController.listarJornadas;
 
 public class MenuPrincipalAdminCompeticionController {
 
@@ -47,40 +51,113 @@ public class MenuPrincipalAdminCompeticionController {
     public void onCerrarSesion(MouseEvent MouseEvent) {
         controller.show();
         stage.close();
-
-
     }
 
-    private void actualizarMenuPrincipal(){
+    @FXML
+    public void onConsultarIA(MouseEvent MouseEvent){
+
         try {
+            StringBuilder prompt = new StringBuilder();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
 
-            Jornada ultimaJornada = JornadaController.listarJornadas().getLast();
-
-            tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
-
-            ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
-
-            Enfrentamiento ultimoEnfrentamiento = enfrentamientos.getLast();
-            if (enfrentamientos.size() > 1){
-                enfrentamientos.remove(ultimoEnfrentamiento);
+            Map<String, Integer> puntosPorEquipo = new HashMap<>();
+            for (Equipo e : equipos) {
+                puntosPorEquipo.put(e.getNombre(), 0);
             }
-            Enfrentamiento anateriorEnfrentamiento = enfrentamientos.getLast();
 
-            ArrayList<Resultado> ultimosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
+            for (Jornada jornada : JornadaController.listarJornadas()) {
+                if (jornada.getFechaJornada().isBefore(LocalDate.now())) {
 
-            String ultimoResutaldo = ultimosResultados.get(0).getResultado() + " - " + ultimosResultados.get(1).getResultado();
-            String ultimoEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+                    for (Enfrentamiento enf : EnfrentamientoController.buscarPorJornada(jornada.getIdJornada())) {
+                        if (enf.getHoraEnfrentamiento().isBefore(LocalTime.now()) || jornada.getFechaJornada().isBefore(LocalDate.now())) {
 
-            String anteriorEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+                            for (Resultado puntuacion : ResultadoController.verPorEnfrentamiento(enf.getIdEnfrentamiento())) {
+                                String nombreEq = puntuacion.getEquipo().getNombre();
+                                int puntosActuales = puntosPorEquipo.getOrDefault(nombreEq, 0);
 
-            tfUltimoResultado.setText(ultimoEquipos);
-            tfResultadoPrincipal.setText(ultimoResutaldo);
+                                puntosPorEquipo.put(nombreEq, puntosActuales + puntuacion.getResultado());
+                            }
+                        }
+                    }
+                }
+            }
 
-            tfSiguientePartido.setText(anteriorEquipos);
-            tfHora.setText(anateriorEnfrentamiento.getHoraEnfrentamiento().toString());
+            puntosPorEquipo.forEach((nombre, puntos) -> {
+                if (!prompt.isEmpty()) prompt.append(", ");
+                prompt.append(nombre).append(" - ").append(puntos);
+            });
 
-        }catch (Exception e){
-            System.out.println("pe");
+            System.out.println(prompt);
+
+        } catch (Exception e){
+            mostarMensaje("Error", "Error al consultar a la IA", Alert.AlertType.ERROR);
         }
     }
+
+
+
+
+@FXML
+public void onTerminarCompeticion (MouseEvent MouseEvent){
+
+    try {
+        Optional<ButtonType> opcion = mostrarMensajeEsperar("Confirmación para Terminar la Competición");
+
+        if (opcion.isPresent() && opcion.get() == ButtonType.OK){
+            CompeticionController.terminarCompeticion();
+        }
+    }
+    catch (Exception e){
+        mostarMensaje("Error al terminar la Competición", e.getMessage(), Alert.AlertType.ERROR);
+    }
+
+}
+
+private void actualizarMenuPrincipal(){
+    try {
+
+        Jornada ultimaJornada = listarJornadas().getLast();
+
+        tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
+
+        ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
+
+        Enfrentamiento ultimoEnfrentamiento = enfrentamientos.getLast();
+        if (enfrentamientos.size() > 1){
+            enfrentamientos.remove(ultimoEnfrentamiento);
+        }
+        Enfrentamiento anateriorEnfrentamiento = enfrentamientos.getLast();
+
+        ArrayList<Resultado> ultimosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
+
+        String ultimoResutaldo = ultimosResultados.get(0).getResultado() + " - " + ultimosResultados.get(1).getResultado();
+        String ultimoEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+
+        String anteriorEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+
+        tfUltimoResultado.setText(ultimoEquipos);
+        tfResultadoPrincipal.setText(ultimoResutaldo);
+
+        tfSiguientePartido.setText(anteriorEquipos);
+        tfHora.setText(anateriorEnfrentamiento.getHoraEnfrentamiento().toString());
+
+    }catch (Exception e){
+        System.out.println("pe");
+    }
+}
+
+private Optional<ButtonType> mostrarMensajeEsperar(String texto){
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmación");
+    alert.setContentText(texto);
+
+    return alert.showAndWait();
+}
+
+public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+    Alert alert = new Alert(alerta);
+    alert.setTitle(titulo);
+    alert.setContentText(mensaje);
+    alert.show();
+}
 }

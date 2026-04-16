@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -58,11 +59,11 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="270.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onConsultarIA" prefHeight="200.0" prefWidth="270.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="35.0" />
                               <SVGPath content="M12.0001 8.5L14.1161 13.5875L19.6085 14.0279L15.4239 17.6125L16.7023 22.9721L12.0001 20.1L7.29777 22.9721L8.57625 17.6125L4.3916 14.0279L9.88403 13.5875L12.0001 8.5ZM8.00005 2V11H6.00005V2H8.00005ZM18.0001 2V11H16.0001V2H18.0001ZM13.0001 2V7H11.0001V2H13.0001Z" fill="#3e3e3e" />
-                              <Label text="   Ver Ganador">
+                              <Label text="  WinCalculatorAI">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -72,7 +73,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="270.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onTerminarCompeticion" prefHeight="200.0" prefWidth="270.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="35.0" />
                               <SVGPath content="M13.0049 16.9409V19.0027H18.0049V21.0027H6.00488V19.0027H11.0049V16.9409C7.05857 16.4488 4.00488 13.0824 4.00488 9.00275V3.00275H20.0049V9.00275C20.0049 13.0824 16.9512 16.4488 13.0049 16.9409ZM1.00488 5.00275H3.00488V9.00275H1.00488V5.00275ZM21.0049 5.00275H23.0049V9.00275H21.0049V5.00275Z" fill="#3e3e3e" />
@@ -152,7 +153,7 @@
                                     <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="244.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
+                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="244.0" spacing="25.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
@@ -188,7 +189,6 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <Region prefHeight="200.0" prefWidth="200.0" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="147.0" prefWidth="209.0" spacing="7.0">
@@ -224,6 +224,71 @@
                                  </children>
                               </VBox>
                               <Region HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Region VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="35.0" />
+                           </VBox.margin>
+                        </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apMenuPrincipal1" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+               <children>
+                  <VBox visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="839.0" spacing="5.0">
+                           <children>
+                              <Label text="Bienvenido,">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbNombreBienvenida1" text="Label" textFill="#0086ed">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Region prefHeight="0.0" prefWidth="839.0" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="252.0" prefWidth="840.0" spacing="30.0">
+                           <children>
+                              <VBox alignment="CENTER" prefWidth="300.0" spacing="40.0">
+                                 <children>
+                                    <Label text="Raconamiento">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <TextArea prefHeight="200.0" prefWidth="200.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefWidth="300.0">
+                                 <children>
+                                    <Label text="Predicción de la IA">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Region prefWidth="300.0" VBox.vgrow="ALWAYS" />
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Equipo1" textFill="#0086ed">
+                                             <font>
+                                                <Font name="System Bold" size="36.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Region VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <Region VBox.vgrow="ALWAYS">

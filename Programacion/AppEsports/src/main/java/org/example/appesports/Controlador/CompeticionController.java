@@ -27,4 +27,11 @@ public class CompeticionController {
         return competicion.getEtapa();
     }
 
+    public static void terminarCompeticion() throws Exception{
+        Competicion competicion = buscarCompeticion();
+        competicion.setEtapa("inscripcion");
+        CompeticionDAO.cerrarCompeticion(competicion);
+
+    }
+
 }

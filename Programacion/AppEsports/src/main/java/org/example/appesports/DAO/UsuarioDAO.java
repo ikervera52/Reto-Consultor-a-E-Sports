@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class UsuarioDAO {
 
     public static Usuario validarUsuario(String username, String contrasena) throws Exception{
-        Usuario usuario = null;
+        Usuario usuario;
 
         Connection con = ConexionBD.getConexion();
 

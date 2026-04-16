@@ -31,7 +31,7 @@ CREATE TABLE jornadas(
     num_jornada NUMBER NOT NULL,
     fecha DATE NOT NULL,
     id_competicion NUMBER,
-    CONSTRAINT jo_ïd_pk PRIMARY KEY (id),
+    CONSTRAINT jo_id_pk PRIMARY KEY (id),
     CONSTRAINT jo_id_competicion_fk FOREIGN KEY (id_competicion) 
                                     REFERENCES competiciones(id)
 );

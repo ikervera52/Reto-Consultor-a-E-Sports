@@ -3,7 +3,6 @@ package org.example.appesports.Vista;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
 import org.example.appesports.Controlador.UsuarioController;
-import org.example.appesports.DAO.JugadorDAO;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
@@ -871,7 +869,7 @@ public class MenuPrincipalAdminController {
     }
 
     //Funcion para mostrar el panel ver informes
-    public void onVerInformes(ActionEvent actionEvent) {
+    public void onVerInformes(MouseEvent actionEvent) {
         apVerInformes.setVisible(true);
         spVerEquipos.setVisible(false);
         spVerJugadores.setVisible(false);
@@ -987,7 +985,7 @@ public class MenuPrincipalAdminController {
     public void rellenarVerEquipos(){
         try {
             vboxContenedorEquipos.getChildren().clear();
-            ArrayList<Equipo> equipos = EquipoController.verEquipos();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
             for (int i = 0; i < equipos.size(); i += 2) {
 
                 HBox fila = new HBox(30);
@@ -1007,8 +1005,10 @@ public class MenuPrincipalAdminController {
                 vboxContenedorEquipos.getChildren().add(fila);
             }
 
-        }catch (Exception e){
+        }catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
     //Funcion para cerrar la competición
     @FXML
     public void onCerrarCompeticion(MouseEvent MouseEvent){

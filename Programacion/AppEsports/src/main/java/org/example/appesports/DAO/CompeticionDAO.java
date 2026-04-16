@@ -22,7 +22,11 @@ public class CompeticionDAO {
         if (rs.next()){
             competicion = new Competicion(
                     rs.getInt("id"),
-                    rs.getString("etapa")
+                    rs.getDate("fecha_inicio").toLocalDate(),
+                    rs.getDate("fecha_fin").toLocalDate(),
+                    rs.getString("etapa"),
+                    rs.getString("tipo_puntuacion")
+
             );
         } else throw new Exception("Error al buscar Competición");
 

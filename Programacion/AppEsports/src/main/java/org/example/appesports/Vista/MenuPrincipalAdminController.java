@@ -871,7 +871,7 @@ public class MenuPrincipalAdminController {
     }
 
     //Funcion para mostrar el panel ver informes
-    public void onVerInformes(ActionEvent actionEvent) {
+    public void onVerInformes(MouseEvent actionEvent) {
         apVerInformes.setVisible(true);
         spVerEquipos.setVisible(false);
         spVerJugadores.setVisible(false);
@@ -984,10 +984,10 @@ public class MenuPrincipalAdminController {
     }
 
     //Funcion para reccorrer los equipos y crear la carta por cada equipo
-    public void rellenarVerEquipos(){
+    public void rellenarVerEquipos() {
         try {
             vboxContenedorEquipos.getChildren().clear();
-            ArrayList<Equipo> equipos = EquipoController.verEquipos();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
             for (int i = 0; i < equipos.size(); i += 2) {
 
                 HBox fila = new HBox(30);
@@ -998,7 +998,7 @@ public class MenuPrincipalAdminController {
                 if (i + 1 < equipos.size()) {
                     Node vistaJugador2 = crearCartasEquipo(equipos.get(i + 1));
                     fila.getChildren().add(vistaJugador2);
-                }else {
+                } else {
                     Region espacioVacio = new Region();
                     espacioVacio.setPrefWidth(400);
                     fila.getChildren().add(espacioVacio);
@@ -1007,8 +1007,10 @@ public class MenuPrincipalAdminController {
                 vboxContenedorEquipos.getChildren().add(fila);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
     //Funcion para cerrar la competición
     @FXML
     public void onCerrarCompeticion(MouseEvent MouseEvent){

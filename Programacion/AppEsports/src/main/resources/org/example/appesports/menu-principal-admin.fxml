@@ -76,7 +76,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="270.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onVerInformes" prefHeight="200.0" prefWidth="270.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="35.0" />
                               <SVGPath content="M16 2L21 7V21.0082C21 21.556 20.5551 22 20.0066 22H3.9934C3.44476 22 3 21.5447 3 21.0082V2.9918C3 2.44405 3.44495 2 3.9934 2H16ZM11 7V17H13V7H11ZM15 11V17H17V11H15ZM7 13V17H9V13H7Z" fill="#3e3e3e" />
@@ -1221,13 +1221,13 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apVerInformes" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+            <AnchorPane fx:id="apVerInformes" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                <children>
                   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Button fx:id="bVolverCerrarCompeticion" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
                                  <graphic>
                                     <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
                                  </graphic>
@@ -1242,7 +1242,7 @@
                         <Region VBox.vgrow="ALWAYS" />
                         <HBox alignment="CENTER" spacing="30.0">
                            <children>
-                              <VBox alignment="CENTER" onMouseClicked="#onVerJugadores" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                              <VBox alignment="CENTER" onMouseClicked="#onVerJugadores" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
                                  <children>
                                     <SVGPath content="M 15.75 23.884 L 15.75 58.75 L -29.25 58.75 C -29.25 38.86765 -13.13226 22.75 6.75 22.75 C 9.8577 22.75 12.8736 23.14375 15.75 23.884 Z M 6.75 18.25 C -8.1675 18.25 -20.25 6.1675 -20.25 -8.75 C -20.25 -23.6675 -8.1675 -35.75 6.75 -35.75 C 21.6675 -35.75 33.75 -23.6675 33.75 -8.75 C 33.75 6.1675 21.6675 18.25 6.75 18.25 Z M 33.75 36.25 L 33.75 22.75 L 42.75 22.75 L 42.75 36.25 L 56.25 36.25 L 56.25 45.25 L 42.75 45.25 L 42.75 58.75 L 33.75 58.75 L 33.75 45.25 L 20.25 45.25 L 20.25 36.25 L 33.75 36.25 Z" fill="WHITE" />
                                     <Label text="Ver Jugadores" textFill="WHITE" wrapText="true">
@@ -1255,7 +1255,7 @@
                                     <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER" onMouseClicked="#onVerEquipos" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20;">
+                              <VBox alignment="CENTER" onMouseClicked="#onVerEquipos" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
                                  <children>
                                     <SVGPath content="M 7.8049 21.875 L 7.8049 57.875 L -28.1951 57.875 C -28.1951 37.99265 -12.07736 21.875 7.8049 21.875 Z M 7.8049 17.375 C -7.1126 17.375 -19.1951 5.2925 -19.1951 -9.625 C -19.1951 -24.5425 -7.1126 -36.625 7.8049 -36.625 C 22.7224 -36.625 34.8049 -24.5425 34.8049 -9.625 C 34.8049 5.2925 22.7224 17.375 7.8049 17.375 Z M 19.4806 43.52675 C 19.20205 42.35495 19.0549 41.1323 19.0549 39.875 C 19.0549 38.61815 19.20205 37.3955 19.48015 36.2237 L 15.01795 33.64745 L 19.51795 25.853 L 23.9833 28.43105 C 25.75225 26.75795 27.9091 25.4903 30.3049 24.77705 L 30.3049 19.625 L 39.3049 19.625 L 39.3049 24.77705 C 41.7007 25.4903 43.8571 26.75795 45.62605 28.43105 L 50.09185 25.85255 L 54.5923 33.647 L 50.12965 36.22325 C 50.40775 37.3955 50.5549 38.61815 50.5549 39.875 C 50.5549 41.13185 50.40775 42.3545 50.12965 43.5263 L 54.5923 46.10255 L 50.0923 53.897 L 45.6265 51.3185 C 43.85755 52.99205 41.70115 54.2597 39.30535 54.9725 L 39.30535 60.125 L 30.30535 60.125 L 30.30535 54.97295 C 27.90955 54.26015 25.7527 52.9925 23.98375 51.31895 L 19.5184 53.89745 L 15.01795 46.103 L 19.4806 43.52675 Z M 34.8049 35.375 C 32.31955 35.375 30.3049 37.38965 30.3049 39.875 C 30.3049 42.36035 32.31955 44.375 34.8049 44.375 C 37.29025 44.375 39.3049 42.36035 39.3049 39.875 C 39.3049 37.38965 37.29025 35.375 34.8049 35.375 Z" fill="WHITE" />
                                     <Label text="Ver Equipos" textFill="WHITE">
@@ -1282,9 +1282,9 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <ScrollPane fx:id="spVerJugadores" fitToHeight="true" fitToWidth="true" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+            <ScrollPane fx:id="spVerJugadores" fitToHeight="true" fitToWidth="true" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
               <content>
-                <AnchorPane style="-fx-background-color: white; -fx-background-radius: 20;">
+                <AnchorPane style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
                      <children>
                         <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -1311,9 +1311,9 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <ScrollPane fx:id="spVerEquipos" fitToHeight="true" fitToWidth="true" style="-fx-background-color: white; -fx-background-radius: 20;" visible="false">
+            <ScrollPane fx:id="spVerEquipos" fitToHeight="true" fitToWidth="true" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                <content>
-                  <AnchorPane style="-fx-background-color: white; -fx-background-radius: 20;">
+                  <AnchorPane style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
                      <children>
                         <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>

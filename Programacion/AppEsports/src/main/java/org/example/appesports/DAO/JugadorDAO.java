@@ -29,9 +29,6 @@ public class JugadorDAO {
             }
             ConexionBD.closeConexion(con);
 
-            ConexionBD.closeConexion(con);
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -96,6 +93,8 @@ public class JugadorDAO {
                 throw new Exception("Error al ingresar el jugador");
             }
 
+            ConexionBD.closeConexion(con);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -114,6 +113,8 @@ public class JugadorDAO {
         if (e == 0){
             throw new Exception("No se ha podido eliminar el jugador");
         }
+
+        ConexionBD.closeConexion(con);
 
     }
 
@@ -141,6 +142,8 @@ public class JugadorDAO {
 
         } else throw new Exception("Error al buscar el Jugador");
 
+        ConexionBD.closeConexion(con);
+
         return jugador;
     }
 
@@ -165,5 +168,7 @@ public class JugadorDAO {
         if (e == 0){
             throw new Exception("Error al actualizar el Jugador");
         }
+
+        ConexionBD.closeConexion(con);
     }
 }

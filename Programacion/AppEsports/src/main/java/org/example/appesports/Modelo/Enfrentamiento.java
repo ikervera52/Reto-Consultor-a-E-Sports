@@ -11,6 +11,12 @@ public class Enfrentamiento {
     public Enfrentamiento() {
     }
 
+    public Enfrentamiento(int idEnfrentamiento, LocalTime horaEnfrentamiento, Jornada jornada) {
+        this.idEnfrentamiento = idEnfrentamiento;
+        this.horaEnfrentamiento = horaEnfrentamiento;
+        this.jornada = jornada;
+    }
+
     public Enfrentamiento(int idEnfrentamiento, LocalTime horaEnfrentamiento, String resultado, Jornada jornada, Equipo[] equipos) {
         this.idEnfrentamiento = idEnfrentamiento;
         this.horaEnfrentamiento = horaEnfrentamiento;

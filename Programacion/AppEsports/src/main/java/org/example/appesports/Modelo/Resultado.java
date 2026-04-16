@@ -9,6 +9,11 @@ public class Resultado {
     public Resultado() {
     }
 
+    public Resultado(Equipo equipo, Enfrentamiento enfrentamiento) {
+        this.equipo = equipo;
+        this.enfrentamiento = enfrentamiento;
+    }
+
     public Resultado(Equipo equipo, Enfrentamiento enfrentamiento, int puntuacion) {
         this.equipo = equipo;
         this.enfrentamiento = enfrentamiento;

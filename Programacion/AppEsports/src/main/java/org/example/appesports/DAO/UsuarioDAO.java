@@ -104,6 +104,8 @@ public class UsuarioDAO {
         int e = ps.executeUpdate();
 
         if (e == 0) throw new Exception("Error al editar el Usuario");
+
+        ConexionBD.closeConexion(con);
     }
 
     public static Usuario crearUsuario (ResultSet rs)throws Exception{

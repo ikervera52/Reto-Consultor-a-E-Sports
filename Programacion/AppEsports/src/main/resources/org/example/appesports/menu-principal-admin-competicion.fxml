@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -59,7 +59,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onConsultarIA" prefHeight="200.0" prefWidth="270.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onWinCalculator" prefHeight="200.0" prefWidth="270.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="35.0" />
                               <SVGPath content="M12.0001 8.5L14.1161 13.5875L19.6085 14.0279L15.4239 17.6125L16.7023 22.9721L12.0001 20.1L7.29777 22.9721L8.57625 17.6125L4.3916 14.0279L9.88403 13.5875L12.0001 8.5ZM8.00005 2V11H6.00005V2H8.00005ZM18.0001 2V11H16.0001V2H18.0001ZM13.0001 2V7H11.0001V2H13.0001Z" fill="#3e3e3e" />
@@ -238,55 +238,66 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apMenuPrincipal1" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+            <AnchorPane fx:id="apCalculadorIA" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                <children>
                   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="839.0" spacing="5.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <Label text="Bienvenido,">
+                              <Button fx:id="bVolverMenuPrincipal" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="WinCalculatorAI">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lbNombreBienvenida1" text="Label" textFill="#0086ed">
-                                 <font>
-                                    <Font size="24.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
                         <Region prefHeight="0.0" prefWidth="839.0" VBox.vgrow="ALWAYS" />
-                        <HBox alignment="CENTER" prefHeight="252.0" prefWidth="840.0" spacing="30.0">
+                        <HBox alignment="CENTER" prefHeight="362.0" prefWidth="839.0" spacing="30.0">
                            <children>
-                              <VBox alignment="CENTER" prefWidth="300.0" spacing="40.0">
+                              <VBox alignment="TOP_CENTER" prefHeight="158.0" prefWidth="602.0" spacing="20.0">
                                  <children>
-                                    <Label text="Raconamiento">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <TextArea prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefWidth="300.0">
-                                 <children>
-                                    <Label text="Predicción de la IA">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <Region prefWidth="300.0" VBox.vgrow="ALWAYS" />
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <VBox prefHeight="78.0" prefWidth="602.0">
                                        <children>
-                                          <Label text="Equipo1" textFill="#0086ed">
+                                          <HBox prefHeight="35.0" prefWidth="602.0">
+                                             <children>
+                                                <Label text="Tu: ">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Que equipo crees que va a ganar la competicón?">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Button mnemonicParsing="false" onAction="#onConsultarIA" style="-fx-background-color: trasparent; -fx-border-color: #0086ed; -fx-border-radius: 10;" text="Preguntar a la IA" textFill="#0086ed">
                                              <font>
-                                                <Font name="System Bold" size="36.0" />
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                    <HBox prefHeight="24.0" prefWidth="602.0">
+                                       <children>
+                                          <Label text="Chat:">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </HBox>
-                                    <Region VBox.vgrow="ALWAYS" />
+                                    <Label fx:id="laRespuestaIA" prefWidth="626.0" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </VBox>
                            </children>

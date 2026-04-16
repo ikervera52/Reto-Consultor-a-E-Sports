@@ -1,17 +1,22 @@
 package org.example.appesports.Vista;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.appesports.ApiExterna.GrogAPI;
 import org.example.appesports.Controlador.*;
 import org.example.appesports.Modelo.*;
 
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +40,9 @@ public class MenuPrincipalAdminCompeticionController {
     public Label tfHora;
     public Label tfUltimoResultado;
     public Label tfResultadoPrincipal;
+    public AnchorPane apCalculadorIA;
+    public AnchorPane apMenuPrincipal;
+    public Label laRespuestaIA;
 
 
     public void init (Stage stage, MenuInicioSesionController menu, String username){
@@ -53,49 +61,6 @@ public class MenuPrincipalAdminCompeticionController {
         stage.close();
     }
 
-    @FXML
-    public void onConsultarIA(MouseEvent MouseEvent){
-
-        try {
-            StringBuilder prompt = new StringBuilder();
-            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
-
-            Map<String, Integer> puntosPorEquipo = new HashMap<>();
-            for (Equipo e : equipos) {
-                puntosPorEquipo.put(e.getNombre(), 0);
-            }
-
-            for (Jornada jornada : JornadaController.listarJornadas()) {
-                if (jornada.getFechaJornada().isBefore(LocalDate.now())) {
-
-                    for (Enfrentamiento enf : EnfrentamientoController.buscarPorJornada(jornada.getIdJornada())) {
-                        if (enf.getHoraEnfrentamiento().isBefore(LocalTime.now()) || jornada.getFechaJornada().isBefore(LocalDate.now())) {
-
-                            for (Resultado puntuacion : ResultadoController.verPorEnfrentamiento(enf.getIdEnfrentamiento())) {
-                                String nombreEq = puntuacion.getEquipo().getNombre();
-                                int puntosActuales = puntosPorEquipo.getOrDefault(nombreEq, 0);
-
-                                puntosPorEquipo.put(nombreEq, puntosActuales + puntuacion.getResultado());
-                            }
-                        }
-                    }
-                }
-            }
-
-            puntosPorEquipo.forEach((nombre, puntos) -> {
-                if (!prompt.isEmpty()) prompt.append(", ");
-                prompt.append(nombre).append(" - ").append(puntos);
-            });
-
-            System.out.println(prompt);
-
-        } catch (Exception e){
-            mostarMensaje("Error", "Error al consultar a la IA", Alert.AlertType.ERROR);
-        }
-    }
-
-
-
 
 @FXML
 public void onTerminarCompeticion (MouseEvent MouseEvent){
@@ -113,51 +78,112 @@ public void onTerminarCompeticion (MouseEvent MouseEvent){
 
 }
 
-private void actualizarMenuPrincipal(){
-    try {
+private void actualizarMenuPrincipal() {
+        try {
 
-        Jornada ultimaJornada = listarJornadas().getLast();
+            Jornada ultimaJornada = listarJornadas().getLast();
 
-        tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
+            tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
 
-        ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
+            ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
 
-        Enfrentamiento ultimoEnfrentamiento = enfrentamientos.getLast();
-        if (enfrentamientos.size() > 1){
-            enfrentamientos.remove(ultimoEnfrentamiento);
+            Enfrentamiento ultimoEnfrentamiento = enfrentamientos.getLast();
+            if (enfrentamientos.size() > 1) {
+                enfrentamientos.remove(ultimoEnfrentamiento);
+            }
+            Enfrentamiento anateriorEnfrentamiento = enfrentamientos.getLast();
+
+            ArrayList<Resultado> ultimosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
+
+            String ultimoResutaldo = ultimosResultados.get(0).getResultado() + " - " + ultimosResultados.get(1).getResultado();
+            String ultimoEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+
+            String anteriorEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+
+            tfUltimoResultado.setText(ultimoEquipos);
+            tfResultadoPrincipal.setText(ultimoResutaldo);
+
+            tfSiguientePartido.setText(anteriorEquipos);
+            tfHora.setText(anateriorEnfrentamiento.getHoraEnfrentamiento().toString());
+
+        } catch (Exception e) {
+            System.out.println("pe");
         }
-        Enfrentamiento anateriorEnfrentamiento = enfrentamientos.getLast();
-
-        ArrayList<Resultado> ultimosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
-
-        String ultimoResutaldo = ultimosResultados.get(0).getResultado() + " - " + ultimosResultados.get(1).getResultado();
-        String ultimoEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
-
-        String anteriorEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
-
-        tfUltimoResultado.setText(ultimoEquipos);
-        tfResultadoPrincipal.setText(ultimoResutaldo);
-
-        tfSiguientePartido.setText(anteriorEquipos);
-        tfHora.setText(anateriorEnfrentamiento.getHoraEnfrentamiento().toString());
-
-    }catch (Exception e){
-        System.out.println("pe");
     }
-}
+    @FXML
+    public void onWinCalculator(MouseEvent MouseEvent){
+        apCalculadorIA.setVisible(true);
 
-private Optional<ButtonType> mostrarMensajeEsperar(String texto){
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    alert.setTitle("Confirmación");
-    alert.setContentText(texto);
+    }
 
-    return alert.showAndWait();
-}
+    public void onConsultarIA(ActionEvent actionEvent) {
 
-public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
-    Alert alert = new Alert(alerta);
-    alert.setTitle(titulo);
-    alert.setContentText(mensaje);
-    alert.show();
-}
+        try {
+
+            Jornada primeraJornada = JornadaController.listarJornadas().getFirst();
+            Enfrentamiento primerPartido = EnfrentamientoController.buscarPorJornada(primeraJornada.getIdJornada()).getFirst();
+
+            LocalDateTime momentoPartido = LocalDateTime.of(primeraJornada.getFechaJornada(), primerPartido.getHoraEnfrentamiento());
+
+            /*if (momentoPartido.isAfter(LocalDateTime.now())) {
+                throw new Exception("No se ha jugado ningún partido todavía, intentalo más tarde.");
+            }*/
+
+            StringBuilder prompt = new StringBuilder();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+
+            Map<String, Integer> puntosPorEquipo = new HashMap<>();
+            for (Equipo e : equipos) {
+                puntosPorEquipo.put(e.getNombre(), 0);
+            }
+
+            for (Jornada jornada : JornadaController.listarJornadas()) {
+                //if (jornada.getFechaJornada().isBefore(LocalDate.now())) {
+
+                for (Enfrentamiento enf : EnfrentamientoController.buscarPorJornada(jornada.getIdJornada())) {
+                    //if (enf.getHoraEnfrentamiento().isBefore(LocalTime.now())) {
+
+                    for (Resultado puntuacion : ResultadoController.verPorEnfrentamiento(enf.getIdEnfrentamiento())) {
+                        String nombreEq = puntuacion.getEquipo().getNombre();
+                        int puntosActuales = puntosPorEquipo.get(nombreEq);
+
+                        puntosPorEquipo.put(nombreEq, puntosActuales + puntuacion.getResultado());
+                    }
+                    //}
+                }
+                //}
+            }
+
+            puntosPorEquipo.forEach((nombre, puntos) -> {
+                if (!prompt.isEmpty()) prompt.append(", ");
+                prompt.append(nombre).append(" - ").append(puntos);
+            });
+
+            laRespuestaIA.setText(GrogAPI.preguntarALaIA(prompt.toString()));
+
+
+        } catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private Optional<ButtonType> mostrarMensajeEsperar(String texto){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setContentText(texto);
+
+        return alert.showAndWait();
+    }
+
+    private void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+        Alert alert = new Alert(alerta);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.show();
+    }
+
+    public void onVolverMenuPrincipal(ActionEvent actionEvent) {
+        laRespuestaIA.setText(null);
+        apCalculadorIA.setVisible(false);
+    }
 }

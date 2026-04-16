@@ -14,14 +14,16 @@ public class GrogAPI {
     private static final String MODELO = "llama-3.3-70b-versatile";
 
     public static String preguntarALaIA(String mensaje) throws Exception {
-        try {
+
             String mensajeEscapado = escaparParaJson(mensaje);
 
             String cuerpoJson = "{"
                     + "\"model\": \"" + MODELO + "\","
                     + "\"messages\": ["
                     + "  { \"role\": \"system\", \"content\": \"Eres un asistente directo. Responde siempre en español de forma clara y concisa.\" },"
-                    + "  { \"role\": \"user\",   \"content\": \""  +"Dime la prioridad de esta tarea del 1 al 5 (1 siendo la mayor prioridad) y porque brevemente, " + mensajeEscapado + "\" }"
+                    + "  { \"role\": \"user\",   \"content\": \""  +"Teniendo en cuenta los puntos que tiene cada equipo ahora mismo en la competición razona cual" +
+                    "que es el equipo que podría ganar la competición, la respuesta no puede tener mas de 1000 caracteres y necesito que me des un equipo si o si," +
+                    "no uses negrita ni ningún estilo de texto" + mensajeEscapado + "\" }"
                     + "]"
                     + "}";
 
@@ -43,14 +45,10 @@ public class GrogAPI {
                 throw new Exception("Límite de peticiones alcanzado. Espera unos segundos e inténtalo de nuevo.");
             }
             if (respuesta.statusCode() != 200) {
-                return "Error HTTP " + respuesta.statusCode() + ". Comprueba tu API Key.";
+                throw new Exception("Error HTTP " + respuesta.statusCode() + ". Comprueba tu API Key.");
             }
 
             return extraerContenidoDeRespuesta(respuesta.body());
-
-        } catch (Exception e) {
-            return "Error de conexión: " + e.getMessage();
-        }
     }
 
     private static String extraerContenidoDeRespuesta(String json) {
@@ -89,7 +87,14 @@ public class GrogAPI {
                 contenido.append(c);
             }
         }
-        return contenido.toString().trim();
+
+
+
+        int e = contenido.toString().trim().indexOf("},logprobs:");
+
+        String respuesta = contenido.toString().trim().substring(0, e);
+
+        return respuesta;
     }
 
     private static String escaparParaJson(String texto) {

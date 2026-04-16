@@ -22,4 +22,9 @@ public class CompeticionController {
         CompeticionDAO.cerrarCompeticion(competicion);
     }
 
+    public static String verEstadoCompeticion() throws Exception{
+        Competicion competicion = buscarCompeticion();
+        return competicion.getEtapa();
+    }
+
 }

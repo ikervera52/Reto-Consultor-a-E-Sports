@@ -929,12 +929,9 @@ public class MenuPrincipalAdminController {
             ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
             int i = 0;
             for (Enfrentamiento enfrentamiento : enfrentamientos){
-                Equipo[] equiposArray = new Equipo[2];
-                equiposArray[0] = equipos.get(1);
-                equiposArray[1] = equipos.get(equipos.size() - i - 1);
 
-                ResultadoController.crearResultado(equiposArray[0].getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
-                ResultadoController.crearResultado(equiposArray[1].getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+                ResultadoController.crearResultado(equipos.get(i).getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+                ResultadoController.crearResultado(equipos.get(equipos.size() - i - 1).getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
 
                 i++;
             }

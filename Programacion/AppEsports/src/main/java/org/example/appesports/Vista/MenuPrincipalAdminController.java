@@ -2,14 +2,18 @@ package org.example.appesports.Vista;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
-import javafx.scene.layout.AnchorPane;
 import org.example.appesports.Controlador.UsuarioController;
+import org.example.appesports.DAO.JugadorDAO;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
@@ -202,6 +206,21 @@ public class MenuPrincipalAdminController {
         @FXML
         public Button bEditarEquipo;
 
+        @FXML
+        public AnchorPane apVerInformes;
+
+        @FXML
+        public ScrollPane spVerJugadores;
+
+        @FXML
+        public VBox vboxContenedorJugadores;
+
+        @FXML
+        public ScrollPane spVerEquipos;
+
+        @FXML
+        public VBox vboxContenedorEquipos;
+
 
 
     public Stage stage;
@@ -223,6 +242,8 @@ public class MenuPrincipalAdminController {
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarEquiposPrincipal.setVisible(false);
+        apVerInformes.setVisible(false);
 
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -248,6 +269,9 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
 
 
         bGestionarJugadores.setTextFill(Color.WHITE);
@@ -448,6 +472,10 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
+
 
         bGestionarJugadores.setTextFill(Color.BLACK);
         bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -679,6 +707,9 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
 
         bGestionarEquipos.setTextFill(Color.WHITE);
         bGestionarEquipos.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
@@ -691,7 +722,6 @@ public class MenuPrincipalAdminController {
     public void onAnadirEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposAnadir.setVisible(true);
         apGestionarEquiposEditar.setVisible(false);
-        apGestionarEquiposAnadir.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
 
     }
@@ -703,12 +733,6 @@ public class MenuPrincipalAdminController {
         apGestionarEquiposEditar.setVisible(false);
 
         vaciarOpcionesEquipo();
-    }
-
-    //Funcion abrir panel Anadir Equipo
-    public void onAnadirEquipo(MouseEvent mouseEvent) {
-        apGestionarEquiposAnadir.setVisible(true);
-
     }
 
     //Funcion anadir equipo al pulsar boton
@@ -738,13 +762,14 @@ public class MenuPrincipalAdminController {
 
     }
 
-    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje){
+    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titulo);
         alert.setContentText(mensaje);
 
         return alert.showAndWait();
+    }
     //Funcion abrir panel Eliminar Equipo
     public void onEliminarEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposBorrar.setVisible(true);
@@ -822,5 +847,147 @@ public class MenuPrincipalAdminController {
         tfNombreEquipoBuscar.clear();
         tfNombreEquipoEditar.clear();
         dpFechaFundacionEditar.setValue(null);
+    }
+
+    //Funcion para mostrar el panel ver informes
+    public void onVerInformes(ActionEvent actionEvent) {
+        apVerInformes.setVisible(true);
+        spVerEquipos.setVisible(false);
+        spVerJugadores.setVisible(false);
+    }
+
+    //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+    public void onVerJugadores(MouseEvent mouseEvent) {
+        rellenarVerJugadores();
+        spVerJugadores.setVisible(true);
+    }
+
+    //Funcion para crear la vbox de cada jugador a mostrar
+    public Node crearCartasJugador(Jugador jugador) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+
+        Label nickname = new Label();
+        nickname.setText(jugador.getNickname());
+        nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        nickname.setTextFill(Color.web("#0089ed"));
+
+        Label nombre = new Label();
+        nombre.setText("Nombre: " + jugador.getNombre());
+
+        Label apellido = new Label();
+        apellido.setText("Apellido: " + jugador.getApellido());
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de nacimiento: " + jugador.getFechaNacimiento().toString());
+
+        Label rol = new Label();
+        rol.setText("Rol: " + jugador.getRol());
+
+        Label sueldo = new Label();
+        sueldo.setText("Sueldo: " + jugador.getSueldo() + "€");
+
+        Label equipo = new Label();
+        equipo.setText("Equipo: " + (jugador.getEquipo() != null ? jugador.getEquipo().getNombre() : "Sin equipo"));
+
+        carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
+        return carta;
+    }
+
+    //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+    public void rellenarVerJugadores(){
+        try {
+            vboxContenedorJugadores.getChildren().clear();
+            ArrayList<Jugador> jugadores = JugadorController.verJugadores();
+            for (int i = 0; i < jugadores.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+
+                Node vistaJugador1 = crearCartasJugador(jugadores.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < jugadores.size()) {
+                    Node vistaJugador2 = crearCartasJugador(jugadores.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                }else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorJugadores.getChildren().add(fila);
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Funcion para volver al panel de ver informes
+    public void onVolverVerInformes(ActionEvent actionEvent) {
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
+    }
+
+    //Funcion para mostrar el panel de ver equipos al pulsar el boton
+    public void onVerEquipos(MouseEvent mouseEvent) {
+        rellenarVerEquipos();
+        spVerEquipos.setVisible(true);
+    }
+
+    //Funcion para crear la carta por cada equipo
+    public Node crearCartasEquipo(Equipo equipo) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+
+        Label nombre = new Label();
+        nombre.setText(equipo.getNombre());
+        nombre.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        nombre.setTextFill(Color.web("#0089ed"));
+
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de Fundación: " + equipo.getFechaFundacion().toString());
+
+        Label numeroJugadores = new Label();
+        numeroJugadores.setText("Numero de Jugadores: " + equipo.getJugadores().size());
+
+        carta.getChildren().addAll(nombre, fecha, numeroJugadores);
+        return carta;
+    }
+
+    //Funcion para reccorrer los equipos y crear la carta por cada equipo
+    public void rellenarVerEquipos(){
+        try {
+            vboxContenedorEquipos.getChildren().clear();
+            ArrayList<Equipo> equipos = EquipoController.verEquipos();
+            for (int i = 0; i < equipos.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+
+                Node vistaJugador1 = crearCartasEquipo(equipos.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < equipos.size()) {
+                    Node vistaJugador2 = crearCartasEquipo(equipos.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                }else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorEquipos.getChildren().add(fila);
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

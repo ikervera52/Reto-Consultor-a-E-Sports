@@ -7,23 +7,15 @@ public class Competicion {
     private int idCompeticion;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private TipoEtapa etapa;
-    private ArrayList<Jornada> jornadas;
-    private ArrayList<Equipo> equipos;
+    private String etapa;
     private String tipoPuntuacion;
-
-    public enum TipoEtapa {
-        COMPETICION, INSCRIPCION
-    }
 
     public Competicion() {
     }
 
-    public Competicion(int id, TipoEtapa etapa ) {
+    public Competicion(int id, String etapa ) {
         this.idCompeticion = id;
         this.etapa = etapa;
-        this.jornadas = new ArrayList<>();
-        this.equipos = new ArrayList<>();
     }
 
     public int getIdCompeticion() {
@@ -50,39 +42,12 @@ public class Competicion {
         this.fechaFin = fechaFin;
     }
 
-    public TipoEtapa getEtapa() {
+    public String getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(TipoEtapa etapa) {
+    public void setEtapa(String etapa) {
         this.etapa = etapa;
-    }
-
-    public ArrayList<Jornada> getJornadas() {
-        return jornadas;
-    }
-
-    public void setJornadas(ArrayList<Jornada> jornadas) {
-        this.jornadas = jornadas;
-    }
-
-    public ArrayList<Equipo> getEquipos() {
-        return equipos;
-    }
-
-    public void setJornada(Jornada jornada){
-        if(jornadas == null){
-            jornadas = new ArrayList<>();
-            jornadas.add(jornada);
-        }
-        else{
-            jornadas.add(jornada);
-        }
-        jornada.setCompeticion(this);
-    }
-
-    public void setEquipos(ArrayList<Equipo> equipos) {
-        this.equipos = equipos;
     }
 
     public String getTipoPuntuacion() {

@@ -45,7 +45,7 @@ public class EquipoController {
         EquipoDAO.borrarEquipo(nombre);
     }
 
-    public static ArrayList<Equipo> verEquipos(){
+    public static ArrayList<Equipo> listarEquipos(){
         return EquipoDAO.verEquipos();
     }
 }

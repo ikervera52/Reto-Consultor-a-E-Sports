@@ -44,7 +44,8 @@ public class ResultadoDAO {
                     EquipoController.equipoPorId(rs.getInt("id_equipo")),
                     EnfrentamientoController.buscarPorId(rs.getInt("id_enfrentamiento")),
                     rs.getInt("puntuacion")
-            ));
+                    )
+            );
 
         }
 

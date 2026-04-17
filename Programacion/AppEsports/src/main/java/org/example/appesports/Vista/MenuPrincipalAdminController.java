@@ -3,7 +3,6 @@ package org.example.appesports.Vista;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
 import org.example.appesports.Controlador.UsuarioController;
-import org.example.appesports.DAO.JugadorDAO;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
@@ -1057,9 +1055,9 @@ public class MenuPrincipalAdminController {
 
                 LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-                int numeroDeEtapas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
+                int numeroJornadas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
 
-                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroDeEtapas);
+                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroJornadas);
 
                 System.out.println("ahora");
 
@@ -1067,9 +1065,9 @@ public class MenuPrincipalAdminController {
 
                 System.out.println("despues");
 
-                crearJornadas(fechaInicio, numeroDeEtapas);
+                crearJornadas(fechaInicio, numeroJornadas);
 
-                crearEnfrentamientos(numeroDeEtapas);
+                crearEnfrentamientos(numeroJornadas);
 
                 mostarMensaje("Confirmación", "La competición se ha cerrado con éxito", Alert.AlertType.INFORMATION);
 

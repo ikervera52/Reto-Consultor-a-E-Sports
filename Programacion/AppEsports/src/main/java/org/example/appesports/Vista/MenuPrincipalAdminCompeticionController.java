@@ -2,17 +2,29 @@ package org.example.appesports.Vista;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import org.example.appesports.ApiExterna.GrogAPI;
+import org.example.appesports.Controlador.*;
+import org.example.appesports.Modelo.*;
+
+import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -34,6 +46,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.example.appesports.Controlador.JornadaController.listarJornadas;
 
 public class MenuPrincipalAdminCompeticionController {
 
@@ -50,6 +67,9 @@ public class MenuPrincipalAdminCompeticionController {
     public Label tfHora;
     public Label tfUltimoResultado;
     public Label tfResultadoPrincipal;
+    public AnchorPane apCalculadorIA;
+    public AnchorPane apMenuPrincipal;
+    public Label laRespuestaIA;
     public Label lbFechaJornada;
 
     @FXML
@@ -72,11 +92,26 @@ public class MenuPrincipalAdminCompeticionController {
     public void onCerrarSesion(MouseEvent MouseEvent) {
         controller.show();
         stage.close();
-
-
     }
 
-    private void actualizarMenuPrincipal(){
+
+@FXML
+public void onTerminarCompeticion (MouseEvent MouseEvent){
+
+    try {
+        Optional<ButtonType> opcion = mostrarMensajeEsperar("Confirmación para Terminar la Competición");
+
+        if (opcion.isPresent() && opcion.get() == ButtonType.OK){
+            CompeticionController.terminarCompeticion();
+        }
+    }
+    catch (Exception e){
+        mostarMensaje("Error al terminar la Competición", e.getMessage(), Alert.AlertType.ERROR);
+    }
+
+}
+
+private void actualizarMenuPrincipal() {
         try {
 
             ArrayList<Jornada> jornadas = JornadaDAO.listarJornadas();
@@ -261,5 +296,71 @@ public class MenuPrincipalAdminCompeticionController {
         cartaEnfrentamiento.getChildren().add(cartaInterior);
 
         return cartaEnfrentamiento;
+    }
+    @FXML
+    public void onWinCalculator(MouseEvent MouseEvent){
+        apCalculadorIA.setVisible(true);
+
+    }
+
+    public void onConsultarIA(ActionEvent actionEvent) {
+
+        try {
+
+            StringBuilder prompt = new StringBuilder();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+
+            Map<String, Integer> puntosPorEquipo = new HashMap<>();
+            for (Equipo e : equipos) {
+                puntosPorEquipo.put(e.getNombre(), 0);
+            }
+
+            for (Jornada jornada : JornadaController.listarJornadas()) {
+
+                for (Enfrentamiento enf : EnfrentamientoController.buscarPorJornada(jornada.getIdJornada())) {
+
+                    for (Resultado puntuacion : ResultadoController.verPorEnfrentamiento(enf.getIdEnfrentamiento())) {
+                        String nombreEq = puntuacion.getEquipo().getNombre();
+                        int puntosActuales = puntosPorEquipo.get(nombreEq);
+
+                        puntosPorEquipo.put(nombreEq, puntosActuales + puntuacion.getResultado());
+                    }
+
+                }
+
+            }
+
+            puntosPorEquipo.forEach((nombre, puntos) -> {
+                if (!prompt.isEmpty()) prompt.append(", ");
+                prompt.append(nombre).append(" - ").append(puntos);
+            });
+
+            String respuesta = GrogAPI.preguntarALaIA(prompt.toString());
+            laRespuestaIA.setText(respuesta);
+
+
+        } catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private Optional<ButtonType> mostrarMensajeEsperar(String texto){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setContentText(texto);
+
+        return alert.showAndWait();
+    }
+
+    private void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+        Alert alert = new Alert(alerta);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.show();
+    }
+
+    public void onVolverMenuPrincipal(ActionEvent actionEvent) {
+        laRespuestaIA.setText(null);
+        apCalculadorIA.setVisible(false);
     }
 }

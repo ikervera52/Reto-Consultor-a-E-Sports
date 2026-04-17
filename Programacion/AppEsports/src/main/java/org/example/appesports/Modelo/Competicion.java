@@ -13,9 +13,16 @@ public class Competicion {
     public Competicion() {
     }
 
-    public Competicion(int id, String etapa ) {
-        this.idCompeticion = id;
+    public Competicion(String etapa) {
         this.etapa = etapa;
+    }
+
+    public Competicion(int idCompeticion, LocalDate fechaInicio, LocalDate fechaFin, String etapa, String tipoPuntuacion) {
+        this.idCompeticion = idCompeticion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.etapa = etapa;
+        this.tipoPuntuacion = tipoPuntuacion;
     }
 
     public int getIdCompeticion() {

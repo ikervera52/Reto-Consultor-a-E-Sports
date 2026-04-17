@@ -50,4 +50,15 @@ public class ResultadoDAO {
 
         return resultados;
     }
+
+    public static void actualizarResultado(Resultado resultado) throws Exception{
+        Connection con = ConexionBD.getConexion();
+        String sql = "UPDATE resultados SET puntuacion = ? WHERE id_enfrentamiento = ? AND id_equipo = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1,resultado.getResultado());
+        ps.setInt(2, resultado.getEnfrentamiento().getIdEnfrentamiento());
+        ps.setInt(3, resultado.getEquipo().getIdEquipo());
+        ps.executeUpdate();
+        ConexionBD.closeConexion(con);
+    }
 }

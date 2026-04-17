@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,7 +31,7 @@
                   <Region VBox.vgrow="ALWAYS" />
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="270.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#onLlenarPuntuaciones" prefHeight="200.0" prefWidth="270.0">
                            <children>
                               <Region prefHeight="200.0" prefWidth="35.0" />
                               <SVGPath content="M3 15V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V19C21 20.6569 19.6569 22 18 22H4C2.34315 22 1 20.6569 1 19V17H17V19C17 19.5523 17.4477 20 18 20C18.5523 20 19 19.5523 19 19V15H3Z" fill="#3e3e3e" />
@@ -147,16 +148,21 @@
                                           <Font size="96.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="lbFechaJornada" alignment="CENTER" text="Fecha" textFill="#0086ed">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                                  <padding>
                                     <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="244.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
+                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="400.0" spacing="25.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="147.0" prefWidth="209.0" spacing="5.0">
+                                          <VBox alignment="CENTER" spacing="5.0">
                                              <children>
                                                 <Label alignment="CENTER" text="Siguiente Partido" textFill="#0086ed">
                                                    <font>
@@ -188,10 +194,9 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <Region prefHeight="200.0" prefWidth="200.0" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="147.0" prefWidth="209.0" spacing="7.0">
+                                          <VBox alignment="CENTER" spacing="7.0">
                                              <children>
                                                 <Label alignment="CENTER" text="Ultimo Resultado" textFill="#0086ed">
                                                    <font>
@@ -231,6 +236,32 @@
                               <Insets bottom="35.0" />
                            </VBox.margin>
                         </Region>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="apLlenarPuntuaciones" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
+               <children>
+                  <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Button fx:id="bVolverMenuPrincipal" mnemonicParsing="false" onAction="#onVolverMenuPrincipal" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                 <graphic>
+                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Llenar Puntuaciones">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="vboxContenedorJornadas" alignment="TOP_CENTER" fillWidth="false" />
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

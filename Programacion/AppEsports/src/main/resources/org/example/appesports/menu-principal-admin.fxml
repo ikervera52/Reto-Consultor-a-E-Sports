@@ -1282,7 +1282,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-             <AnchorPane fx:id="spVerJugadores" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+             <AnchorPane fx:id="spVerJugadores" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                  <children>
                      <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                          <children>

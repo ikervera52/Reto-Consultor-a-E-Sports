@@ -208,7 +208,7 @@ public class MenuPrincipalAdminController {
         public AnchorPane apVerInformes;
 
         @FXML
-        public ScrollPane spVerJugadores;
+        public AnchorPane spVerJugadores;
 
         @FXML
         public VBox vboxContenedorJugadores;

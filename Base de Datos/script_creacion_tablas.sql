@@ -1,3 +1,7 @@
+-- Autor: Iker Poza 
+-- Fecha Ultima Edicion : 16/04/2026
+
+
 DROP TABLE resultados CASCADE CONSTRAINTS;
 DROP TABLE jugadores CASCADE CONSTRAINTS;
 DROP TABLE equipos;
@@ -31,7 +35,7 @@ CREATE TABLE jornadas(
     num_jornada NUMBER NOT NULL,
     fecha DATE NOT NULL,
     id_competicion NUMBER,
-    CONSTRAINT jo_ïd_pk PRIMARY KEY (id),
+    CONSTRAINT jo_id_pk PRIMARY KEY (id),
     CONSTRAINT jo_id_competicion_fk FOREIGN KEY (id_competicion) 
                                     REFERENCES competiciones(id)
 );
@@ -80,7 +84,7 @@ CREATE TABLE jugadores(
 CREATE TABLE resultados(
     id_equipo NUMBER,
     id_enfrentamiento NUMBER,
-    puntuacion NUMBER NOT NULL,
+    puntuacion NUMBER,
     CONSTRAINT pu_eq_en_pk PRIMARY KEY (id_equipo,id_enfrentamiento),
     CONSTRAINT pu_id_equipo_fk FOREIGN KEY (id_equipo) REFERENCES equipos(id),
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)

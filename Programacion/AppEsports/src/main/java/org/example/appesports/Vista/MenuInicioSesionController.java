@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.appesports.Controlador.CompeticionController;
 import org.example.appesports.Controlador.UsuarioController;
 import org.example.appesports.MainApplication;
 import org.example.appesports.Utilidades.ValidarDatos;
@@ -40,13 +41,15 @@ public class MenuInicioSesionController {
 
             String tipoUsuario = UsuarioController.validarUsuario(username,contrasena);
 
-            if (tipoUsuario.equals("admin")){
+            String etapaCompeticion = CompeticionController.verEstadoCompeticion();
+
+            if (tipoUsuario.equals("admin") && etapaCompeticion.equals("inscripcion")){
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-principal-admin.fxml"));
                 Parent root = fxmlLoader.load();
 
                 Scene scene = new Scene(root, 1200, 800);
                 Stage stage = new Stage();
-                stage.setTitle("Menu");
+                stage.setTitle("AppEsports");
                 stage.setScene(scene);
 
                 MenuPrincipalAdminController controller = fxmlLoader.getController();
@@ -60,14 +63,59 @@ public class MenuInicioSesionController {
                 this.stage.close();
 
 
-            }else if (tipoUsuario.equals("estandar")){
-                    String nose = null;
+            } else if(tipoUsuario.equals("admin") && etapaCompeticion.equals("competicion")){
+
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-principal-admin-competicion.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Scene scene = new Scene(root, 1200, 800);
+                Stage stage = new Stage();
+                stage.setTitle("AppEsports");
+                stage.setScene(scene);
+
+                MenuPrincipalAdminCompeticionController controller = fxmlLoader.getController();
+
+                controller.init(stage, this, username);
+                stage.show();
+
+                tfUsuario.clear();
+                pfContrasena.clear();
+
+                this.stage.close();
+
+
+            }else if (tipoUsuario.equals("estandar") && etapaCompeticion.equals("inscripcion")){
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-principal-estandar.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Scene scene = new Scene(root, 1200, 800);
+                Stage stage = new Stage();
+                stage.setTitle("AppEsports");
+                stage.setScene(scene);
+
+                MenuPrincipalEstandarController controller = fxmlLoader.getController();
+
+                controller.init(stage, this);
+                stage.show();
+
+                tfUsuario.clear();
+                pfContrasena.clear();
+
+                this.stage.close();
+
+            } else if(tipoUsuario.equals("estandar") && etapaCompeticion.equals("competicion")){
+
             }
 
 
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    @FXML
+    public void onSalir(){
+        System.exit(0);
     }
 
     public void setStage(Stage stage){

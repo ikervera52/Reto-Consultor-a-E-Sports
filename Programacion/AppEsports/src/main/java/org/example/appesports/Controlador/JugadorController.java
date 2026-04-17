@@ -40,4 +40,8 @@ public class JugadorController {
                         EquipoController.equipoPorNombre(nombreEquipo)));
 
     }
+
+    public static ArrayList<Jugador> verJugadores() throws Exception {
+        return JugadorDAO.verJugadores();
+    }
 }

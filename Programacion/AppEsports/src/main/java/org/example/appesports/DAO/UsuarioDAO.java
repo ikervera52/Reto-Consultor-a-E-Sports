@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class UsuarioDAO {
 
     public static Usuario validarUsuario(String username, String contrasena) throws Exception{
-        Usuario usuario = null;
+        Usuario usuario;
 
         Connection con = ConexionBD.getConexion();
 
@@ -104,6 +104,8 @@ public class UsuarioDAO {
         int e = ps.executeUpdate();
 
         if (e == 0) throw new Exception("Error al editar el Usuario");
+
+        ConexionBD.closeConexion(con);
     }
 
     public static Usuario crearUsuario (ResultSet rs)throws Exception{

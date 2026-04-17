@@ -812,10 +812,6 @@ public class MenuPrincipalAdminController {
         return alert.showAndWait();
     }
 
-    //Funcion abrir panel Eliminar Equipo
-    public void onEliminarEquipo(MouseEvent mouseEvent) {
-        apGestionarEquiposBorrar.setVisible(true);
-    }
         //Funcion abrir panel Eliminar Equipo
         public void onEliminarEquipo (MouseEvent mouseEvent){
             apGestionarEquiposBorrar.setVisible(true);
@@ -913,7 +909,6 @@ public class MenuPrincipalAdminController {
         carta.setPadding(new Insets(15));
         carta.setPrefWidth(400);
 
-
         Label nickname = new Label();
         nickname.setText(jugador.getNickname());
         nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
@@ -943,7 +938,8 @@ public class MenuPrincipalAdminController {
 
     public void onBuscarJugadorPorEquipo(){
         try {
-            ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo();
+
+            ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo(tfBuscarJugadorPorEquipo.getText());
             if (jugadores.isEmpty()) throw new Exception("No existe ningún equipo con ese nombre");
 
             rellenarVerJugadores(jugadores);
@@ -992,6 +988,8 @@ public class MenuPrincipalAdminController {
     public void onVolverVerInformes(ActionEvent actionEvent) {
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
+        tfBuscarJugadorPorEquipo.clear();
+        vboxContenedorEquipos.getChildren().clear();
     }
 
     //Funcion para mostrar el panel de ver equipos al pulsar el boton
@@ -1027,7 +1025,7 @@ public class MenuPrincipalAdminController {
         sueldoMin.setText("Sueldo Minimo: " + equipo.getMinSalario() + "€");
 
         Label sueldoMed = new Label();
-        sueldoMed.setText("Sueldo Maximo: " + equipo.getAvgSalario() + "€");
+        sueldoMed.setText("Sueldo Medio: " + equipo.getAvgSalario() + "€");
 
 
         carta.getChildren().addAll(nombre, fecha, numeroJugadores, sueldoMax, sueldoMin, sueldoMed);

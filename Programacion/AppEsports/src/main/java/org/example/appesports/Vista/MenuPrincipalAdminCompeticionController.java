@@ -96,7 +96,7 @@ public class MenuPrincipalAdminCompeticionController {
             ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
             Enfrentamiento ultimoEnfrentamiento = null;
             for (Enfrentamiento enfrentamiento : enfrentamientos) {
-                if (enfrentamiento.getHoraEnfrentamiento().isAfter(LocalTime.now())) {
+                if (enfrentamiento.getHoraEnfrentamiento().isAfter(LocalTime.now()) && (ultimaJornada.getFechaJornada().isAfter(LocalDate.now()) || ultimaJornada.getFechaJornada().isEqual(LocalDate.now()))) {
                     ultimoEnfrentamiento = enfrentamiento;
                     break;
                 }

@@ -29,9 +29,6 @@ public class JugadorDAO {
             }
             ConexionBD.closeConexion(con);
 
-            ConexionBD.closeConexion(con);
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -96,6 +93,8 @@ public class JugadorDAO {
                 throw new Exception("Error al ingresar el jugador");
             }
 
+            ConexionBD.closeConexion(con);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -114,6 +113,8 @@ public class JugadorDAO {
         if (e == 0){
             throw new Exception("No se ha podido eliminar el jugador");
         }
+
+        ConexionBD.closeConexion(con);
 
     }
 
@@ -141,6 +142,8 @@ public class JugadorDAO {
 
         } else throw new Exception("Error al buscar el Jugador");
 
+        ConexionBD.closeConexion(con);
+
         return jugador;
     }
 
@@ -165,5 +168,35 @@ public class JugadorDAO {
         if (e == 0){
             throw new Exception("Error al actualizar el Jugador");
         }
+
+        ConexionBD.closeConexion(con);
+    }
+
+    public static ArrayList<Jugador> verJugadores() throws Exception{
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        String sql = "SELECT * FROM jugadores";
+        Connection con = ConexionBD.getConexion();
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            Jugador jugador = new Jugador(
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("nacionalidad"),
+                    rs.getDate("fecha_nacimiento").toLocalDate(),
+                    rs.getString("nickname"),
+                    rs.getString("rol"),
+                    rs.getDouble("sueldo"),
+                    EquipoController.equipoPorId(rs.getInt("id_equipo"))
+            );
+            jugadores.add(jugador);
+        }
+
+        if (jugadores.size()==0){
+            throw new Exception("No se han encontrado jugadores");
+        }
+
+        return jugadores;
     }
 }

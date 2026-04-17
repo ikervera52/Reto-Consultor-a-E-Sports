@@ -4,6 +4,7 @@ module org.example.appesports {
     requires java.sql;
     requires java.desktop;
     requires com.oracle.database.jdbc;
+    requires java.net.http;
 
 
     opens org.example.appesports to javafx.fxml;

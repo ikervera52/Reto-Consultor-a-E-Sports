@@ -5,23 +5,31 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
-import javafx.scene.layout.AnchorPane;
 import org.example.appesports.Controlador.UsuarioController;
+import org.example.appesports.Modelo.Admin;
+import org.example.appesports.Modelo.Equipo;
+import org.example.appesports.Modelo.Jugador;
+import org.example.appesports.Modelo.Usuario;
+import org.example.appesports.Controlador.*;
+import javafx.scene.layout.AnchorPane;
 import org.example.appesports.Modelo.*;
-import org.example.appesports.Utilidades.ConexionBD;
 import org.example.appesports.Utilidades.ValidarDatos;
 import org.example.appesports.DAO.*;
 
-import java.beans.Statement;
-import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.*;
@@ -29,186 +37,195 @@ import java.util.*;
 
 public class MenuPrincipalAdminController {
 
-        private String username;
+    private String username;
 
-        @FXML
-        public Label lbCantEquipos;
+    @FXML
+    public Label lbCantEquipos;
 
-        @FXML
-        public Label lbCantJugadores;
+    @FXML
+    public Label lbCantJugadores;
 
-        @FXML
-        public Label lbNombreBienvenida;
-
-        @FXML
-        public Button bGestionarUsuarios;
-
-        @FXML
-        public Button bGestionarEquipos;
-
-        @FXML
-        public Button bGestionarJugadores;
+    @FXML
+    public Label lbNombreBienvenida;
 
         @FXML
         public Button bVolverMenuPrincipal;
 
-        @FXML
-        public Button bVolverGestionarJugadores;
+    @FXML
+    public Button bVolverGestionarJugadores;
+
+    @FXML
+    public AnchorPane apGestionarUsuariosPrincipal;
+
+    @FXML
+    public AnchorPane apGestionarJugadoresPrincipal;
+
+    @FXML
+    public AnchorPane apGestionarJugadoresAnadir;
+
+    @FXML
+    public AnchorPane apMenuPrincipal;
+
+    // Datos para añadir Jugador
+    @FXML
+    public TextField tfNombreJugador;
+
+    @FXML
+    public TextField tfApellidoJugador;
+
+    @FXML
+    public TextField tfNacionalidad;
+
+    @FXML
+    public DatePicker dpFechaNacimiento;
+
+    @FXML
+    public TextField tfNickname;
+
+    @FXML
+    public ComboBox<String> cbRol;
+
+    @FXML
+    public TextField tfSueldo;
+
+    @FXML
+    public ComboBox<String> cbSeleccionEquipoParaJugador;
+
+    // Datos para eliminar Jugador
+    @FXML
+    public AnchorPane apGestionarJugadoresBorrar;
+
+    @FXML
+    public TextField tfNicknameBorrar;
+
+    @FXML
+    public TextField tfNicknameBuscar;
+
+    // Datos para editar Jugador
+    @FXML
+    public TextField tfNombreJugadorEditar;
+
+    @FXML
+    public TextField tfApellidoJugadorEditar;
+
+    @FXML
+    public TextField tfNacionalidadEditar;
+
+    @FXML
+    public DatePicker dpFechaNacimientoEditar;
+
+    @FXML
+    public TextField tfNicknameEditar;
+
+    @FXML
+    public ComboBox<String> cbRolEditar;
+
+    @FXML
+    public TextField tfSueldoEditar;
+
+    @FXML
+    public ComboBox<String> cbSeleccionEquipoParaJugadorEditar;
+
+    @FXML
+    public Button bEditar;
+
+    @FXML
+    public AnchorPane apGestionarJugadoresEditar;
+
+    @FXML
+    public AnchorPane apGestionarUsuariosAnadir;
+
+    @FXML
+    public AnchorPane apGestionarUsuariosBorrar;
+
+    @FXML
+    public AnchorPane apGestionarUsuariosEditar;
 
         @FXML
-        public AnchorPane apGestionarUsuariosPrincipal;
-
-        @FXML
-        public AnchorPane apGestionarJugadoresPrincipal;
-
-        @FXML
-        public AnchorPane apGestionarJugadoresAnadir;
-
-        @FXML
-        public AnchorPane apMenuPrincipal;
-
-        // Datos para añadir Jugador
-        @FXML
-        public TextField tfNombreJugador;
-
-        @FXML
-        public TextField tfApellidoJugador;
-
-        @FXML
-        public TextField tfNacionalidad;
-
-        @FXML
-        public DatePicker dpFechaNacimiento;
-
-        @FXML
-        public TextField tfNickname;
-
-        @FXML
-        public ComboBox<String> cbRol;
-
-        @FXML
-        public TextField tfSueldo;
-
-        @FXML
-        public ComboBox<String> cbSeleccionEquipoParaJugador;
-
-        // Datos para eliminar Jugador
-        @FXML
-        public AnchorPane apGestionarJugadoresBorrar;
-
-        @FXML
-        public TextField tfNicknameBorrar;
-
-        @FXML
-        public TextField tfNicknameBuscar;
-
-        // Datos para editar Jugador
-        @FXML
-        public TextField tfNombreJugadorEditar;
-
-        @FXML
-        public TextField tfApellidoJugadorEditar;
-
-        @FXML
-        public TextField tfNacionalidadEditar;
-
-        @FXML
-        public DatePicker dpFechaNacimientoEditar;
-
-        @FXML
-        public TextField tfNicknameEditar;
-
-        @FXML
-        public ComboBox<String> cbRolEditar;
-
-        @FXML
-        public TextField tfSueldoEditar;
-
-        @FXML
-        public ComboBox<String> cbSeleccionEquipoParaJugadorEditar;
-
-        @FXML
-        public Button bEditar;
-
-        @FXML
-        public AnchorPane apGestionarJugadoresEditar;
-
-        @FXML
-        public AnchorPane apGestionarUsuariosAnadir;
-
-        @FXML
-        public AnchorPane apGestionarUsuariosBorrar;
-
-        @FXML
-        public AnchorPane apGestionarUsuariosEditar;
+        public AnchorPane apCerrarCompeticion;
 
         // Variables para añadir usuarios
         @FXML
         public TextField tfNombreUsuario;
 
+    @FXML
+    public PasswordField pfContrasena;
+
+    @FXML
+    public ComboBox<String> cbTipoUsuario;
+
+    // Variables para eliminar usuarios
+    @FXML
+    public TextField tfNombreUsuarioBorrar;
+
+    // Variables para editar usuarios
+    @FXML
+    public TextField tfNombreUsuarioBuscar;
+
+    @FXML
+    public TextField tfNombreUsuarioEditar;
+
+    @FXML
+    public PasswordField pfContrasenaEditar;
+
+    @FXML
+    public ComboBox<String> cbTipoUsuarioEditar;
+
+    @FXML
+    public Button bEditarUsuario;
+
+    //Variables para gestion equipos
+    @FXML
+    public AnchorPane apGestionarEquiposPrincipal;
+
+    //Variables para anadir equipo
+    @FXML
+    public AnchorPane apGestionarEquiposAnadir;
+
+    @FXML
+    public TextField tfNombreEquipo;
+
+    @FXML
+    public DatePicker dpFechaFundacion;
+
+    //Variables para borrar equipos
+    @FXML
+    public AnchorPane apGestionarEquiposBorrar;
+
+    @FXML
+    public TextField tfNombreEquipoBorrar;
+
+    //Variables para editar equipos
+    @FXML
+    public AnchorPane apGestionarEquiposEditar;
+
+    @FXML
+    public TextField tfNombreEquipoBuscar;
+
+    @FXML
+    public TextField tfNombreEquipoEditar;
+
+    @FXML
+    public DatePicker dpFechaFundacionEditar;
+
+    @FXML
+    public Button bEditarEquipo;
         @FXML
-        public PasswordField pfContrasena;
+        public AnchorPane apVerInformes;
 
         @FXML
-        public ComboBox<String> cbTipoUsuario;
-
-        // Variables para eliminar usuarios
-        @FXML
-        public TextField tfNombreUsuarioBorrar;
-
-        // Variables para editar usuarios
-        @FXML
-        public TextField tfNombreUsuarioBuscar;
+        public ScrollPane spVerJugadores;
 
         @FXML
-        public TextField tfNombreUsuarioEditar;
+        public VBox vboxContenedorJugadores;
 
         @FXML
-        public PasswordField pfContrasenaEditar;
+        public ScrollPane spVerEquipos;
 
         @FXML
-        public ComboBox<String> cbTipoUsuarioEditar;
+        public VBox vboxContenedorEquipos;
 
-        @FXML
-        public Button bEditarUsuario;
-
-        //Variables para gestion equipos
-        @FXML
-        public AnchorPane apGestionarEquiposPrincipal;
-
-        //Variables para anadir equipo
-        @FXML
-        public AnchorPane apGestionarEquiposAnadir;
-
-        @FXML
-        public TextField tfNombreEquipo;
-
-        @FXML
-        public DatePicker dpFechaFundacion;
-
-        //Variables para borrar equipos
-        @FXML
-        public AnchorPane apGestionarEquiposBorrar;
-
-        @FXML
-        public TextField tfNombreEquipoBorrar;
-
-        //Variables para editar equipos
-        @FXML
-        public AnchorPane apGestionarEquiposEditar;
-
-        @FXML
-        public TextField tfNombreEquipoBuscar;
-
-        @FXML
-        public TextField tfNombreEquipoEditar;
-
-        @FXML
-        public DatePicker dpFechaFundacionEditar;
-
-        @FXML
-        public Button bEditarEquipo;
-
+        public TextField tfTipoPuntuacion;
 
         // Variables para mostrar usuarios y roles en una Lista
         @FXML
@@ -218,7 +235,7 @@ public class MenuPrincipalAdminController {
     public Stage stage;
     public MenuInicioSesionController controller;
 
-    public void init (Stage stage, MenuInicioSesionController menu, String username){
+    public void init(Stage stage, MenuInicioSesionController menu, String username) {
         this.controller = menu;
         this.stage = stage;
         this.username = username;
@@ -229,23 +246,20 @@ public class MenuPrincipalAdminController {
     // Funciones para apartado de GESTIONAR JUGADORES
     // Función para volver al menu principal desde cualquiera de los menus secundarios
     @FXML
-    public void onVolverMenuPrincipal(ActionEvent event){
+    public void onVolverMenuPrincipal(ActionEvent event) {
 
         actualizarDatosPanelPrincipal();
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarUsuariosPrincipal.setVisible(false);
-
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apGestionarEquiposPrincipal.setVisible(false);
+        apVerInformes.setVisible(false);
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
     }
 
     // Función que abre el menu principal de gestion de Jugadores
     @FXML
-    public void onGestionarJugadores(ActionEvent event) {
+    public void onGestionarJugadores(MouseEvent MouseEvent) {
 
         apGestionarJugadoresPrincipal.setVisible(true);
         apGestionarJugadoresAnadir.setVisible(false);
@@ -259,20 +273,20 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
 
-
-        bGestionarJugadores.setTextFill(Color.WHITE);
-        bGestionarJugadores.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
 
         apGestionarEquiposEditar.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
         apGestionarEquiposAnadir.setVisible(false);
 
+        vaciarOpcionesEquipo();
         vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
 
     }
 
@@ -281,20 +295,13 @@ public class MenuPrincipalAdminController {
     public void onAnadirJugador(MouseEvent mouseEvent) {
         apGestionarJugadoresAnadir.setVisible(true);
 
-        // Rellenar el apartado de ROL
-        cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+        llenarComboBoxJugador();
 
-        //Rellenar el apartado de EQUIPOS
-        cbSeleccionEquipoParaJugador.getItems().clear();
-        ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
-        for (String nombre : nombreEquipos){
-            cbSeleccionEquipoParaJugador.getItems().add(nombre);
-        }
     }
 
     // Función que añade un jugador a la base de datos
     @FXML
-    public void onAnadirDatosJugador(ActionEvent event){
+    public void onAnadirDatosJugador(ActionEvent event) {
 
         try {
             ValidarDatos.validarString(tfNombreJugador.getText());
@@ -318,6 +325,7 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Confirmación", "El jugador se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesJugador();
+            llenarComboBoxJugador();
 
         } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -326,20 +334,20 @@ public class MenuPrincipalAdminController {
 
     // Función que abre la ventana de eliminar Jugador
     @FXML
-    public void onEliminarJugador(MouseEvent mouseEvent){
+    public void onEliminarJugador(MouseEvent mouseEvent) {
 
         apGestionarJugadoresBorrar.setVisible(true);
     }
 
     // Función que elimina el jugador de la base de datos
     @FXML
-    public void onBorrarDatosJugador(ActionEvent event){
+    public void onBorrarDatosJugador(ActionEvent event) {
         try {
 
             // MENSAJE DE CONFIMRACION
-            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
+            Optional<ButtonType> result = mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
 
-            if (result.isPresent() && result.get() == ButtonType.OK){
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 JugadorController.borrarJugador(tfNicknameBorrar.getText());
                 mostarMensaje("Confirmación", "El jugador se ha borrado con éxito", Alert.AlertType.INFORMATION);
             }
@@ -354,7 +362,7 @@ public class MenuPrincipalAdminController {
 
     // Función que abre la ventana de editar Jugador
     @FXML
-    public void onEditarJugador(MouseEvent mouseEvent){
+    public void onEditarJugador(MouseEvent mouseEvent) {
         tfNombreJugadorEditar.setDisable(true);
         tfApellidoJugadorEditar.setDisable(true);
         tfNacionalidadEditar.setDisable(true);
@@ -370,20 +378,13 @@ public class MenuPrincipalAdminController {
 
     // Función que busca al jugador por el nickname para poder poner sus datos en el formulario
     @FXML
-    public void onBuscarNickname(ActionEvent event){
+    public void onBuscarNickname(ActionEvent event) {
 
         try {
             Jugador jugador = JugadorController.buscarPorNickname(tfNicknameBuscar.getText());
 
             // Rellenar el ComboBox de ROL
-            cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
-
-            //Rellenar el ComboBox de EQUIPOS
-            cbSeleccionEquipoParaJugadorEditar.getItems().clear();
-            ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
-            for (String nombre : nombreEquipos){
-                cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
-            }
+            llenarComboBoxJugador();
 
             tfNombreJugadorEditar.setDisable(false);
             tfApellidoJugadorEditar.setDisable(false);
@@ -396,7 +397,6 @@ public class MenuPrincipalAdminController {
             bEditar.setDisable(false);
 
 
-
             tfNombreJugadorEditar.setText(jugador.getNombre());
             tfApellidoJugadorEditar.setText(jugador.getApellido());
             tfNacionalidadEditar.setText(jugador.getNacionalidad());
@@ -404,7 +404,7 @@ public class MenuPrincipalAdminController {
             tfNicknameEditar.setText(jugador.getNickname());
             cbRolEditar.getSelectionModel().select(jugador.getRol());
             tfSueldoEditar.setText(String.valueOf(jugador.getSueldo()));
-            if (jugador.getEquipo() != null){
+            if (jugador.getEquipo() != null) {
                 cbSeleccionEquipoParaJugadorEditar.getSelectionModel().select(jugador.getEquipo().getNombre());
             }
 
@@ -415,7 +415,7 @@ public class MenuPrincipalAdminController {
 
     // Función que edita los datos del jugador en la base de datos
     @FXML
-    public void onEditarDatosJugador(){
+    public void onEditarDatosJugador() {
         try {
             String nickname = tfNicknameBuscar.getText();
             String nombre = tfNombreJugadorEditar.getText();
@@ -429,26 +429,58 @@ public class MenuPrincipalAdminController {
 
 
             // MENSAJE DE SI QUIERE ACEPTAR LOS CAMBIOS O NO
-            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
+            Optional<ButtonType> result = mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
 
-            if (result.isPresent() && result.get() == ButtonType.OK){
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 JugadorController.editarJugador(nickname, nombre, apellido, nacionalidad, fechaNacimiento, nuevoNickname, rol, sueldo, nombreEquipo);
                 mostarMensaje("Confirmación", "El jugador se ha editado con éxito", Alert.AlertType.INFORMATION);
             }
 
             vaciarOpcionesJugador();
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
+            tfNombreJugadorEditar.setDisable(true);
+            tfApellidoJugadorEditar.setDisable(true);
+            tfNacionalidadEditar.setDisable(true);
+            dpFechaNacimientoEditar.setDisable(true);
+            tfNicknameEditar.setDisable(true);
+            cbRolEditar.setDisable(true);
+            tfSueldoEditar.setDisable(true);
+            cbSeleccionEquipoParaJugadorEditar.setDisable(true);
+            bEditar.setDisable(true);
+
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
+    private void llenarComboBoxJugador(){
+        // Rellenar el apartado de ROL
+        cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+
+        //Rellenar el apartado de EQUIPOS
+        cbSeleccionEquipoParaJugador.getItems().clear();
+        ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
+        for (String nombre : nombreEquipos){
+            cbSeleccionEquipoParaJugador.getItems().add(nombre);
+        }
+
+        cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+
+        //Rellenar el ComboBox de EQUIPOS
+        cbSeleccionEquipoParaJugadorEditar.getItems().clear();
+        ArrayList<String> nombreEquiposEditar = EquipoController.rellenarComboEquipo();
+        for (String nombre : nombreEquiposEditar){
+            cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
+        }
+
+
+    }
+
     // Funciones para apartado de GESTIONAR USUARIOS
     @FXML
-    public void onGestionarUsuarios(ActionEvent event){
+    public void onGestionarUsuarios(MouseEvent MouseEvent){
         mostrarUsuariosYRoles();
-
+      
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -461,24 +493,30 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
 
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.WHITE);
-        bGestionarUsuarios.setStyle("-fx-background-color: #0089ED; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarEquipos.setTextFill(Color.BLACK);
-        bGestionarEquipos.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
+
+
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresBorrar.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
         apGestionarEquiposEditar.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
-         apGestionarEquiposAnadir.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        vaciarOpcionesEquipo();
+        vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
 
     }
 
     @FXML
-    public void onAnadirUsuario(MouseEvent MouseEvent){
+    public void onAnadirUsuario(MouseEvent MouseEvent) {
         //Activar la ventana
         apGestionarUsuariosAnadir.setVisible(true);
 
@@ -487,7 +525,7 @@ public class MenuPrincipalAdminController {
     }
 
     @FXML
-    public void onAnadirDatosUsuario(ActionEvent event){
+    public void onAnadirDatosUsuario(ActionEvent event) {
         try {
 
             ValidarDatos.validarUsername(tfNombreUsuario.getText());
@@ -503,20 +541,21 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Confirmación", "El usuario se ha guardado con éxito", Alert.AlertType.INFORMATION);
 
             vaciarOpcionesUsuario();
+            cbTipoUsuario.getItems().addAll("admin", "estandar");
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
-    public void onEliminarUsuario(MouseEvent MouseEvent){
+    public void onEliminarUsuario(MouseEvent MouseEvent) {
         apGestionarUsuariosBorrar.setVisible(true);
     }
 
-   @FXML
-   public void onBorrarDatosUsuario(){
+    @FXML
+    public void onBorrarDatosUsuario() {
         try {
 
             ValidarDatos.validarUsername(tfNombreUsuarioBorrar.getText());
@@ -524,9 +563,9 @@ public class MenuPrincipalAdminController {
             String username = tfNombreUsuarioBorrar.getText();
 
             // Panel para que confirme si quiere borrar o no
-            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
+            Optional<ButtonType> result = mostarMensajeConfirmacion("Confirmación", "Confirmación de borrado");
 
-            if (result.isPresent() && result.get() == ButtonType.OK){
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 UsuarioController.borrarUsuario(username);
                 mostarMensaje("Confirmación", "El usuario se ha borrado con éxito", Alert.AlertType.INFORMATION);
 
@@ -536,32 +575,32 @@ public class MenuPrincipalAdminController {
 
             vaciarOpcionesUsuario();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
-   }
+    }
 
-   @FXML
-   public void onEditarUsuario(){
-       tfNombreUsuarioEditar.setDisable(true);
-       pfContrasenaEditar.setDisable(true);
-       cbTipoUsuarioEditar.setDisable(true);
-       bEditarUsuario.setDisable(true);
+    @FXML
+    public void onEditarUsuario() {
+        tfNombreUsuarioEditar.setDisable(true);
+        pfContrasenaEditar.setDisable(true);
+        cbTipoUsuarioEditar.setDisable(true);
+        bEditarUsuario.setDisable(true);
 
-       apGestionarUsuariosEditar.setVisible(true);
+        apGestionarUsuariosEditar.setVisible(true);
 
-       cbTipoUsuarioEditar.getItems().addAll("admin", "estandar");
-   }
+        cbTipoUsuarioEditar.getItems().addAll("admin", "estandar");
+    }
 
-   @FXML
-   public void onBuscarNombreUsuario(){
+    @FXML
+    public void onBuscarNombreUsuario() {
         try {
 
             Usuario usuario = UsuarioController.buscarPorNombreUsusario(tfNombreUsuarioBuscar.getText());
 
             tfNombreUsuarioEditar.setText(usuario.getNombreUsuario());
             pfContrasenaEditar.setText(usuario.getContrasena());
-            if (usuario instanceof Admin){
+            if (usuario instanceof Admin) {
                 cbTipoUsuarioEditar.getSelectionModel().select("admin");
             } else cbTipoUsuarioEditar.getSelectionModel().select("estandar");
 
@@ -570,13 +609,13 @@ public class MenuPrincipalAdminController {
             cbTipoUsuarioEditar.setDisable(false);
             bEditarUsuario.setDisable(false);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
-   }
+    }
 
-   @FXML
-   public void onEditarDatosUsuario(){
+    @FXML
+    public void onEditarDatosUsuario() {
         try {
             ValidarDatos.validarUsername(tfNombreUsuarioEditar.getText());
             ValidarDatos.validarContrasena(pfContrasenaEditar.getText());
@@ -587,9 +626,9 @@ public class MenuPrincipalAdminController {
             String tipoUsuario = cbTipoUsuarioEditar.getValue();
 
             // Menu para pedir al usuario si quiere realizar los cambios
-            Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
+            Optional<ButtonType> result = mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
 
-            if (result.isPresent() && result.get() == ButtonType.OK){
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 UsuarioController.editarUsuario(username, usernameNuevo, contrasena, tipoUsuario);
                 mostarMensaje("Confirmación", "El usuario se ha editado con éxito", Alert.AlertType.INFORMATION);
 
@@ -598,14 +637,19 @@ public class MenuPrincipalAdminController {
 
             vaciarOpcionesUsuario();
 
+            tfNombreUsuarioEditar.setDisable(true);
+            pfContrasenaEditar.setDisable(true);
+            cbTipoUsuarioEditar.setDisable(true);
+            bEditarUsuario.setDisable(true);
+
 
         } catch (Exception e) {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
-   }
+    }
 
     @FXML
-    public void onVolverGestionarUsuarios(){
+    public void onVolverGestionarUsuarios() {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
@@ -615,7 +659,7 @@ public class MenuPrincipalAdminController {
 
     // Función que vuelve al menu principal de gestion de jugadores desde añadir, eliminar y editar
     @FXML
-    public void onVolverGestionarJugadores(ActionEvent event){
+    public void onVolverGestionarJugadores(ActionEvent event) {
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresBorrar.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -624,7 +668,7 @@ public class MenuPrincipalAdminController {
     }
 
     // Función que vacia los huecos donde el usuario introduce los datos en Gestión Jugadores
-    private void vaciarOpcionesJugador(){
+    private void vaciarOpcionesJugador() {
         tfNombreJugador.clear();
         tfApellidoJugador.clear();
         tfNacionalidad.clear();
@@ -650,7 +694,7 @@ public class MenuPrincipalAdminController {
     }
 
     // Función que vacia los huecos en Gestion Usuarios
-    private void vaciarOpcionesUsuario(){
+    private void vaciarOpcionesUsuario() {
         tfNombreUsuario.clear();
         pfContrasena.clear();
         cbTipoUsuario.getItems().clear();
@@ -666,20 +710,20 @@ public class MenuPrincipalAdminController {
 
     // Función para volver al Inicio de Sesión
     @FXML
-    public void onCerrarSesion(javafx.event.ActionEvent actionEvent) {
+    public void onCerrarSesion(MouseEvent MouseEvent) {
         controller.show();
         stage.close();
     }
 
     // Función que actualiza los contadores de jugadores y equipos del menu principal
-    private void actualizarDatosPanelPrincipal(){
+    private void actualizarDatosPanelPrincipal() {
         lbNombreBienvenida.setText(username);
         lbCantJugadores.setText(JugadorController.contarJugadores());
         lbCantEquipos.setText(EquipoController.contarEquipos());
     }
 
     //Funciones para apartado GESTION EQUIPOS
-    public void onGestionarEquipos(ActionEvent actionEvent) {
+    public void onGestionarEquipos(MouseEvent MouseEvent) {
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -692,21 +736,20 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
 
-        bGestionarEquipos.setTextFill(Color.WHITE);
-        bGestionarEquipos.setStyle("-fx-background-color: #0086ed; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarUsuarios.setTextFill(Color.BLACK);
-        bGestionarUsuarios.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
-        bGestionarJugadores.setTextFill(Color.BLACK);
-        bGestionarJugadores.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: #0089ED; -fx-border-radius: 20;");
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
+
+
     }
 
     public void onAnadirEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposAnadir.setVisible(true);
         apGestionarEquiposEditar.setVisible(false);
-        apGestionarEquiposAnadir.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
-
     }
 
     //Funcion boton volver al apartado GESTIONAR EQUIPOS
@@ -716,9 +759,9 @@ public class MenuPrincipalAdminController {
         apGestionarEquiposEditar.setVisible(false);
 
         vaciarOpcionesEquipo();
+        vaciarOpcionesJugador();
+        vaciarOpcionesUsuario();
     }
-
-
 
     //Funcion anadir equipo al pulsar boton
     public void onAnadirDatosEquipo(ActionEvent actionEvent) {
@@ -738,7 +781,7 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+    public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta) {
 
         Alert alert = new Alert(alerta);
         alert.setTitle(titulo);
@@ -755,75 +798,79 @@ public class MenuPrincipalAdminController {
 
         return alert.showAndWait();
     }
+
     //Funcion abrir panel Eliminar Equipo
     public void onEliminarEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposBorrar.setVisible(true);
     }
-
-    //Funcion borrar equipo al pulsar boton
-    public void onBorrarDatosEquipo(ActionEvent actionEvent) {
-        try {
-
-            ValidarDatos.validarString(tfNombreEquipoBorrar.getText());
-
-            String nombre = tfNombreEquipoBorrar.getText();
-
-            // Panel para que confirme si quiere borrar o no
-            // Si quiere que se haga esto
-            EquipoController.borrarEquipo(nombre);
-
-            vaciarOpcionesEquipo();
-
-        }catch (Exception e){
-            System.out.println("Error al borrar Equipo");
+        //Funcion abrir panel Eliminar Equipo
+        public void onEliminarEquipo (MouseEvent mouseEvent){
+            apGestionarEquiposBorrar.setVisible(true);
         }
-    }
 
-    //Funcion abrir panel Editar Equipo
-    public void onEditarEquipo(MouseEvent mouseEvent) {
+        //Funcion borrar equipo al pulsar boton
+        public void onBorrarDatosEquipo (ActionEvent actionEvent){
+            try {
 
-        tfNombreEquipoEditar.setDisable(true);
-        dpFechaFundacionEditar.setDisable(true);
-        bEditarEquipo.setDisable(true);
+                ValidarDatos.validarString(tfNombreEquipoBorrar.getText());
 
-        apGestionarEquiposEditar.setVisible(true);
-    }
+                String nombre = tfNombreEquipoBorrar.getText();
 
-    //Funcion buscar el equipo a editar
-    public void onBuscarNombreEquipo(ActionEvent actionEvent) {
-        try {
-            Equipo equipo = EquipoController.equipoPorNombre(tfNombreEquipoBuscar.getText());
+                // Panel para que confirme si quiere borrar o no
+                // Si quiere que se haga esto
+                EquipoController.borrarEquipo(nombre);
 
-            tfNombreEquipoEditar.setDisable(false);
-            dpFechaFundacionEditar.setDisable(false);
-            bEditarEquipo.setDisable(false);
+                vaciarOpcionesEquipo();
 
-            tfNombreEquipoEditar.setText(equipo.getNombre());
-            dpFechaFundacionEditar.setValue(equipo.getFechaFundacion());
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } catch (Exception e) {
+                System.out.println("Error al borrar Equipo");
+            }
         }
-    }
 
-    //Funcion editar equipo al pulsar boton
-    public void onEditarDatosEquipo(ActionEvent actionEvent) {
-        try {
-            ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
+        //Funcion abrir panel Editar Equipo
+        public void onEditarEquipo (MouseEvent mouseEvent){
 
-            String nombre = tfNombreEquipoEditar.getText();
-            LocalDate fechaFundacion = dpFechaFundacionEditar.getValue();
+            tfNombreEquipoEditar.setDisable(true);
+            dpFechaFundacionEditar.setDisable(true);
+            bEditarEquipo.setDisable(true);
 
-            EquipoController.editarEquipo(tfNombreEquipoBuscar.getText(), nombre, fechaFundacion);
-
-            vaciarOpcionesEquipo();
-
+            apGestionarEquiposEditar.setVisible(true);
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
 
+        //Funcion buscar el equipo a editar
+        public void onBuscarNombreEquipo (ActionEvent actionEvent){
+            try {
+                Equipo equipo = EquipoController.equipoPorNombre(tfNombreEquipoBuscar.getText());
+
+                tfNombreEquipoEditar.setDisable(false);
+                dpFechaFundacionEditar.setDisable(false);
+                bEditarEquipo.setDisable(false);
+
+                tfNombreEquipoEditar.setText(equipo.getNombre());
+                dpFechaFundacionEditar.setValue(equipo.getFechaFundacion());
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //Funcion editar equipo al pulsar boton
+        public void onEditarDatosEquipo (ActionEvent actionEvent){
+            try {
+                ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
+
+                String nombre = tfNombreEquipoEditar.getText();
+                LocalDate fechaFundacion = dpFechaFundacionEditar.getValue();
+
+                EquipoController.editarEquipo(tfNombreEquipoBuscar.getText(), nombre, fechaFundacion);
+
+                vaciarOpcionesEquipo();
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+       
     //Funcion vaciar todos los apartados de gestionar equipos
     public void vaciarOpcionesEquipo(){
         tfNombreEquipo.clear();
@@ -832,6 +879,268 @@ public class MenuPrincipalAdminController {
         tfNombreEquipoBuscar.clear();
         tfNombreEquipoEditar.clear();
         dpFechaFundacionEditar.setValue(null);
+    }
+
+    //Funcion para mostrar el panel ver informes
+    public void onVerInformes(MouseEvent actionEvent) {
+        apVerInformes.setVisible(true);
+        spVerEquipos.setVisible(false);
+        spVerJugadores.setVisible(false);
+    }
+
+    //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+    public void onVerJugadores(MouseEvent mouseEvent) {
+        rellenarVerJugadores();
+        spVerJugadores.setVisible(true);
+    }
+
+    //Funcion para crear la vbox de cada jugador a mostrar
+    public Node crearCartasJugador(Jugador jugador) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+
+        Label nickname = new Label();
+        nickname.setText(jugador.getNickname());
+        nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        nickname.setTextFill(Color.web("#0089ed"));
+
+        Label nombre = new Label();
+        nombre.setText("Nombre: " + jugador.getNombre());
+
+        Label apellido = new Label();
+        apellido.setText("Apellido: " + jugador.getApellido());
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de nacimiento: " + jugador.getFechaNacimiento().toString());
+
+        Label rol = new Label();
+        rol.setText("Rol: " + jugador.getRol());
+
+        Label sueldo = new Label();
+        sueldo.setText("Sueldo: " + jugador.getSueldo() + "€");
+
+        Label equipo = new Label();
+        equipo.setText("Equipo: " + (jugador.getEquipo() != null ? jugador.getEquipo().getNombre() : "Sin equipo"));
+
+        carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
+        return carta;
+    }
+
+    //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+    public void rellenarVerJugadores(){
+        try {
+            vboxContenedorJugadores.getChildren().clear();
+            ArrayList<Jugador> jugadores = JugadorController.verJugadores();
+            for (int i = 0; i < jugadores.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+
+                Node vistaJugador1 = crearCartasJugador(jugadores.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < jugadores.size()) {
+                    Node vistaJugador2 = crearCartasJugador(jugadores.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                }else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorJugadores.getChildren().add(fila);
+            }
+
+            if (jugadores.isEmpty()) {
+                Label sinJugadores = new Label("No hay jugadores para ver.");
+                sinJugadores.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorJugadores.getChildren().add(sinJugadores);
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //Funcion para volver al panel de ver informes
+    public void onVolverVerInformes(ActionEvent actionEvent) {
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
+    }
+
+    //Funcion para mostrar el panel de ver equipos al pulsar el boton
+    public void onVerEquipos(MouseEvent mouseEvent) {
+        rellenarVerEquipos();
+        spVerEquipos.setVisible(true);
+    }
+
+    //Funcion para crear la carta por cada equipo
+    public Node crearCartasEquipo(Equipo equipo) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+
+        Label nombre = new Label();
+        nombre.setText(equipo.getNombre());
+        nombre.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        nombre.setTextFill(Color.web("#0089ed"));
+
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de Fundación: " + equipo.getFechaFundacion().toString());
+
+        Label numeroJugadores = new Label();
+        numeroJugadores.setText("Numero de Jugadores: " + equipo.getJugadores().size());
+
+        carta.getChildren().addAll(nombre, fecha, numeroJugadores);
+        return carta;
+    }
+
+    //Funcion para reccorrer los equipos y crear la carta por cada equipo
+    public void rellenarVerEquipos() {
+        try {
+            vboxContenedorEquipos.getChildren().clear();
+            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+            for (int i = 0; i < equipos.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+
+                Node vistaJugador1 = crearCartasEquipo(equipos.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < equipos.size()) {
+                    Node vistaJugador2 = crearCartasEquipo(equipos.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                } else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorEquipos.getChildren().add(fila);
+            }
+
+            if (equipos.isEmpty()) {
+                Label sinEquipos = new Label("No hay equipos para ver.");
+                sinEquipos.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorEquipos.getChildren().add(sinEquipos);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    //Funcion para cerrar la competición
+    @FXML
+    public void onCerrarCompeticion(MouseEvent MouseEvent){
+
+        apGestionarJugadoresPrincipal.setVisible(false);
+        apGestionarJugadoresAnadir.setVisible(false);
+        apGestionarJugadoresEditar.setVisible(false);
+        apGestionarJugadoresBorrar.setVisible(false);
+
+        apGestionarEquiposPrincipal.setVisible(false);
+        apGestionarEquiposAnadir.setVisible(false);
+
+        apGestionarUsuariosPrincipal.setVisible(false);
+        apGestionarUsuariosAnadir.setVisible(false);
+        apGestionarUsuariosEditar.setVisible(false);
+        apGestionarUsuariosBorrar.setVisible(false);
+
+        apCerrarCompeticion.setVisible(true);
+    }
+
+    @FXML
+    public void onCerrarCompeticionAceptada(ActionEvent actionEvent){
+
+        Optional<ButtonType> result =  mostarMensajeConfirmacion("Confirmación", "Confirmación para cerrar la Competición");
+
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            try {
+
+                ValidarDatos.validarString(tfTipoPuntuacion.getText());
+
+                String tipoPuntuacion = tfTipoPuntuacion.getText();
+
+                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+
+                int numeroJornadas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
+
+                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroJornadas);
+
+                System.out.println("ahora");
+
+                CompeticionController.cerrarCompeticion(fechaInicio, fechaFin, tipoPuntuacion);
+
+                System.out.println("despues");
+
+                crearJornadas(fechaInicio, numeroJornadas);
+
+                crearEnfrentamientos(numeroJornadas);
+
+                mostarMensaje("Confirmación", "La competición se ha cerrado con éxito", Alert.AlertType.INFORMATION);
+
+            }catch (Exception e){
+                mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    public void crearJornadas(LocalDate fechaInicio, int numeroEtapas) throws Exception{
+
+        for (int i = 1; i < numeroEtapas + 1; i++) {
+
+            JornadaController.crearJornada(fechaInicio, i );
+
+            fechaInicio = fechaInicio.plusDays(7);
+
+        }
+    }
+
+    public void crearEnfrentamientos(int numeroEtapas) throws Exception{
+
+        ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
+        int numeroEnfrentamientos = (numeroEtapas + 1) / 2;
+
+        for (Jornada jornada : jornadas) {
+
+            LocalTime horaEnfrentamiento = LocalTime.of(14, 0);
+
+            for (int j = 0; j < numeroEnfrentamientos; j++) {
+
+                EnfrentamientoController.crearEnfrentamiento(horaEnfrentamiento, jornada.getIdJornada());
+                horaEnfrentamiento = horaEnfrentamiento.plusHours(1);
+
+            }
+        }
+        distribuirEquiposPorEnfrentamientos(jornadas);
+    }
+
+    public void distribuirEquiposPorEnfrentamientos(ArrayList<Jornada> jornadas) throws Exception{
+
+        ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+
+
+        for (Jornada jornada : jornadas){
+
+            ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
+            int i = 0;
+            for (Enfrentamiento enfrentamiento : enfrentamientos){
+
+                ResultadoController.crearResultado(equipos.get(i).getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+                ResultadoController.crearResultado(equipos.get(equipos.size() - i - 1).getIdEquipo(), enfrentamiento.getIdEnfrentamiento());
+
+                i++;
+            }
+
+            Equipo equipoCambiar = equipos.get(1);
+            equipos.remove(equipoCambiar);
+            equipos.add(equipoCambiar);
+        }
     }
 
 
@@ -869,8 +1178,5 @@ public class MenuPrincipalAdminController {
             System.out.println("Error al mostrar los usuarios y roles en la tabla");
         }
     }
-
-
-
 
 }

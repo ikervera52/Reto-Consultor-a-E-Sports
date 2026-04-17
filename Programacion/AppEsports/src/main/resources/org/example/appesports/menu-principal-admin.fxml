@@ -1282,60 +1282,66 @@
                   </VBox>
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="spVerJugadores" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
-               <children>
-                  <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#onVolverVerInformes" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
-                                 <graphic>
-                                    <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
-                                 </graphic>
-                              </Button>
-                              <Label text="Ver Jugadores">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <GridPane alignment="CENTER" style="-fx-background-color: #0089ED; -fx-background-radius: 10;">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="156.93438720703125" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.4335021972656" minWidth="0.0" prefWidth="223.56561279296875" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+             <AnchorPane fx:id="spVerJugadores" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+                 <children>
+                     <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                         <children>
+                             <HBox alignment="CENTER_LEFT" spacing="10.0">
                                  <children>
-                                    <Label prefHeight="20.0" prefWidth="158.0" text="Nombre de Equipo" textFill="WHITE">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfNombreEquipoBuscar1" onAction="#onBuscarNombreEquipo" prefWidth="400.0" GridPane.columnIndex="1" />
+                                     <Button mnemonicParsing="false" onAction="#onVolverVerInformes" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #0089ED; -fx-background-radius: 25;" textFill="WHITE">
+                                         <graphic>
+                                             <SVGPath content="M22.0003 13.0001L22.0004 11.0002L5.82845 11.0002L9.77817 7.05044L8.36396 5.63623L2 12.0002L8.36396 18.3642L9.77817 16.9499L5.8284 13.0002L22.0003 13.0001Z" fill="WHITE" />
+                                         </graphic>
+                                     </Button>
+                                     <Label text="Ver Jugadores">
+                                         <font>
+                                             <Font name="System Bold" size="24.0" />
+                                         </font>
+                                     </Label>
                                  </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </GridPane>
-                           </children>
-                        </HBox>
-                        <ScrollPane fx:id="spVerJugadores" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent; -fx-background-radius: 20;">
-                           <content>
-                              <VBox fx:id="vboxContenedorJugadores" alignment="TOP_CENTER" spacing="30.0" style="-fx-background-color: transparent;" />
-                           </content>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </AnchorPane>
+                             </HBox>
+
+                             <HBox>
+                                 <children>
+                                     <GridPane alignment="CENTER" style="-fx-background-color: #0089ED; -fx-background-radius: 10;">
+                                         <columnConstraints>
+                                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="156.93438720703125" />
+                                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.4335021972656" minWidth="0.0" prefWidth="223.56561279296875" />
+                                         </columnConstraints>
+                                         <rowConstraints>
+                                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                         </rowConstraints>
+                                         <children>
+                                             <Label prefHeight="20.0" prefWidth="158.0" text="Nombre de Equipo" textFill="WHITE">
+                                                 <font>
+                                                     <Font size="16.0" />
+                                                 </font>
+                                             </Label>
+                                             <TextField fx:id="tfNombreEquipoBuscar1" onAction="#onBuscarNombreEquipo" prefWidth="400.0" GridPane.columnIndex="1" />
+                                         </children>
+                                         <padding>
+                                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                         </padding>
+                                     </GridPane>
+                                 </children>
+                             </HBox>
+
+                             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+                                 <content>
+                                     <VBox fx:id="vboxContenedorJugadores" alignment="TOP_CENTER" spacing="30.0" style="-fx-background-color: transparent;">
+                                         <padding>
+                                             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                         </padding>
+                                     </VBox>
+                                 </content>
+                             </ScrollPane>
+                         </children>
+                         <padding>
+                             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                         </padding>
+                     </VBox>
+                 </children>
+             </AnchorPane>
             <ScrollPane fx:id="spVerEquipos" fitToHeight="true" fitToWidth="true" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                <content>
                   <AnchorPane style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
@@ -1356,7 +1362,13 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <VBox fx:id="vboxContenedorEquipos" alignment="TOP_CENTER" fillWidth="false" spacing="30.0" />
+                              <VBox fx:id="vboxContenedorEquipos" alignment="TOP_CENTER" fillWidth="false" spacing="30.0">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding></VBox>
                            </children>
                            <padding>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

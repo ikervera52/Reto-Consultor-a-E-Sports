@@ -3,6 +3,7 @@ package org.example.appesports.Vista;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -891,26 +892,31 @@ public class MenuPrincipalAdminController {
 
         Label nickname = new Label();
         nickname.setText(jugador.getNickname());
-        nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        nickname.setTextFill(Color.web("#0089ed"));
+        nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0089ed");
 
         Label nombre = new Label();
         nombre.setText("Nombre: " + jugador.getNombre());
+        nombre.setStyle("-fx-text-fill: black;");
 
         Label apellido = new Label();
         apellido.setText("Apellido: " + jugador.getApellido());
+        apellido.setStyle("-fx-text-fill: black;");
 
         Label fecha = new Label();
         fecha.setText("Fecha de nacimiento: " + jugador.getFechaNacimiento().toString());
+        fecha.setStyle("-fx-text-fill: black;");
 
         Label rol = new Label();
         rol.setText("Rol: " + jugador.getRol());
+        rol.setStyle("-fx-text-fill: black;");
 
         Label sueldo = new Label();
         sueldo.setText("Sueldo: " + jugador.getSueldo() + "€");
+        sueldo.setStyle("-fx-text-fill: black;");
 
         Label equipo = new Label();
         equipo.setText("Equipo: " + (jugador.getEquipo() != null ? jugador.getEquipo().getNombre() : "Sin equipo"));
+        equipo.setStyle("-fx-text-fill: black;");
 
         carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
         return carta;
@@ -924,6 +930,8 @@ public class MenuPrincipalAdminController {
             for (int i = 0; i < jugadores.size(); i += 2) {
 
                 HBox fila = new HBox(30);
+                fila.setStyle("-fx-background-color: transparent;");
+                fila.setAlignment(Pos.CENTER);
 
                 Node vistaJugador1 = crearCartasJugador(jugadores.get(i));
                 fila.getChildren().add(vistaJugador1);

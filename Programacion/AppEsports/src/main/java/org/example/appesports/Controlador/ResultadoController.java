@@ -16,4 +16,8 @@ public class ResultadoController {
     public static ArrayList<Resultado> verPorEnfrentamiento(int idEnfrentamiento) throws Exception{
         return ResultadoDAO.verPorEnfrentamiento(idEnfrentamiento);
     }
+
+    public static void actualizarResultado(Resultado resultado) throws Exception{
+        ResultadoDAO.actualizarResultado(resultado);
+    }
 }

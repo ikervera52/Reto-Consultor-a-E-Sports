@@ -940,6 +940,12 @@ public class MenuPrincipalAdminController {
                 vboxContenedorJugadores.getChildren().add(fila);
             }
 
+            if (jugadores.isEmpty()) {
+                Label sinJugadores = new Label("No hay jugadores para ver.");
+                sinJugadores.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorJugadores.getChildren().add(sinJugadores);
+            }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -982,7 +988,7 @@ public class MenuPrincipalAdminController {
     }
 
     //Funcion para reccorrer los equipos y crear la carta por cada equipo
-    public void rellenarVerEquipos(){
+    public void rellenarVerEquipos() {
         try {
             vboxContenedorEquipos.getChildren().clear();
             ArrayList<Equipo> equipos = EquipoController.listarEquipos();
@@ -996,7 +1002,7 @@ public class MenuPrincipalAdminController {
                 if (i + 1 < equipos.size()) {
                     Node vistaJugador2 = crearCartasEquipo(equipos.get(i + 1));
                     fila.getChildren().add(vistaJugador2);
-                }else {
+                } else {
                     Region espacioVacio = new Region();
                     espacioVacio.setPrefWidth(400);
                     fila.getChildren().add(espacioVacio);
@@ -1005,7 +1011,13 @@ public class MenuPrincipalAdminController {
                 vboxContenedorEquipos.getChildren().add(fila);
             }
 
-        }catch (Exception e) {
+            if (equipos.isEmpty()) {
+                Label sinEquipos = new Label("No hay equipos para ver.");
+                sinEquipos.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorEquipos.getChildren().add(sinEquipos);
+            }
+
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

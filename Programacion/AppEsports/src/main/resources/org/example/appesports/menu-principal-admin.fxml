@@ -32,6 +32,11 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <Label text="• Etapa de Inscripción" textFill="#0086ed">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
                   <Region VBox.vgrow="ALWAYS" />
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                      <children>
@@ -1291,8 +1296,32 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="spVerJugadores" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+            <AnchorPane fx:id="spVerJugadores" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;" visible="false">
                <children>
+
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="781.0" prefWidth="870.0" style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-border-color: transparent; -fx-background-radius: 20;" vbarPolicy="AS_NEEDED">
+                     <content>
+                        <AnchorPane style="-fx-background-color: linear-gradient(from 0% 100% to 0% 0%, #E6F4FF 0%, #FFFFFF 100%); -fx-background-radius: 20;">
+                           <children>
+                              <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox fx:id="vboxContenedorJugadores" alignment="TOP_CENTER" fillWidth="false" spacing="30.0">
+                                       <VBox.margin>
+                                          <Insets top="120.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
                   <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -1310,7 +1339,7 @@
                            </children>
                         </HBox>
 
-                        <HBox>
+                        <HBox alignment="CENTER">
                            <children>
                               <GridPane alignment="CENTER" style="-fx-background-color: #0089ED; -fx-background-radius: 10;">
                                  <columnConstraints>
@@ -1334,16 +1363,6 @@
                               </GridPane>
                            </children>
                         </HBox>
-
-                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                           <content>
-                              <VBox fx:id="vboxContenedorJugadores" alignment="TOP_CENTER" spacing="30.0" style="-fx-background-color: transparent;">
-                                 <padding>
-                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

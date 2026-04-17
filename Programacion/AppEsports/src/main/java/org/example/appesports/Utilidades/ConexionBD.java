@@ -8,9 +8,9 @@ public class ConexionBD {
 
     public static Connection getConexion (){
         try {
-            String url = "jdbc:oracle:thin:@//172.20.225.114:1521/ORCLPDB1";
-            String username = "eqdaw02";
-            String password = "eqdaw02";
+            String url = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
+            String username = "iker";
+            String password = "iker";
 
             return DriverManager.getConnection(url,username,password);
 

@@ -33,30 +33,31 @@ public class JugadorDAO {
         return cantidad;
     }
 
-    public static ArrayList<Jugador> verJugadoresPorEquipo() throws Exception{
+    public static ArrayList<Jugador> verJugadoresPorEquipo(String nombreEquipo) throws Exception{
 
         Connection con = ConexionBD.getConexion();
-        String sql = "{call estadisticas_equipos(?)}";
+        String sql = "{call jugadores_por_equipos(?,?)}";
 
         CallableStatement cs = con.prepareCall(sql);
-        cs.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+        cs.setString(1, nombreEquipo);
+        cs.registerOutParameter(2, oracle.jdbc.OracleTypes.CURSOR);
 
         cs.execute();
 
-        ResultSet rs = (ResultSet) cs.getObject(1);
+        ResultSet rs = (ResultSet) cs.getObject(2);
 
         ArrayList<Jugador> jugadores = new ArrayList<>();
         while (rs.next()){
             jugadores.add(new Jugador(
-                    rs.getInt("id"),
-                    rs.getString("nombre"),
-                    rs.getString("apellido"),
-                    rs.getString("nacionalidad"),
-                    rs.getDate("fecha_nacimiento").toLocalDate(),
-                    rs.getString("nickname"),
-                    rs.getString("rol"),
-                    rs.getDouble("sueldo"),
-                    EquipoController.equipoPorId(rs.getInt("id_equipo"))
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getDate(5).toLocalDate(),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getDouble(8),
+                    EquipoController.equipoPorId(rs.getInt(9))
             ));
         }
         ConexionBD.closeConexion(con);

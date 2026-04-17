@@ -13,8 +13,8 @@ public class JugadorController {
         return String.valueOf(cantidad);
     }
 
-    public static ArrayList<Jugador> verJugadoresPorEquipo() throws Exception{
-        return JugadorDAO.verJugadoresPorEquipo();
+    public static ArrayList<Jugador> verJugadoresPorEquipo(String nombreEquipo) throws Exception{
+        return JugadorDAO.verJugadoresPorEquipo(nombreEquipo);
     }
 
     public static void anadirJugador(String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento,

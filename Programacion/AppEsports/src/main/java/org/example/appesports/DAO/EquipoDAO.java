@@ -44,7 +44,7 @@ public class EquipoDAO {
 
 
             while (rs.next()){
-                ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo();
+                ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo(rs.getString("nombre"));
                 equipos.add(
                         new Equipo(
                                 rs.getInt("id"),

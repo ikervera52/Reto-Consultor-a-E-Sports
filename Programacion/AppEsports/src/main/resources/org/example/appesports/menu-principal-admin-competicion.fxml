@@ -148,16 +148,21 @@
                                           <Font size="96.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="lbFechaJornada" alignment="CENTER" text="Fecha" textFill="#0086ed">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                                  <padding>
                                     <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
                                  </padding>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="244.0" spacing="25.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
+                              <VBox alignment="CENTER" prefHeight="350.0" prefWidth="400.0" spacing="25.0" style="-fx-background-color: withe; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="147.0" prefWidth="209.0" spacing="5.0">
+                                          <VBox alignment="CENTER" spacing="5.0">
                                              <children>
                                                 <Label alignment="CENTER" text="Siguiente Partido" textFill="#0086ed">
                                                    <font>
@@ -191,7 +196,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="147.0" prefWidth="209.0" spacing="7.0">
+                                          <VBox alignment="CENTER" spacing="7.0">
                                              <children>
                                                 <Label alignment="CENTER" text="Ultimo Resultado" textFill="#0086ed">
                                                    <font>

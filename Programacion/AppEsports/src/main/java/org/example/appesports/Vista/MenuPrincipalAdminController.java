@@ -942,6 +942,12 @@ public class MenuPrincipalAdminController {
                 vboxContenedorJugadores.getChildren().add(fila);
             }
 
+            if (jugadores.isEmpty()) {
+                Label sinJugadores = new Label("No hay jugadores para ver.");
+                sinJugadores.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorJugadores.getChildren().add(sinJugadores);
+            }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -1005,6 +1011,12 @@ public class MenuPrincipalAdminController {
                 }
 
                 vboxContenedorEquipos.getChildren().add(fila);
+            }
+
+            if (equipos.isEmpty()) {
+                Label sinEquipos = new Label("No hay equipos para ver.");
+                sinEquipos.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorEquipos.getChildren().add(sinEquipos);
             }
 
         } catch (Exception e) {

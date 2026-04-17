@@ -21,12 +21,18 @@ import org.example.appesports.Controlador.EnfrentamientoController;
 import org.example.appesports.Controlador.JornadaController;
 import org.example.appesports.Controlador.ResultadoController;
 import org.example.appesports.Controlador.UsuarioController;
+import org.example.appesports.DAO.JornadaDAO;
 import org.example.appesports.Modelo.Enfrentamiento;
 import org.example.appesports.Modelo.Jornada;
 import org.example.appesports.Modelo.Resultado;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class MenuPrincipalAdminCompeticionController {
@@ -44,6 +50,7 @@ public class MenuPrincipalAdminCompeticionController {
     public Label tfHora;
     public Label tfUltimoResultado;
     public Label tfResultadoPrincipal;
+    public Label lbFechaJornada;
 
     @FXML
     public AnchorPane apLlenarPuntuaciones;
@@ -72,30 +79,53 @@ public class MenuPrincipalAdminCompeticionController {
     private void actualizarMenuPrincipal(){
         try {
 
-            Jornada ultimaJornada = JornadaController.listarJornadas().getLast();
+            ArrayList<Jornada> jornadas = JornadaDAO.listarJornadas();
+            ArrayList<Jornada> jornadasPasadas = new ArrayList<>();
+            LocalDate domingo = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+            for (Jornada jornada : jornadas) {
+                if (jornada.getFechaJornada().isBefore(domingo)) {
+                    jornadasPasadas.add(jornada);
+                }
+             }
+            Jornada ultimaJornada = jornadasPasadas.getLast();
 
             tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
+            lbFechaJornada.setText(String.valueOf(ultimaJornada.getFechaJornada()));
 
             ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
-
-            Enfrentamiento ultimoEnfrentamiento = enfrentamientos.getLast();
-            if (enfrentamientos.size() > 1){
-                enfrentamientos.remove(ultimoEnfrentamiento);
+            Enfrentamiento ultimoEnfrentamiento = null;
+            for (Enfrentamiento enfrentamiento : enfrentamientos) {
+                if (enfrentamiento.getHoraEnfrentamiento().isAfter(LocalTime.now())) {
+                    ultimoEnfrentamiento = enfrentamiento;
+                    break;
+                }
             }
-            Enfrentamiento anateriorEnfrentamiento = enfrentamientos.getLast();
 
-            ArrayList<Resultado> ultimosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
+            ArrayList<Enfrentamiento> enfrentamientosPasados = new ArrayList<>();
+            for (Enfrentamiento enfrentamiento : enfrentamientos) {
+                if (enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()) && (ultimaJornada.getFechaJornada().isBefore(LocalDate.now()) || ultimaJornada.getFechaJornada().isEqual(LocalDate.now()))) {
+                    enfrentamientosPasados.add(enfrentamiento);
+                }
+            }
 
-            String ultimoResutaldo = ultimosResultados.get(0).getResultado() + " - " + ultimosResultados.get(1).getResultado();
-            String ultimoEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+            ArrayList<Resultado> anteriorResultados = new ArrayList<>();
+            if (!enfrentamientosPasados.isEmpty()) {
+                anteriorResultados = ResultadoController.verPorEnfrentamiento(enfrentamientosPasados.getLast().getIdEnfrentamiento());
+            }
+            ArrayList<Resultado> proximosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
 
-            String anteriorEquipos = ultimosResultados.get(0).getEquipo().getNombre() + " - " + ultimosResultados.get(1).getEquipo().getNombre();
+            String proximoEquipos = proximosResultados.getFirst().getEquipo().getNombre() + " - " + proximosResultados.getLast().getEquipo().getNombre();
+            tfSiguientePartido.setText(proximoEquipos);
+            tfHora.setText(String.valueOf(ultimoEnfrentamiento.getHoraEnfrentamiento()));
 
-            tfUltimoResultado.setText(ultimoEquipos);
-            tfResultadoPrincipal.setText(ultimoResutaldo);
+            String anteriorEquipos = anteriorResultados.getFirst().getEquipo().getNombre() + " - " + anteriorResultados.getLast().getEquipo().getNombre();
+            tfUltimoResultado.setText(anteriorEquipos);
 
-            tfSiguientePartido.setText(anteriorEquipos);
-            tfHora.setText(anateriorEnfrentamiento.getHoraEnfrentamiento().toString());
+            String anteriorResultado = anteriorResultados.getFirst().getResultado() + " - " + anteriorResultados.getLast().getResultado();
+            tfResultadoPrincipal.setText(anteriorResultado);
+
+
 
         }catch (Exception e){
             System.out.println("pe");
@@ -120,9 +150,14 @@ public class MenuPrincipalAdminCompeticionController {
         vboxContenedorJornadas.getChildren().clear();
         ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
         for (Jornada jornada : jornadas) {
-            if (jornada.getFechaJornada().isBefore(java.time.LocalDate.now()) || jornada.getFechaJornada().isEqual(java.time.LocalDate.now())) {
+            if (jornada.getFechaJornada().isBefore(LocalDate.now()) || jornada.getFechaJornada().isEqual(LocalDate.now())) {
                 vboxContenedorJornadas.getChildren().add(crearCartaJornada(jornada));
             }
+        }
+        if(vboxContenedorJornadas.getChildren().isEmpty()){
+            Label sinJornadas = new Label("No hay jornadas disponibles para llenar puntuaciones.");
+            sinJornadas.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+            vboxContenedorJornadas.getChildren().add(sinJornadas);
         }
     }
 
@@ -139,7 +174,7 @@ public class MenuPrincipalAdminCompeticionController {
 
         ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
         for (int i = 0; i < enfrentamientos.size(); i += 2) {
-            if (enfrentamientos.get(i).getHoraEnfrentamiento().isBefore(java.time.LocalTime.now())) {
+            if (enfrentamientos.get(i).getHoraEnfrentamiento().isBefore(LocalTime.now())) {
 
 
                 HBox fila = new HBox(30);

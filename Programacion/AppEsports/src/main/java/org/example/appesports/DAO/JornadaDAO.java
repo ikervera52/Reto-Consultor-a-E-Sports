@@ -31,7 +31,7 @@ public class JornadaDAO {
 
     public static ArrayList<Jornada> listarJornadas() throws Exception{
         Connection con = ConexionBD.getConexion();
-        String sql = "SELECT * FROM jornadas";
+        String sql = "SELECT * FROM jornadas ORDER BY num_jornada ASC";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();

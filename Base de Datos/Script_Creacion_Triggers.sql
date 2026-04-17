@@ -1,3 +1,6 @@
+-- Autor: Iker Vera
+-- Fecha de Ultima Edicion: 17/04/2026
+
 CREATE OR REPLACE TRIGGER tri_com_salario_smi
 BEFORE INSERT OR UPDATE OF sueldo ON jugadores
 FOR EACH ROW

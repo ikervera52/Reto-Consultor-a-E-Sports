@@ -1,3 +1,6 @@
+-- Autor: Iker Vera
+-- Fecha Ultima Edición: 15/04/2026
+
 /* Script de llenado de datos */
 
 /* Creación del usuario Admin */

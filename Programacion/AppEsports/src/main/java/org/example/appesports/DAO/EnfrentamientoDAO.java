@@ -31,9 +31,10 @@ public class EnfrentamientoDAO {
 
     public static ArrayList<Enfrentamiento> buscarPorJornada(int idJornada) throws Exception{
         Connection con = ConexionBD.getConexion();
-        String sql = "SELECT * FROM enfrentamientos";
+        String sql = "SELECT * FROM enfrentamientos WHERE id_jornada = ?";
 
         PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idJornada);
 
         ResultSet rs = ps.executeQuery();
 

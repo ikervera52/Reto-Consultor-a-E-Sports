@@ -1043,9 +1043,9 @@ public class MenuPrincipalAdminController {
 
                 LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-                int numeroDeEtapas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
+                int numeroJornadas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
 
-                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroDeEtapas);
+                LocalDate fechaFin = fechaInicio.plusDays(7 * (long) numeroJornadas);
 
                 System.out.println("ahora");
 
@@ -1053,9 +1053,9 @@ public class MenuPrincipalAdminController {
 
                 System.out.println("despues");
 
-                crearJornadas(fechaInicio, numeroDeEtapas);
+                crearJornadas(fechaInicio, numeroJornadas);
 
-                crearEnfrentamientos(numeroDeEtapas);
+                crearEnfrentamientos(numeroJornadas);
 
                 mostarMensaje("Confirmación", "La competición se ha cerrado con éxito", Alert.AlertType.INFORMATION);
 

@@ -1,3 +1,7 @@
+-- Autor: Iker Poza 
+-- Fecha Ultima Edicion : 16/04/2026
+
+
 DROP TABLE resultados CASCADE CONSTRAINTS;
 DROP TABLE jugadores CASCADE CONSTRAINTS;
 DROP TABLE equipos;

@@ -120,15 +120,6 @@ private void actualizarMenuPrincipal() {
 
         try {
 
-            Jornada primeraJornada = JornadaController.listarJornadas().getFirst();
-            Enfrentamiento primerPartido = EnfrentamientoController.buscarPorJornada(primeraJornada.getIdJornada()).getFirst();
-
-            LocalDateTime momentoPartido = LocalDateTime.of(primeraJornada.getFechaJornada(), primerPartido.getHoraEnfrentamiento());
-
-            /*if (momentoPartido.isAfter(LocalDateTime.now())) {
-                throw new Exception("No se ha jugado ningún partido todavía, intentalo más tarde.");
-            }*/
-
             StringBuilder prompt = new StringBuilder();
             ArrayList<Equipo> equipos = EquipoController.listarEquipos();
 
@@ -138,10 +129,8 @@ private void actualizarMenuPrincipal() {
             }
 
             for (Jornada jornada : JornadaController.listarJornadas()) {
-                //if (jornada.getFechaJornada().isBefore(LocalDate.now())) {
 
                 for (Enfrentamiento enf : EnfrentamientoController.buscarPorJornada(jornada.getIdJornada())) {
-                    //if (enf.getHoraEnfrentamiento().isBefore(LocalTime.now())) {
 
                     for (Resultado puntuacion : ResultadoController.verPorEnfrentamiento(enf.getIdEnfrentamiento())) {
                         String nombreEq = puntuacion.getEquipo().getNombre();
@@ -149,9 +138,9 @@ private void actualizarMenuPrincipal() {
 
                         puntosPorEquipo.put(nombreEq, puntosActuales + puntuacion.getResultado());
                     }
-                    //}
+
                 }
-                //}
+
             }
 
             puntosPorEquipo.forEach((nombre, puntos) -> {
@@ -159,7 +148,8 @@ private void actualizarMenuPrincipal() {
                 prompt.append(nombre).append(" - ").append(puntos);
             });
 
-            laRespuestaIA.setText(GrogAPI.preguntarALaIA(prompt.toString()));
+            String respuesta = GrogAPI.preguntarALaIA(prompt.toString());
+            laRespuestaIA.setText(respuesta);
 
 
         } catch (Exception e){

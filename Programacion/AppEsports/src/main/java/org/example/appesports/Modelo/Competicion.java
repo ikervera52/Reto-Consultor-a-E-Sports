@@ -13,8 +13,7 @@ public class Competicion {
     public Competicion() {
     }
 
-    public Competicion(int id, String etapa ) {
-        this.idCompeticion = id;
+    public Competicion(String etapa) {
         this.etapa = etapa;
     }
 

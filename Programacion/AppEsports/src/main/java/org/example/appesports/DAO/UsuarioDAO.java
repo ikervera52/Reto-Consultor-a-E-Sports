@@ -1,11 +1,14 @@
 package org.example.appesports.DAO;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Estandar;
 import org.example.appesports.Modelo.Usuario;
 import org.example.appesports.Utilidades.ConexionBD;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -127,4 +130,36 @@ public class UsuarioDAO {
 
         return usuario;
     }
+
+    public static ObservableList<Usuario> obtenerUsuarios() throws Exception{
+        ObservableList<Usuario> usuarios = FXCollections.observableArrayList();
+
+        Connection con = ConexionBD.getConexion();
+        String sql = "SELECT * FROM usuarios";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()){
+            String tipo = rs.getString("tipo_usuario");
+
+            if (tipo.equals("estandar")){
+                usuarios.add(new Estandar(rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("contrasena")
+                ));
+
+            } else if (tipo.equals("admin")){
+                usuarios.add(new Admin (rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("contrasena")));
+            }
+        }
+
+        ConexionBD.closeConexion(con);
+
+        return usuarios;
+     }
+
+
 }

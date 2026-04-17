@@ -1,8 +1,12 @@
 package org.example.appesports.Vista;
 
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -10,15 +14,18 @@ import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Controlador.JugadorController;
 import javafx.scene.layout.AnchorPane;
 import org.example.appesports.Controlador.UsuarioController;
-import org.example.appesports.Modelo.Admin;
-import org.example.appesports.Modelo.Equipo;
-import org.example.appesports.Modelo.Jugador;
-import org.example.appesports.Modelo.Usuario;
+import org.example.appesports.Modelo.*;
+import org.example.appesports.Utilidades.ConexionBD;
 import org.example.appesports.Utilidades.ValidarDatos;
+import org.example.appesports.DAO.*;
 
+import java.beans.Statement;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.*;
+
 
 public class MenuPrincipalAdminController {
 
@@ -202,6 +209,10 @@ public class MenuPrincipalAdminController {
         @FXML
         public Button bEditarEquipo;
 
+
+        // Variables para mostrar usuarios y roles en una Lista
+        @FXML
+        public ListView<Usuario> listUsuarios;
 
 
     public Stage stage;
@@ -436,6 +447,8 @@ public class MenuPrincipalAdminController {
     // Funciones para apartado de GESTIONAR USUARIOS
     @FXML
     public void onGestionarUsuarios(ActionEvent event){
+        mostrarUsuariosYRoles();
+
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
         apGestionarJugadoresEditar.setVisible(false);
@@ -705,11 +718,7 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesEquipo();
     }
 
-    //Funcion abrir panel Anadir Equipo
-    public void onAnadirEquipo(MouseEvent mouseEvent) {
-        apGestionarEquiposAnadir.setVisible(true);
 
-    }
 
     //Funcion anadir equipo al pulsar boton
     public void onAnadirDatosEquipo(ActionEvent actionEvent) {
@@ -738,13 +747,14 @@ public class MenuPrincipalAdminController {
 
     }
 
-    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje){
+    public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(titulo);
         alert.setContentText(mensaje);
 
         return alert.showAndWait();
+    }
     //Funcion abrir panel Eliminar Equipo
     public void onEliminarEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposBorrar.setVisible(true);
@@ -823,4 +833,44 @@ public class MenuPrincipalAdminController {
         tfNombreEquipoEditar.clear();
         dpFechaFundacionEditar.setValue(null);
     }
+
+
+
+        // Función que muestra los usuarios y roles en la tabla
+
+    public void mostrarUsuariosYRoles(){
+        try {
+            ObservableList<Usuario> usuarios = UsuarioDAO.obtenerUsuarios();
+           // Vamos a comprobar que se han obtenido correctamente los usuarios
+            for (Usuario usuario : usuarios) {
+                System.out.println("Usuario: " + usuario.getNombreUsuario() + ", Contraseña: " + usuario.getContrasena());
+            }
+
+
+        // 3. Finalmente, le pasamos la lista a la Lista que se vera por pantalla
+            listUsuarios.setItems(usuarios);
+            listUsuarios.setCellFactory(param -> new ListCell<Usuario>() {
+                @Override
+                protected void updateItem(Usuario usuario, boolean empty) {
+                    super.updateItem(usuario, empty);
+                    if (empty || usuario == null) {
+                        setText(null);
+                    } else {
+                        String tipo = (usuario instanceof Admin) ? "admin" : "estandar";
+                        setText(usuario.getNombreUsuario() + " - " + tipo);
+                    }
+                }
+            });
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("Error al mostrar los usuarios y roles en la tabla");
+        }
+    }
+
+
+
+
 }

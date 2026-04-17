@@ -6,10 +6,7 @@ import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
 import org.example.appesports.Utilidades.ConexionBD;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class JugadorDAO {
@@ -36,37 +33,35 @@ public class JugadorDAO {
         return cantidad;
     }
 
-    public static ArrayList<Jugador> verJugadoresPorEquipo(int idEquipo){
+    public static ArrayList<Jugador> verJugadoresPorEquipo() throws Exception{
+
+        Connection con = ConexionBD.getConexion();
+        String sql = "{call estadisticas_equipos(?)}";
+
+        CallableStatement cs = con.prepareCall(sql);
+        cs.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+
+        cs.execute();
+
+        ResultSet rs = (ResultSet) cs.getObject(1);
+
         ArrayList<Jugador> jugadores = new ArrayList<>();
-        try {
-            Connection con = ConexionBD.getConexion();
-            String sql = "SELECT * FROM jugadores WHERE id_equipo = ?";
-
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idEquipo);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()){
-                jugadores.add(new Jugador(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
-                        rs.getString("nacionalidad"),
-                        rs.getDate("fecha_nacimiento").toLocalDate(),
-                        rs.getString("nickname"),
-                        rs.getString("rol"),
-                        rs.getDouble("sueldo"),
-                        EquipoController.equipoPorId(idEquipo)
-                ));
-            }
-            ConexionBD.closeConexion(con);
-
-            ConexionBD.closeConexion(con);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        while (rs.next()){
+            jugadores.add(new Jugador(
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("nacionalidad"),
+                    rs.getDate("fecha_nacimiento").toLocalDate(),
+                    rs.getString("nickname"),
+                    rs.getString("rol"),
+                    rs.getDouble("sueldo"),
+                    EquipoController.equipoPorId(rs.getInt("id_equipo"))
+            ));
         }
+        ConexionBD.closeConexion(con);
+
+        ConexionBD.closeConexion(con);
 
         return jugadores;
     }

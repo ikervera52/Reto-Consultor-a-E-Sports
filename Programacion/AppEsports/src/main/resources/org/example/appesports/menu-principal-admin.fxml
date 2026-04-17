@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -611,7 +612,11 @@
                               </Label>
                            </children>
                         </HBox>
-                        <Region VBox.vgrow="ALWAYS" />
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </BorderPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                            <children>
                               <VBox alignment="CENTER" onMouseClicked="#onAnadirUsuario" prefWidth="250.0" spacing="20.0" style="-fx-background-color: #0089ED; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);">
@@ -655,11 +660,15 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Region VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets bottom="35.0" />
-                           </VBox.margin>
-                        </Region>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <ListView fx:id="listUsuarios" prefHeight="183.0" prefWidth="239.0" style="-fx-border-color: #0089ED; -fx-border-width: 10;" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets left="280.0" right="280.0" top="30.0" />
+                                 </BorderPane.margin>
+                              </ListView>
+                           </center>
+                        </BorderPane>
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

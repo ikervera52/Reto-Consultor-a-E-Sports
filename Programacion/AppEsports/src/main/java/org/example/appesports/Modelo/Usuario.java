@@ -19,6 +19,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+
     public String getContrasena() {
         return contrasena;
     }
@@ -42,4 +43,6 @@ public class Usuario {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+
 }

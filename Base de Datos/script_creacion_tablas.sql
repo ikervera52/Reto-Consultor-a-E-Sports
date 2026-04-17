@@ -1,6 +1,7 @@
 -- Autor: Iker Poza 
 -- Fecha Ultima Edicion : 16/04/2026
 
+-- Drops de las tablas
 
 DROP TABLE resultados CASCADE CONSTRAINTS;
 DROP TABLE jugadores CASCADE CONSTRAINTS;
@@ -10,6 +11,7 @@ DROP TABLE jornadas CASCADE CONSTRAINTS;
 DROP TABLE competiciones;
 DROP TABLE usuarios;
 
+-- Creación de las tablas
 
 CREATE TABLE usuarios(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -90,3 +92,17 @@ CREATE TABLE resultados(
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)
 );
 
+-- Creacion de las views
+
+CREATE OR REPLACE VIEW view_info_equipos AS
+    
+    SELECT  e.nombre,
+            e.fecha_fundacion,
+            COUNT(j.id) cantidad_jugadores,
+            ROUND(MAX(j.sueldo),2) sueldo_maximo,
+            ROUND(MIN(j.sueldo),2) sueldo_minimo,
+            ROUND(AVG(j.sueldo),2) sueldo_medio
+        FROM equipos e
+        LEFT JOIN jugadores j 
+            ON e.id = j.id_equipo
+        GROUP BY e.id, e.nombre, e.fecha_fundacion;

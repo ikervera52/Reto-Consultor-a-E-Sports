@@ -30,6 +30,8 @@ import java.util.Optional;
 
 public class MenuPrincipalAdminController {
 
+
+
         private String username;
 
         @FXML
@@ -207,14 +209,18 @@ public class MenuPrincipalAdminController {
         @FXML
         public AnchorPane apVerInformes;
 
-        @FXML
-        public ScrollPane spVerJugadores;
 
         @FXML
         public VBox vboxContenedorJugadores;
 
         @FXML
+        public AnchorPane spVerJugadores;
+
+        @FXML
         public ScrollPane spVerEquipos;
+
+        @FXML
+        public TextField tfBuscarJugadorPorEquipo;
 
         @FXML
         public VBox vboxContenedorEquipos;
@@ -446,23 +452,28 @@ public class MenuPrincipalAdminController {
     }
 
     private void llenarComboBoxJugador(){
-        // Rellenar el apartado de ROL
-        cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+        try {
+            // Rellenar el apartado de ROL
+            cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
 
-        //Rellenar el apartado de EQUIPOS
-        cbSeleccionEquipoParaJugador.getItems().clear();
-        ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
-        for (String nombre : nombreEquipos){
-            cbSeleccionEquipoParaJugador.getItems().add(nombre);
-        }
+            //Rellenar el apartado de EQUIPOS
+            cbSeleccionEquipoParaJugador.getItems().clear();
+            ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
+            for (String nombre : nombreEquipos){
+                cbSeleccionEquipoParaJugador.getItems().add(nombre);
+            }
 
-        cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
+            cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
 
-        //Rellenar el ComboBox de EQUIPOS
-        cbSeleccionEquipoParaJugadorEditar.getItems().clear();
-        ArrayList<String> nombreEquiposEditar = EquipoController.rellenarComboEquipo();
-        for (String nombre : nombreEquiposEditar){
-            cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
+            //Rellenar el ComboBox de EQUIPOS
+            cbSeleccionEquipoParaJugadorEditar.getItems().clear();
+            ArrayList<String> nombreEquiposEditar = EquipoController.rellenarComboEquipo();
+            for (String nombre : nombreEquiposEditar){
+                cbSeleccionEquipoParaJugadorEditar.getItems().add(nombre);
+            }
+
+        }catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
 
 
@@ -707,9 +718,13 @@ public class MenuPrincipalAdminController {
 
     // Función que actualiza los contadores de jugadores y equipos del menu principal
     private void actualizarDatosPanelPrincipal(){
-        lbNombreBienvenida.setText(username);
-        lbCantJugadores.setText(JugadorController.contarJugadores());
-        lbCantEquipos.setText(EquipoController.contarEquipos());
+        try {
+            lbNombreBienvenida.setText(username);
+            lbCantJugadores.setText(JugadorController.contarJugadores());
+            lbCantEquipos.setText(EquipoController.contarEquipos());
+        }catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     //Funciones para apartado GESTION EQUIPOS
@@ -877,7 +892,6 @@ public class MenuPrincipalAdminController {
 
     //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
     public void onVerJugadores(MouseEvent mouseEvent) {
-        rellenarVerJugadores();
         spVerJugadores.setVisible(true);
     }
 
@@ -916,11 +930,23 @@ public class MenuPrincipalAdminController {
         return carta;
     }
 
+    public void onBuscarJugadorPorEquipo(){
+        try {
+            ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo();
+            if (jugadores.isEmpty()) throw new Exception("No existe ningún equipo con ese nombre");
+
+            rellenarVerJugadores(jugadores);
+
+
+        }catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
     //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
-    public void rellenarVerJugadores(){
+    public void rellenarVerJugadores(ArrayList<Jugador> jugadores){
         try {
             vboxContenedorJugadores.getChildren().clear();
-            ArrayList<Jugador> jugadores = JugadorController.verJugadores();
             for (int i = 0; i < jugadores.size(); i += 2) {
 
                 HBox fila = new HBox(30);
@@ -964,7 +990,7 @@ public class MenuPrincipalAdminController {
     }
 
     //Funcion para crear la carta por cada equipo
-    public Node crearCartasEquipo(Equipo equipo) {
+    public Node crearCartasEquipo(EquipoInforme equipo) {
         VBox carta = new VBox();
         carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
         carta.setPadding(new Insets(15));
@@ -981,9 +1007,19 @@ public class MenuPrincipalAdminController {
         fecha.setText("Fecha de Fundación: " + equipo.getFechaFundacion().toString());
 
         Label numeroJugadores = new Label();
-        numeroJugadores.setText("Numero de Jugadores: " + equipo.getJugadores().size());
+        numeroJugadores.setText("Numero de Jugadores: " + equipo.getCantJugadores());
 
-        carta.getChildren().addAll(nombre, fecha, numeroJugadores);
+        Label sueldoMax = new Label();
+        sueldoMax.setText("Sueldo Maximo: " + equipo.getMaxSalario() + "€");
+
+        Label sueldoMin = new Label();
+        sueldoMin.setText("Sueldo Minimo: " + equipo.getMinSalario() + "€");
+
+        Label sueldoMed = new Label();
+        sueldoMed.setText("Sueldo Maximo: " + equipo.getAvgSalario() + "€");
+
+
+        carta.getChildren().addAll(nombre, fecha, numeroJugadores, sueldoMax, sueldoMin, sueldoMed);
         return carta;
     }
 
@@ -991,7 +1027,7 @@ public class MenuPrincipalAdminController {
     public void rellenarVerEquipos() {
         try {
             vboxContenedorEquipos.getChildren().clear();
-            ArrayList<Equipo> equipos = EquipoController.listarEquipos();
+            ArrayList<EquipoInforme> equipos = EquipoController.listarEquiposInforme();
             for (int i = 0; i < equipos.size(); i += 2) {
 
                 HBox fila = new HBox(30);
@@ -1018,7 +1054,7 @@ public class MenuPrincipalAdminController {
             }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
     //Funcion para cerrar la competición

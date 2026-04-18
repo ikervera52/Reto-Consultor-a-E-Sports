@@ -105,7 +105,7 @@ private void actualizarMenuPrincipal() {
 
             ArrayList<Jornada> jornadas = JornadaDAO.listarJornadas();
             ArrayList<Jornada> jornadasPasadas = new ArrayList<>();
-            LocalDate domingo = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+            LocalDate domingo = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
 
             for (Jornada jornada : jornadas) {
                 if (jornada.getFechaJornada().isBefore(domingo)) {
@@ -113,6 +113,11 @@ private void actualizarMenuPrincipal() {
                 }
              }
             Jornada ultimaJornada = jornadasPasadas.getLast();
+            Jornada penultimaJornada = null;
+            if (jornadasPasadas.size() > 1) {
+                jornadasPasadas.remove(ultimaJornada);
+                penultimaJornada = jornadasPasadas.getLast();
+            }
 
             tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
             lbFechaJornada.setText(String.valueOf(ultimaJornada.getFechaJornada()));
@@ -126,11 +131,20 @@ private void actualizarMenuPrincipal() {
                 }
             }
 
+            if (ultimaJornada.getFechaJornada().isBefore(LocalDate.now())) {
+                ultimoEnfrentamiento = enfrentamientos.getLast();
+            }
+
             ArrayList<Enfrentamiento> enfrentamientosPasados = new ArrayList<>();
             for (Enfrentamiento enfrentamiento : enfrentamientos) {
                 if (enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()) && (ultimaJornada.getFechaJornada().isBefore(LocalDate.now()) || ultimaJornada.getFechaJornada().isEqual(LocalDate.now()))) {
                     enfrentamientosPasados.add(enfrentamiento);
                 }
+            }
+
+            if (enfrentamientosPasados.isEmpty()) {
+                ArrayList<Enfrentamiento> enfrentamientosPenultimaJornada = EnfrentamientoController.buscarPorJornada(penultimaJornada.getIdJornada());
+                enfrentamientosPasados.addAll(enfrentamientosPenultimaJornada);
             }
 
             ArrayList<Resultado> anteriorResultados = new ArrayList<>();

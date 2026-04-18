@@ -34,31 +34,31 @@ COMPOUND TRIGGER
     v_num_jugadores NUMBER;
     v_id_equipo NUMBER;
     v_id_equipo_old NUMBER;
-    
-BEFORE EACH ROW IS
-    BEGIN 
-        v_id_equipo_old := :OLD.id_equipo;
-        v_id_equipo := :NEW.id_equipo;
-        
-    END;
-END BEFORE EACH ROW;
 
 BEFORE STATEMENT IS
-    BEGIN 
-    
-    IF INSERTING OR (v_id_equipo_old != v_id_equipo) THEN
-    
-        SELECT COUNT(*) INTO v_num_jugadores
-        FROM jugadores
-        WHERE id_equipo = v_id_equipo;
-        
-        IF v_num_jugadores >= 6 THEN
-            RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
-        END IF;
-    END IF;
+BEGIN
+    NULL;
 END BEFORE STATEMENT;
 
+BEFORE EACH ROW IS
+BEGIN 
+    v_id_equipo_old := :OLD.id_equipo;
+    v_id_equipo := :NEW.id_equipo;
+END BEFORE EACH ROW;
+
+AFTER STATEMENT IS
+BEGIN 
+    SELECT COUNT(*) INTO v_num_jugadores
+    FROM jugadores
+    WHERE id_equipo = v_id_equipo;
+    
+    IF v_num_jugadores >= 6 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+    END IF;
+END AFTER STATEMENT;
+
 END tri_max_jugadores_equipo;
+
 
 
 CREATE OR REPLACE TRIGGER tri_cal_jugadores

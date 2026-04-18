@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -109,8 +110,15 @@ public class MenuInicioSesionController {
 
 
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            mostarMensaje("Error" ,"el usuario o la contraseña no son validos", Alert.AlertType.ERROR);
         }
+    }
+
+    private void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
+        Alert alert = new Alert(alerta);
+        alert.setTitle(titulo);
+        alert.setContentText(mensaje);
+        alert.show();
     }
 
     @FXML

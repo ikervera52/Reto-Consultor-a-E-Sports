@@ -9,11 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -23,34 +20,26 @@ import org.example.appesports.Modelo.*;
 
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.example.appesports.Controlador.EnfrentamientoController;
 import org.example.appesports.Controlador.JornadaController;
 import org.example.appesports.Controlador.ResultadoController;
-import org.example.appesports.Controlador.UsuarioController;
 import org.example.appesports.DAO.JornadaDAO;
 import org.example.appesports.Modelo.Enfrentamiento;
 import org.example.appesports.Modelo.Jornada;
 import org.example.appesports.Modelo.Resultado;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.example.appesports.Controlador.JornadaController.listarJornadas;
 
 public class MenuPrincipalAdminCompeticionController {
 

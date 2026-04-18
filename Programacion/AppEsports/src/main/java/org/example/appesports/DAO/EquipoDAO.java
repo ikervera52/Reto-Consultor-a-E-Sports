@@ -1,42 +1,38 @@
 package org.example.appesports.DAO;
 
+import oracle.jdbc.OracleType;
 import org.example.appesports.Controlador.JugadorController;
 import org.example.appesports.Modelo.Equipo;
+import org.example.appesports.Modelo.EquipoInforme;
 import org.example.appesports.Modelo.Jugador;
 import org.example.appesports.Utilidades.ConexionBD;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class EquipoDAO {
 
-    public static int contarEquipos(){
+    public static int contarEquipos() throws Exception{
        int cantidad = 0;
-        try {
-            Connection con = ConexionBD.getConexion();
-            String sql = "SELECT COUNT(*) FROM equipos";
 
-            PreparedStatement ps = con.prepareStatement(sql);
+        Connection con = ConexionBD.getConexion();
+        String sql = "SELECT COUNT(*) FROM equipos";
 
-            ResultSet rs = ps.executeQuery();
+        PreparedStatement ps = con.prepareStatement(sql);
 
-            if (rs.next()){
-                cantidad = rs.getInt(1);
-            }
+        ResultSet rs = ps.executeQuery();
 
-            ConexionBD.closeConexion(con);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (rs.next()){
+            cantidad = rs.getInt(1);
         }
+
+        ConexionBD.closeConexion(con);
+
 
         return cantidad;
     }
 
-    public static ArrayList<Equipo> verEquipos(){
+    public static ArrayList<Equipo> verEquipos() throws Exception{
         ArrayList<Equipo> equipos = new ArrayList<>();
         try {
             Connection con = ConexionBD.getConexion();
@@ -48,7 +44,7 @@ public class EquipoDAO {
 
 
             while (rs.next()){
-                ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo(rs.getInt("id"));
+                ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo(rs.getString("nombre"));
                 equipos.add(
                         new Equipo(
                                 rs.getInt("id"),
@@ -155,5 +151,31 @@ public class EquipoDAO {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
+    }
+
+    public static ArrayList<EquipoInforme> verEquiposInforme() throws Exception{
+        Connection con = ConexionBD.getConexion();
+        String sql = "{call estadisticas_equipos(?)}";
+
+        CallableStatement cs = con.prepareCall(sql);
+        cs.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+
+        cs.execute();
+
+        ResultSet rs = (ResultSet) cs.getObject(1);
+
+        ArrayList<EquipoInforme> equipoInforme = new ArrayList<>();
+        while (rs.next()){
+            equipoInforme.add(new EquipoInforme(
+                    rs.getString("nombre"),
+                    rs.getDate("fecha_fundacion").toLocalDate(),
+                    rs.getInt("cantidad_jugadores"),
+                    rs.getInt("sueldo_maximo"),
+                    rs.getInt("sueldo_minimo"),
+                    rs.getInt("sueldo_medio")
+            ));
+        }
+
+        return equipoInforme;
     }
 }

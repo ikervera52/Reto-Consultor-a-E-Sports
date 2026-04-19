@@ -1,5 +1,5 @@
 -- Autor: Iker Vera
--- Fecha de Ultima Edicion: 17/04/2026
+-- Fecha de Ultima Edicion: 19/04/2026
 
 CREATE OR REPLACE TRIGGER tri_com_salario_smi
 BEFORE INSERT OR UPDATE OF sueldo ON jugadores
@@ -24,8 +24,7 @@ EXCEPTION
    
 END tri_com_salario_smi;
 
-
-
+/
 
 CREATE OR REPLACE TRIGGER tri_max_jugadores_equipo
 FOR INSERT OR UPDATE OF id_equipo ON jugadores
@@ -55,11 +54,16 @@ BEGIN
     IF v_num_jugadores >= 6 THEN
         RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
     END IF;
+    
+    EXCEPTION
+    WHEN OTHERS THEN
+        RAISE;
+        
 END AFTER STATEMENT;
 
 END tri_max_jugadores_equipo;
 
-
+/
 
 CREATE OR REPLACE TRIGGER tri_cal_jugadores
 BEFORE UPDATE OF etapa ON competiciones
@@ -92,6 +96,8 @@ EXCEPTION
    
 END tri_cal_jugadores;
 
+/
+
 CREATE OR REPLACE TRIGGER tri_competicion_cerrada_equipos
 BEFORE INSERT OR UPDATE ON equipos
 FOR EACH ROW
@@ -118,6 +124,8 @@ EXCEPTION
    
 END tri_competicion_cerrada_equipos;
 
+/
+
 CREATE OR REPLACE TRIGGER tri_competicion_cerrada_jugadores
 BEFORE INSERT OR UPDATE ON jugadores
 FOR EACH ROW
@@ -143,6 +151,8 @@ EXCEPTION
     RAISE;
    
 END tri_competicion_cerrada_jugadores;
+
+/
 
 CREATE OR REPLACE TRIGGER tri_cal_equipos
 BEFORE UPDATE OF etapa ON competiciones
@@ -171,13 +181,14 @@ EXCEPTION
        
 END tri_cal_equipos;
 
+/
+
 
 CREATE OR REPLACE TRIGGER fin_competicion 
 BEFORE UPDATE OF etapa ON competiciones
 FOR EACH ROW
 
 DECLARE
-    e_error EXCEPTION;
 
 BEGIN
     
@@ -189,24 +200,13 @@ BEGIN
         :NEW.fecha_inicio := NULL;
         :NEW.fecha_fin := NULL;
         :NEW.tipo_puntuacion := NULL;
+        DELETE FROM jornadas;
         
     END IF;
 
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE e_error;
+        RAISE;
 
 END fin_competicion;
-
-    
-
-
-
-
-    
-
-
-
-
-
 

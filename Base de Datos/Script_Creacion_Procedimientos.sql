@@ -22,6 +22,8 @@ EXCEPTION
         
 END estadisticas_equipos;
 
+/
+
 -- Procedimiento para ver jugadores por equipo
 
 CREATE OR REPLACE PROCEDURE jugadores_por_equipos(

@@ -42,7 +42,7 @@ public class EquipoController {
         EquipoDAO.editarEquipo(nombreV, equipo);
     }
 
-    public static void borrarEquipo(String nombre){
+    public static void borrarEquipo(String nombre) throws Exception{
         EquipoDAO.borrarEquipo(nombre);
     }
 

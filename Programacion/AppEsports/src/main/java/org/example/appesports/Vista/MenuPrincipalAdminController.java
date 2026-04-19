@@ -221,9 +221,6 @@ public class MenuPrincipalAdminController {
         public VBox vboxContenedorJugadores;
 
         @FXML
-        public AnchorPane spVerJugadores;
-
-        @FXML
         public ScrollPane spVerEquipos;
 
         @FXML
@@ -280,9 +277,11 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+
         apVerInformes.setVisible(false);
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
+        tfBuscarJugadorPorEquipo.clear();
 
         apCerrarCompeticion.setVisible(false);
         tfTipoPuntuacion.clear();
@@ -505,10 +504,11 @@ public class MenuPrincipalAdminController {
         apGestionarUsuariosAnadir.setVisible(false);
         apGestionarUsuariosEditar.setVisible(false);
         apGestionarUsuariosBorrar.setVisible(false);
+
         apVerInformes.setVisible(false);
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
-
+        tfBuscarJugadorPorEquipo.clear();
 
         apCerrarCompeticion.setVisible(false);
         tfTipoPuntuacion.clear();
@@ -755,6 +755,7 @@ public class MenuPrincipalAdminController {
         apVerInformes.setVisible(false);
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
+        tfBuscarJugadorPorEquipo.clear();
 
         apCerrarCompeticion.setVisible(false);
         tfTipoPuntuacion.clear();
@@ -790,6 +791,8 @@ public class MenuPrincipalAdminController {
             EquipoController.insertarEquipo(nombre, fechaFundacion);
 
             vaciarOpcionesEquipo();
+
+            mostarMensaje("Confimración", "El equipo se ha añadido con éxito.", Alert.AlertType.INFORMATION);
 
 
         } catch (Exception e) {
@@ -834,9 +837,11 @@ public class MenuPrincipalAdminController {
 
                 vaciarOpcionesEquipo();
 
+                mostarMensaje("Confimración", "El equipo se ha borrado con éxito.", Alert.AlertType.INFORMATION);
+
+
             } catch (Exception e) {
-                System.out.println("Error al borrar Equipo");
-            }
+                mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);            }
         }
 
         //Funcion abrir panel Editar Equipo
@@ -876,10 +881,12 @@ public class MenuPrincipalAdminController {
 
                 EquipoController.editarEquipo(tfNombreEquipoBuscar.getText(), nombre, fechaFundacion);
 
+                mostarMensaje("Confimración", "El equipo se ha editado con éxito.", Alert.AlertType.INFORMATION);
+
                 vaciarOpcionesEquipo();
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
        
@@ -898,6 +905,9 @@ public class MenuPrincipalAdminController {
         apVerInformes.setVisible(true);
         spVerEquipos.setVisible(false);
         spVerJugadores.setVisible(false);
+
+        apCerrarCompeticion.setVisible(false);
+        tfTipoPuntuacion.clear();
     }
 
     //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
@@ -990,7 +1000,7 @@ public class MenuPrincipalAdminController {
             }
 
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -999,7 +1009,6 @@ public class MenuPrincipalAdminController {
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
         tfBuscarJugadorPorEquipo.clear();
-        vboxContenedorEquipos.getChildren().clear();
     }
 
     //Funcion para mostrar el panel de ver equipos al pulsar el boton
@@ -1124,7 +1133,11 @@ public class MenuPrincipalAdminController {
 
                 crearEnfrentamientos(numeroJornadas);
 
+                controller.show();
+                stage.close();
                 mostarMensaje("Confirmación", "La competición se ha cerrado con éxito", Alert.AlertType.INFORMATION);
+
+                //AQUI
 
             }catch (Exception e){
                 mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -1217,7 +1230,8 @@ public class MenuPrincipalAdminController {
 
 
         } catch (Exception e) {
-            System.out.println("Error al mostrar los usuarios y roles en la tabla");
+            System.out.println();
+            mostarMensaje("Confimración", "Error al mostrar los usuarios y roles en la tabla", Alert.AlertType.ERROR);
         }
     }
 

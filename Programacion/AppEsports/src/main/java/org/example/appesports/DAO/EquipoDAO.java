@@ -140,17 +140,17 @@ public class EquipoDAO {
         }
     }
 
-    public static void borrarEquipo(String nombre){
-        try {
-            Connection con = ConexionBD.getConexion();
-            String sql = "DELETE FROM equipos WHERE nombre = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
-            ps.executeUpdate();
-            ConexionBD.closeConexion(con);
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
+    public static void borrarEquipo(String nombre) throws Exception{
+
+        Connection con = ConexionBD.getConexion();
+        String sql = "DELETE FROM equipos WHERE nombre = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, nombre);
+        int e = ps.executeUpdate();
+
+        if (e == 0) throw new Exception("No existe ningún equipo con ese Nombre.");
+        ConexionBD.closeConexion(con);
+
     }
 
     public static ArrayList<EquipoInforme> verEquiposInforme() throws Exception{

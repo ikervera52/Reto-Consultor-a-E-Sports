@@ -105,6 +105,23 @@ public class MenuInicioSesionController {
                 this.stage.close();
 
             } else if(tipoUsuario.equals("estandar") && etapaCompeticion.equals("competicion")){
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("menu-principal-estandar-competicion.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Scene scene = new Scene(root, 1200, 800);
+                Stage stage = new Stage();
+                stage.setTitle("AppEsports");
+                stage.setScene(scene);
+
+                MenuPrincipalEstandarCompeticionController controller = fxmlLoader.getController();
+
+                controller.init(stage, this, username);
+                stage.show();
+
+                tfUsuario.clear();
+                pfContrasena.clear();
+
+                this.stage.close();
 
             }
 

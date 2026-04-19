@@ -92,6 +92,9 @@ public void onTerminarCompeticion (MouseEvent MouseEvent){
 
         if (opcion.isPresent() && opcion.get() == ButtonType.OK){
             CompeticionController.terminarCompeticion();
+            controller.show();
+            stage.close();
+
         }
     }
     catch (Exception e){

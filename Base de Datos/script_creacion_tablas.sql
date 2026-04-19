@@ -1,5 +1,5 @@
 -- Autor: Iker Poza 
--- Fecha Ultima Edicion : 16/04/2026
+-- Fecha Ultima Edicion : 19/04/2026
 
 -- Drops de las tablas
 
@@ -90,6 +90,7 @@ CREATE TABLE resultados(
     CONSTRAINT pu_eq_en_pk PRIMARY KEY (id_equipo,id_enfrentamiento),
     CONSTRAINT pu_id_equipo_fk FOREIGN KEY (id_equipo) REFERENCES equipos(id),
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)
+    ON DELETE CASCADE
 );
 
 -- Creacion de las views

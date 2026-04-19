@@ -50,7 +50,7 @@ public class JornadaDAO {
         return jornadas;
     }
 
-    public static Jornada jornadaPorId(int id) throws Exception{
+    public static Jornada jornadaPorId(int id) throws Exception {
         Connection con = ConexionBD.getConexion();
         String sql = "SELECT * FROM jornadas WHERE id = ?";
 
@@ -60,9 +60,8 @@ public class JornadaDAO {
         ResultSet rs = ps.executeQuery();
 
 
-
         Jornada jornada = null;
-        if (rs.next()){
+        if (rs.next()) {
             jornada = new Jornada(
                     rs.getInt("id"),
                     rs.getDate("fecha").toLocalDate(),

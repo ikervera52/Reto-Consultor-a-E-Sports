@@ -1,6 +1,5 @@
 package org.example.appesports.DAO;
 
-import oracle.jdbc.OracleType;
 import org.example.appesports.Controlador.JugadorController;
 import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.EquipoInforme;
@@ -188,6 +187,7 @@ public class EquipoDAO {
         int e = ps.executeUpdate();
 
         if (e == 0) throw new Exception("No existe ningún equipo con ese Nombre.");
+
         ConexionBD.closeConexion(con);
 
     }
@@ -218,6 +218,8 @@ public class EquipoDAO {
                     rs.getInt("sueldo_medio")
             ));
         }
+
+        ConexionBD.closeConexion(con);
 
         return equipoInforme;
     }

@@ -2,17 +2,15 @@ package org.example.appesports.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Estandar;
 import org.example.appesports.Modelo.Usuario;
 import org.example.appesports.Utilidades.ConexionBD;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 /** Clase UsuarioDAO que se encarga de realizar las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en la base de datos para los objetos de tipo Usuario.
  * Esta clase utiliza la clase ConexionBD para establecer la conexión con la base de datos y ejecutar las consultas SQL necesarias.
  * Además, incluye métodos para validar usuarios, añadir nuevos usuarios, borrar usuarios existentes, buscar usuarios por su nombre de usuario y editar usuarios.

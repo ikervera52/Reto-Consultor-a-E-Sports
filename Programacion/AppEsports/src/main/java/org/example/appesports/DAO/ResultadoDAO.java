@@ -1,6 +1,5 @@
 package org.example.appesports.DAO;
 
-import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Controlador.EnfrentamientoController;
 import org.example.appesports.Controlador.EquipoController;
 import org.example.appesports.Modelo.Resultado;
@@ -62,6 +61,8 @@ public class ResultadoDAO {
 
         }
 
+        ConexionBD.closeConexion(con);
+
         return resultados;
     }
     /** Método para actualizar un resultado existente en la base de datos. Recibe un objeto Resultado como parámetro y actualiza la puntuación asociada a ese resultado en la tabla de resultados.
@@ -77,6 +78,7 @@ public class ResultadoDAO {
         ps.setInt(2, resultado.getEnfrentamiento().getIdEnfrentamiento());
         ps.setInt(3, resultado.getEquipo().getIdEquipo());
         ps.executeUpdate();
+
         ConexionBD.closeConexion(con);
     }
 }

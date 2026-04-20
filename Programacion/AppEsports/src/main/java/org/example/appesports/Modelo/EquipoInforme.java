@@ -1,7 +1,9 @@
 package org.example.appesports.Modelo;
 
 import java.time.LocalDate;
-
+/** Clase que representa un informe de equipo en el sistema de gestión de esports.
+ * Contiene información sobre el nombre del equipo, la fecha de fundación, la cantidad de jugadores, el salario máximo, mínimo y promedio de los jugadores del equipo.
+ */
 public class EquipoInforme {
 
     // Clase creada para el uso de un Procedimiento en base de datos

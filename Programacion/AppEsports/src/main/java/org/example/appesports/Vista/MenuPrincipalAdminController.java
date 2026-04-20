@@ -35,7 +35,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.*;
 
-
+/**
+ * Controlador para el menú principal del administrador.
+ * Gestiona la interacción del usuario con la interfaz gráfica y coordina las acciones relacionadas con la gestión de jugadores, usuarios, equipos e informes.
+ */
 public class MenuPrincipalAdminController {
 
     private String username;
@@ -246,9 +249,11 @@ public class MenuPrincipalAdminController {
 
         actualizarDatosPanelPrincipal();
     }
-
-    // Funciones para apartado de GESTIONAR JUGADORES
-    // Función para volver al menu principal desde cualquiera de los menus secundarios
+    /**
+     * Función para mostrar la lista de usuarios y sus roles en el apartado de gestionar usuarios.
+     * Obtiene la lista de usuarios desde el controlador UsuarioController y la muestra en un ListView.
+     * Cada elemento del ListView muestra el nombre de usuario y su tipo (admin o estandar).
+     */
     @FXML
     public void onVolverMenuPrincipal(ActionEvent event) {
 
@@ -261,7 +266,10 @@ public class MenuPrincipalAdminController {
         tfTipoPuntuacion.clear();
     }
 
-    // Función que abre el menu principal de gestion de Jugadores
+    /** Función que abre el menu principal de gestion de Jugadores
+     * Hace visible el AnchorPane de gestión de jugadores y oculta los demás AnchorPane para mostrar solo el apartado de gestión de jugadores.
+     * @param MouseEvent
+     */
     @FXML
     public void onGestionarJugadores(MouseEvent MouseEvent) {
 
@@ -296,7 +304,10 @@ public class MenuPrincipalAdminController {
 
     }
 
-    // Función que abre la ventana de añadir jugador
+    /** Función que abre la ventana de añadir jugador
+     * Hace visible el AnchorPane de añadir jugador y oculta los demás AnchorPane para mostrar solo el apartado de añadir jugador.
+     * @param mouseEvent
+     */
     @FXML
     public void onAnadirJugador(MouseEvent mouseEvent) {
         apGestionarJugadoresAnadir.setVisible(true);
@@ -305,7 +316,10 @@ public class MenuPrincipalAdminController {
 
     }
 
-    // Función que añade un jugador a la base de datos
+    /** Función que añade un jugador a la base de datos
+     * Recoge los datos introducidos por el usuario en los campos de texto y combo box, los valida utilizando la clase ValidarDatos y luego llama al método anadirJugador del controlador JugadorController para insertar el nuevo jugador en la base de datos.
+     * @param event
+     */
     @FXML
     public void onAnadirDatosJugador(ActionEvent event) {
 
@@ -338,14 +352,20 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    // Función que abre la ventana de eliminar Jugador
+    /** Función que abre la ventana de eliminar Jugador
+     * Hace visible el AnchorPane de eliminar jugador y oculta los demás AnchorPane para mostrar solo el apartado de eliminar jugador.
+     * @param mouseEvent
+     */
     @FXML
     public void onEliminarJugador(MouseEvent mouseEvent) {
 
         apGestionarJugadoresBorrar.setVisible(true);
     }
 
-    // Función que elimina el jugador de la base de datos
+    /** Función que elimina el jugador de la base de datos
+     * Recoge el nickname introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método borrarJugador del controlador JugadorController para eliminar el jugador de la base de datos.
+     * @param event
+     */
     @FXML
     public void onBorrarDatosJugador(ActionEvent event) {
         try {
@@ -366,7 +386,10 @@ public class MenuPrincipalAdminController {
     }
 
 
-    // Función que abre la ventana de editar Jugador
+    /** Función que abre la ventana de editar Jugador
+     * Hace visible el AnchorPane de editar jugador y oculta los demás AnchorPane para mostrar solo el apartado de editar jugador.
+     * @param mouseEvent
+     */
     @FXML
     public void onEditarJugador(MouseEvent mouseEvent) {
         tfNombreJugadorEditar.setDisable(true);
@@ -382,7 +405,10 @@ public class MenuPrincipalAdminController {
         apGestionarJugadoresEditar.setVisible(true);
     }
 
-    // Función que busca al jugador por el nickname para poder poner sus datos en el formulario
+    /** Función que busca al jugador por el nickname para poder poner sus datos en el formulario
+     * Recoge el nickname introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método buscarPorNickname del controlador JugadorController para obtener los datos del jugador desde la base de datos. Si el jugador existe, rellena los campos del formulario con los datos del jugador para que el usuario pueda editarlos.
+     * @param event
+     */
     @FXML
     public void onBuscarNickname(ActionEvent event) {
 
@@ -419,7 +445,9 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    // Función que edita los datos del jugador en la base de datos
+    /** Función que edita los datos del jugador en la base de datos
+     * Recoge los datos introducidos por el usuario en los campos de texto y combo box, los valida utilizando la clase ValidarDatos y luego llama al método editarJugador del controlador JugadorController para actualizar los datos del jugador en la base de datos.
+     */
     @FXML
     public void onEditarDatosJugador() {
         try {
@@ -434,7 +462,9 @@ public class MenuPrincipalAdminController {
             String nombreEquipo = cbSeleccionEquipoParaJugadorEditar.getValue();
 
 
-            // MENSAJE DE SI QUIERE ACEPTAR LOS CAMBIOS O NO
+            /** MENSAJE DE SI QUIERE ACEPTAR LOS CAMBIOS O NO
+             * Si el usuario acepta, se llama al método editarJugador del controlador JugadorController para actualizar los datos del jugador en la base de datos y se muestra un mensaje de confirmación. Si el usuario no acepta, no se realizan cambios en la base de datos.
+             */
             Optional<ButtonType> result = mostarMensajeConfirmacion("Confirmación", "Confirmación de edición");
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -459,12 +489,19 @@ public class MenuPrincipalAdminController {
         }
     }
 
+    /** Función para llenar los ComboBox de ROL y EQUIPO en los formularios de añadir y editar jugador
+     * Obtiene la lista de equipos desde el controlador EquipoController y la muestra en el ComboBox de selección de equipo. También rellena el ComboBox de ROL con las opciones disponibles.
+     */
     private void llenarComboBoxJugador(){
         try {
-            // Rellenar el apartado de ROL
+            /** Rellenar el apartado de ROL
+             *
+             */
             cbRol.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
 
-            //Rellenar el apartado de EQUIPOS
+            /** Rellenar el apartado de EQUIPOS
+             *
+             */
             cbSeleccionEquipoParaJugador.getItems().clear();
             ArrayList<String> nombreEquipos = EquipoController.rellenarComboEquipo();
             for (String nombre : nombreEquipos){
@@ -473,7 +510,9 @@ public class MenuPrincipalAdminController {
 
             cbRolEditar.getItems().addAll("Suport", "AWPer", "IGL", "Lurker", "Rifler", "Entry-flager");
 
-            //Rellenar el ComboBox de EQUIPOS
+            /**Rellenar el ComboBox de EQUIPOS
+             *
+             */
             cbSeleccionEquipoParaJugadorEditar.getItems().clear();
             ArrayList<String> nombreEquiposEditar = EquipoController.rellenarComboEquipo();
             for (String nombre : nombreEquiposEditar){
@@ -487,7 +526,10 @@ public class MenuPrincipalAdminController {
 
     }
 
-    // Funciones para apartado de GESTIONAR USUARIOS
+    /** Funciones para apartado de GESTIONAR USUARIOS
+     * Función que abre el menu principal de gestion de Usuarios
+     * @param MouseEvent
+     */
     @FXML
     public void onGestionarUsuarios(MouseEvent MouseEvent){
         mostrarUsuariosYRoles();
@@ -527,6 +569,9 @@ public class MenuPrincipalAdminController {
 
     }
 
+    /** Función para mostrar la lista de usuarios y sus roles en el apartado de gestionar usuarios
+     * Obtiene la lista de usuarios desde el controlador UsuarioController y la muestra en un ListView. Cada elemento del ListView muestra el nombre de usuario y su tipo (admin o estandar).
+     */
     @FXML
     public void onAnadirUsuario(MouseEvent MouseEvent) {
         //Activar la ventana
@@ -536,6 +581,10 @@ public class MenuPrincipalAdminController {
 
     }
 
+    /** Función que añade un usuario a la base de datos
+     * Recoge los datos introducidos por el usuario en los campos de texto y combo box, los valida utilizando la clase ValidarDatos y luego llama al método anadirUsuario del controlador UsuarioController para insertar el nuevo usuario en la base de datos.
+     * @param event
+     */
     @FXML
     public void onAnadirDatosUsuario(ActionEvent event) {
         try {
@@ -560,12 +609,18 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Función que abre la ventana de eliminar usuario
+     * Hace visible el AnchorPane de eliminar usuario y oculta los demás AnchorPane para mostrar solo el apartado de eliminar usuario.
+     * @param MouseEvent
+     */
     @FXML
     public void onEliminarUsuario(MouseEvent MouseEvent) {
         apGestionarUsuariosBorrar.setVisible(true);
     }
 
+    /** Función que elimina el usuario de la base de datos
+     * Recoge el nombre de usuario introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método borrarUsuario del controlador UsuarioController para eliminar el usuario de la base de datos.
+     */
     @FXML
     public void onBorrarDatosUsuario() {
         try {
@@ -591,7 +646,9 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Función que abre la ventana de editar usuario
+     * Hace visible el AnchorPane de editar usuario y oculta los demás AnchorPane para mostrar solo el apartado de editar usuario.
+     */
     @FXML
     public void onEditarUsuario() {
         tfNombreUsuarioEditar.setDisable(true);
@@ -603,7 +660,9 @@ public class MenuPrincipalAdminController {
 
         cbTipoUsuarioEditar.getItems().addAll("admin", "estandar");
     }
-
+    /** Función que busca al usuario por el nombre de usuario para poder poner sus datos en el formulario
+     * Recoge el nombre de usuario introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método buscarPorNombreUsusario del controlador UsuarioController para obtener los datos del usuario desde la base de datos. Si el usuario existe, rellena los campos del formulario con los datos del usuario para que el usuario pueda editarlos.
+     */
     @FXML
     public void onBuscarNombreUsuario() {
         try {
@@ -625,7 +684,9 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Función que edita los datos del usuario en la base de datos
+     * Recoge los datos introducidos por el usuario en los campos de texto y combo box, los valida utilizando la clase ValidarDatos y luego llama al método editarUsuario del controlador UsuarioController para actualizar los datos del usuario en la base de datos.
+     */
     @FXML
     public void onEditarDatosUsuario() {
         try {
@@ -659,7 +720,9 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Función que muestra la lista de usuarios y sus roles en el apartado de gestionar usuarios
+     * Obtiene la lista de usuarios desde el controlador UsuarioController y la muestra en un ListView. Cada elemento del ListView muestra el nombre de usuario y su tipo (admin o estandar).
+     */
     @FXML
     public void onVolverGestionarUsuarios() {
         apGestionarUsuariosAnadir.setVisible(false);
@@ -669,7 +732,10 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesUsuario();
     }
 
-    // Función que vuelve al menu principal de gestion de jugadores desde añadir, eliminar y editar
+    /** Función que vuelve al menu principal de gestion de jugadores desde añadir, eliminar y editar
+     *
+     * @param event
+     */
     @FXML
     public void onVolverGestionarJugadores(ActionEvent event) {
         apGestionarJugadoresAnadir.setVisible(false);
@@ -679,7 +745,9 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesJugador();
     }
 
-    // Función que vacia los huecos donde el usuario introduce los datos en Gestión Jugadores
+    /** Función que vacia los huecos donde el usuario introduce los datos en Gestión Jugadores
+     * Limpia los campos de texto, combo box y date picker utilizados para añadir, eliminar y editar jugadores para que no queden datos residuales al volver al menú principal de gestión de jugadores o al abrir otro apartado.
+     */
     private void vaciarOpcionesJugador() {
         tfNombreJugador.clear();
         tfApellidoJugador.clear();
@@ -705,7 +773,9 @@ public class MenuPrincipalAdminController {
 
     }
 
-    // Función que vacia los huecos en Gestion Usuarios
+    /** Función que vacia los huecos en Gestion Usuarios
+     * Limpia los campos de texto, combo box y date picker utilizados para añadir, eliminar y editar usuarios para que no queden datos residuales al volver al menú principal de gestión de usuarios o al abrir otro apartado.
+     */
     private void vaciarOpcionesUsuario() {
         tfNombreUsuario.clear();
         pfContrasena.clear();
@@ -720,14 +790,19 @@ public class MenuPrincipalAdminController {
     }
 
 
-    // Función para volver al Inicio de Sesión
+    /** Función para volver al Inicio de Sesión
+     * Muestra la ventana de inicio de sesión y cierra la ventana del menú principal del administrador para que el usuario pueda iniciar sesión con otro usuario o cerrar la aplicación.
+     * @param MouseEvent
+     */
     @FXML
     public void onCerrarSesion(MouseEvent MouseEvent) {
         controller.show();
         stage.close();
     }
 
-    // Función que actualiza los contadores de jugadores y equipos del menu principal
+    /** Función que actualiza los contadores de jugadores y equipos del menu principal
+     * Llama a los métodos contarJugadores y contarEquipos de los controladores JugadorController y EquipoController para obtener el número total de jugadores y equipos registrados en la base de datos, respectivamente, y actualiza las etiquetas correspondientes en la interfaz gráfica para mostrar estos valores al usuario.
+     */
     private void actualizarDatosPanelPrincipal(){
         try {
             lbNombreBienvenida.setText(username);
@@ -738,7 +813,10 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    //Funciones para apartado GESTION EQUIPOS
+    /** Funciones para apartado GESTION EQUIPOS
+     * Función que abre el menu principal de gestion de Equipos
+     * @param MouseEvent
+     */
     public void onGestionarEquipos(MouseEvent MouseEvent) {
         apGestionarJugadoresPrincipal.setVisible(false);
         apGestionarJugadoresAnadir.setVisible(false);
@@ -762,14 +840,20 @@ public class MenuPrincipalAdminController {
 
 
     }
-
+    /** Función que abre el panel añadir equipo
+     * Hace visible el AnchorPane de añadir equipo y oculta los demás AnchorPane para mostrar solo el apartado de añadir equipo.
+     * @param mouseEvent
+     */
     public void onAnadirEquipo(MouseEvent mouseEvent) {
         apGestionarEquiposAnadir.setVisible(true);
         apGestionarEquiposEditar.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
     }
 
-    //Funcion boton volver al apartado GESTIONAR EQUIPOS
+    /** Funcion boton volver al apartado GESTIONAR EQUIPOS
+     * Hace invisible los AnchorPane de añadir, editar y eliminar equipo para volver al menú principal de gestión de equipos.
+     * @param actionEvent
+     */
     public void onVolverGestionarEquipos(ActionEvent actionEvent) {
         apGestionarEquiposAnadir.setVisible(false);
         apGestionarEquiposBorrar.setVisible(false);
@@ -780,7 +864,10 @@ public class MenuPrincipalAdminController {
         vaciarOpcionesUsuario();
     }
 
-    //Funcion anadir equipo al pulsar boton
+    /** Funcion anadir equipo al pulsar boton
+     * Recoge los datos introducidos por el usuario en los campos de texto y date picker, los valida utilizando la clase ValidarDatos y luego llama al método insertarEquipo del controlador EquipoController para insertar el nuevo equipo en la base de datos.
+     * @param actionEvent
+     */
     public void onAnadirDatosEquipo(ActionEvent actionEvent) {
         try {
             ValidarDatos.validarUsername(tfNombreEquipo.getText());
@@ -799,7 +886,12 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Función para mostrar mensajes de confirmación, error o información al usuario
+     * Recibe un título, un mensaje y un tipo de alerta (información, error o confirmación) y muestra una ventana emergente con el mensaje correspondiente al usuario.
+     * @param titulo
+     * @param mensaje
+     * @param alerta
+     */
     public void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta) {
 
         Alert alert = new Alert(alerta);
@@ -808,7 +900,12 @@ public class MenuPrincipalAdminController {
         alert.show();
 
     }
-
+    /** Función para mostrar un mensaje de confirmación al usuario
+     * Recibe un título y un mensaje, muestra una ventana emergente con el mensaje de confirmación y devuelve la opción seleccionada por el usuario (Aceptar o Cancelar) para que la función que llama a este método pueda tomar una decisión en función de la respuesta del usuario.
+     * @param titulo
+     * @param mensaje
+     * @return Optional<ButtonType>
+     */
     public Optional<ButtonType> mostarMensajeConfirmacion(String titulo, String mensaje) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -818,13 +915,19 @@ public class MenuPrincipalAdminController {
         return alert.showAndWait();
     }
 
-        //Funcion abrir panel Eliminar Equipo
-        public void onEliminarEquipo (MouseEvent mouseEvent){
+    /** Funcion abrir panel Eliminar Equipo
+     * Hace visible el AnchorPane de eliminar equipo y oculta los demás AnchorPane para mostrar solo el apartado de eliminar equipo.
+     * @param mouseEvent
+     */
+    public void onEliminarEquipo (MouseEvent mouseEvent){
             apGestionarEquiposBorrar.setVisible(true);
         }
 
-        //Funcion borrar equipo al pulsar boton
-        public void onBorrarDatosEquipo (ActionEvent actionEvent){
+    /** Funcion borrar equipo al pulsar boton
+     * Recoge el nombre del equipo introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método borrarEquipo del controlador EquipoController para eliminar el equipo de la base de datos.
+     * @param actionEvent
+     */
+    public void onBorrarDatosEquipo (ActionEvent actionEvent){
             try {
 
                 ValidarDatos.validarString(tfNombreEquipoBorrar.getText());
@@ -844,8 +947,11 @@ public class MenuPrincipalAdminController {
                 mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);            }
         }
 
-        //Funcion abrir panel Editar Equipo
-        public void onEditarEquipo (MouseEvent mouseEvent){
+    /** Funcion abrir panel Editar Equipo
+     * Hace visible el AnchorPane de editar equipo y oculta los demás AnchorPane para mostrar solo el apartado de editar equipo. Además, desactiva los campos de texto y date picker para que el usuario no pueda editarlos hasta que busque un equipo existente.
+     * @param mouseEvent
+     */
+    public void onEditarEquipo (MouseEvent mouseEvent){
 
             tfNombreEquipoEditar.setDisable(true);
             dpFechaFundacionEditar.setDisable(true);
@@ -854,8 +960,11 @@ public class MenuPrincipalAdminController {
             apGestionarEquiposEditar.setVisible(true);
         }
 
-        //Funcion buscar el equipo a editar
-        public void onBuscarNombreEquipo (ActionEvent actionEvent){
+    /** Funcion buscar el equipo a editar
+     * Recoge el nombre del equipo introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método equipoPorNombre del controlador EquipoController para obtener los datos del equipo desde la base de datos. Si el equipo existe, rellena los campos del formulario con los datos del equipo para que el usuario pueda editarlos y activa los campos de texto y date picker para que el usuario pueda modificarlos.
+     * @param actionEvent
+     */
+    public void onBuscarNombreEquipo (ActionEvent actionEvent){
             try {
                 Equipo equipo = EquipoController.equipoPorNombre(tfNombreEquipoBuscar.getText());
 
@@ -871,8 +980,11 @@ public class MenuPrincipalAdminController {
             }
         }
 
-        //Funcion editar equipo al pulsar boton
-        public void onEditarDatosEquipo (ActionEvent actionEvent){
+    /** Funcion editar equipo al pulsar boton
+     * Recoge los datos introducidos por el usuario en los campos de texto y date picker, los valida utilizando la clase ValidarDatos y luego llama al método editarEquipo del controlador EquipoController para actualizar los datos del equipo en la base de datos.
+     * @param actionEvent
+     */
+    public void onEditarDatosEquipo (ActionEvent actionEvent){
             try {
                 ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
 
@@ -889,8 +1001,10 @@ public class MenuPrincipalAdminController {
                 mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
-       
-    //Funcion vaciar todos los apartados de gestionar equipos
+
+    /** Funcion vaciar todos los apartados de gestionar equipos
+     * Limpia los campos de texto y date picker utilizados para añadir, eliminar y editar equipos para que no queden datos residuales al volver al menú principal de gestión de equipos o al abrir otro apartado.
+     */
     public void vaciarOpcionesEquipo(){
         tfNombreEquipo.clear();
         dpFechaFundacion.setValue(null);
@@ -900,7 +1014,10 @@ public class MenuPrincipalAdminController {
         dpFechaFundacionEditar.setValue(null);
     }
 
-    //Funcion para mostrar el panel ver informes
+    /** Funcion para mostrar el panel ver informes
+     * Hace visible el AnchorPane de ver informes y oculta los demás AnchorPane para mostrar solo el apartado de ver informes. Además, limpia el campo de texto utilizado para buscar jugadores por equipo en el panel de ver informes para que no queden datos residuales al abrir el panel.
+     * @param actionEvent
+     */
     public void onVerInformes(MouseEvent actionEvent) {
         apVerInformes.setVisible(true);
         spVerEquipos.setVisible(false);
@@ -910,12 +1027,19 @@ public class MenuPrincipalAdminController {
         tfTipoPuntuacion.clear();
     }
 
-    //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+    /** Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+     * Hace visible el ScrollPane que contiene la lista de jugadores para mostrarla al usuario.
+     * @param mouseEvent
+     */
     public void onVerJugadores(MouseEvent mouseEvent) {
         spVerJugadores.setVisible(true);
     }
 
-    //Funcion para crear la vbox de cada jugador a mostrar
+    /** Funcion para crear la vbox de cada jugador a mostrar
+     * Recibe un objeto Jugador y crea una VBox con los datos del jugador formateados para mostrarlo en el panel de ver informes. La VBox incluye el nickname, nombre, apellido, fecha de nacimiento, rol, sueldo y equipo del jugador, y se le aplica un estilo visual para que se vea como una carta.
+     * @param jugador
+     * @return
+     */
     public Node crearCartasJugador(Jugador jugador) {
         VBox carta = new VBox();
         carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
@@ -953,7 +1077,9 @@ public class MenuPrincipalAdminController {
         carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
         return carta;
     }
-
+    /** Funcion para buscar jugadores por equipo al pulsar el boton
+     * Recoge el nombre del equipo introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método verJugadoresPorEquipo del controlador JugadorController para obtener la lista de jugadores que pertenecen a ese equipo desde la base de datos. Si existen jugadores para ese equipo, llama a la función rellenarVerJugadores para mostrar la lista de jugadores en el panel de ver informes. Si no existe ningún equipo con ese nombre o no hay jugadores para ese equipo, muestra un mensaje de error al usuario.
+     */
     public void onBuscarJugadorPorEquipo(){
         try {
 
@@ -968,7 +1094,10 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+    /** Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+     * Recibe una lista de jugadores y recorre la lista para crear una fila (HBox) cada dos jugadores, dentro de cada fila se añaden las VBoxes creadas por la función crearCartasJugador para mostrar los datos de cada jugador. Si el número de jugadores es impar, se añade un espacio vacío al final de la última fila para que la presentación visual sea más equilibrada. Si no hay jugadores para mostrar, se muestra un mensaje indicando que no hay jugadores disponibles.
+     * @param jugadores
+     */
     public void rellenarVerJugadores(ArrayList<Jugador> jugadores){
         try {
             vboxContenedorJugadores.getChildren().clear();
@@ -1004,20 +1133,30 @@ public class MenuPrincipalAdminController {
         }
     }
 
-    //Funcion para volver al panel de ver informes
+    /** Funcion para volver al panel de ver informes
+     * Hace invisible los ScrollPane que contienen las listas de jugadores y equipos para volver al menú principal de ver informes. Además, limpia el campo de texto utilizado para buscar jugadores por equipo para que no queden datos residuales al volver al menú principal de ver informes.
+     * @param actionEvent
+     */
     public void onVolverVerInformes(ActionEvent actionEvent) {
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
         tfBuscarJugadorPorEquipo.clear();
     }
 
-    //Funcion para mostrar el panel de ver equipos al pulsar el boton
+    /** Funcion para mostrar el panel de ver equipos al pulsar el boton
+     * Hace visible el ScrollPane que contiene la lista de equipos para mostrarla al usuario.
+     * @param mouseEvent
+     */
     public void onVerEquipos(MouseEvent mouseEvent) {
         rellenarVerEquipos();
         spVerEquipos.setVisible(true);
     }
 
-    //Funcion para crear la carta por cada equipo
+    /** Funcion para crear la carta por cada equipo
+     * Recibe un objeto EquipoInforme (que contiene los datos del equipo y estadísticas como el número de jugadores, sueldo máximo, sueldo mínimo y sueldo medio) y crea una VBox con los datos del equipo formateados para mostrarlo en el panel de ver informes. La VBox incluye el nombre del equipo, fecha de fundación, número de jugadores, sueldo máximo, sueldo mínimo y sueldo medio, y se le aplica un estilo visual para que se vea como una carta.
+     * @param equipo
+     * @return
+     */
     public Node crearCartasEquipo(EquipoInforme equipo) {
         VBox carta = new VBox();
         carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
@@ -1051,7 +1190,9 @@ public class MenuPrincipalAdminController {
         return carta;
     }
 
-    //Funcion para reccorrer los equipos y crear la carta por cada equipo
+    /** Funcion para reccorrer los equipos y crear la carta por cada equipo
+     * Recibe una lista de equipos y recorre la lista para crear una fila (HBox) cada dos equipos, dentro de cada fila se añaden las VBoxes creadas por la función crearCartasEquipo para mostrar los datos de cada equipo. Si el número de equipos es impar, se añade un espacio vacío al final de la última fila para que la presentación visual sea más equilibrada. Si no hay equipos para mostrar, se muestra un mensaje indicando que no hay equipos disponibles.
+     */
     public void rellenarVerEquipos() {
         try {
             vboxContenedorEquipos.getChildren().clear();
@@ -1085,7 +1226,11 @@ public class MenuPrincipalAdminController {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    //Funcion para cerrar la competición
+
+    /** Funcion para cerrar la competición
+     * Hace visible el AnchorPane de cerrar competición y oculta los demás AnchorPane para mostrar solo el apartado de cerrar competición. Además, limpia el campo de texto utilizado para introducir el tipo de puntuación para que no queden datos residuales al abrir el panel.
+     * @param MouseEvent
+     */
     @FXML
     public void onCerrarCompeticion(MouseEvent MouseEvent){
 
@@ -1105,6 +1250,11 @@ public class MenuPrincipalAdminController {
         apCerrarCompeticion.setVisible(true);
     }
 
+    /** Funcion para cerrar la competición al pulsar el boton de cerrar competición
+     * Recoge el tipo de puntuación introducido por el usuario en el campo de texto
+     * Valida el tipo de puntuación utilizando la clase ValidarDatos y luego llama al método cerrarCompeticion del controlador CompeticionController para cerrar la competición en la base de datos. Después, calcula las fechas de inicio y fin de la competición en función del número de equipos registrados, llama a las funciones crearJornadas y crearEnfrentamientos para generar las jornadas y enfrentamientos de la competición, muestra un mensaje de confirmación al usuario y vuelve al menú principal del administrador.
+     * @param actionEvent
+     */
     @FXML
     public void onCerrarCompeticionAceptada(ActionEvent actionEvent){
 
@@ -1144,7 +1294,12 @@ public class MenuPrincipalAdminController {
             }
         }
     }
-
+    /** Funcion para crear las jornadas de la competición
+     * Recibe la fecha de inicio de la competición y el número de jornadas a crear, y llama al método crearJornada del controlador JornadaController para crear cada jornada en la base de datos con la fecha correspondiente (cada jornada se programa una semana después de la anterior).
+     * @param fechaInicio
+     * @param numeroEtapas
+     * @throws Exception
+     */
     public void crearJornadas(LocalDate fechaInicio, int numeroEtapas) throws Exception{
 
         for (int i = 1; i < numeroEtapas + 1; i++) {
@@ -1156,6 +1311,11 @@ public class MenuPrincipalAdminController {
         }
     }
 
+    /** Funcion para crear los enfrentamientos de la competición
+     * Recibe el número de jornadas creadas y para cada jornada llama al método crearEnfrentamiento del controlador EnfrentamientoController para crear los enfrentamientos correspondientes a esa jornada en la base de datos. Cada enfrentamiento se programa con una hora de inicio que comienza a las 14:00 para el primer enfrentamiento de la jornada y se va incrementando en una hora para cada enfrentamiento siguiente. Después de crear los enfrentamientos, llama a la función distribuirEquiposPorEnfrentamientos para asignar los equipos a cada enfrentamiento de forma equitativa.
+     * @param numeroEtapas
+     * @throws Exception
+     */
     public void crearEnfrentamientos(int numeroEtapas) throws Exception{
 
         ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
@@ -1174,7 +1334,11 @@ public class MenuPrincipalAdminController {
         }
         distribuirEquiposPorEnfrentamientos(jornadas);
     }
-
+    /** Funcion para distribuir los equipos por enfrentamientos
+     * Recibe la lista de jornadas creadas y para cada jornada obtiene la lista de enfrentamientos correspondientes a esa jornada desde la base de datos. Luego, asigna los equipos a cada enfrentamiento de forma equitativa utilizando una estrategia de distribución que asigna el primer equipo al primer enfrentamiento, el segundo equipo al segundo enfrentamiento, y así sucesivamente, hasta que se asignan todos los equipos. Después de asignar los equipos a los enfrentamientos, llama al método crearResultado del controlador ResultadoController para crear un resultado inicial para cada equipo en cada enfrentamiento.
+     * @param jornadas
+     * @throws Exception
+     */
     public void distribuirEquiposPorEnfrentamientos(ArrayList<Jornada> jornadas) throws Exception{
 
         ArrayList<Equipo> equipos = EquipoController.listarEquipos();
@@ -1199,19 +1363,14 @@ public class MenuPrincipalAdminController {
     }
 
 
-
-        // Función que muestra los usuarios y roles en la tabla
+    /** Esta función muestra los usuarios y sus roles en la tabla de gestionar usuarios
+     * Obtiene la lista de usuarios desde el controlador UsuarioController y la muestra en un ListView. Cada elemento del ListView muestra el nombre de usuario y su tipo (admin o estandar). Si ocurre algún error al obtener los usuarios o mostrar la información, se muestra un mensaje de error al usuario.
+     */
 
     public void mostrarUsuariosYRoles(){
         try {
             ObservableList<Usuario> usuarios = UsuarioDAO.obtenerUsuarios();
-           // Vamos a comprobar que se han obtenido correctamente los usuarios
-            for (Usuario usuario : usuarios) {
-                System.out.println("Usuario: " + usuario.getNombreUsuario() + ", Contraseña: " + usuario.getContrasena());
-            }
 
-
-        // 3. Finalmente, le pasamos la lista a la Lista que se vera por pantalla
             listUsuarios.setItems(usuarios);
             listUsuarios.setCellFactory(param -> new ListCell<Usuario>() {
                 @Override

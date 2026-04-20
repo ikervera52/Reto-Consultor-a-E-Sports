@@ -3,6 +3,10 @@ package org.example.appesports.Modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa una competición en el sistema de gestión de esports.
+ * Contiene información sobre la fecha de inicio y fin de la competición, la etapa en la que se encuentra y el tipo de puntuación que se utiliza en la competición.
+ */
 public class Competicion {
     private int idCompeticion;
     private LocalDate fechaInicio;

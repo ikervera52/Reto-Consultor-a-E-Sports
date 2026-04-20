@@ -1,7 +1,5 @@
 package org.example.appesports.DAO;
 
-import oracle.jdbc.proxy.annotation.Pre;
-import org.example.appesports.Controlador.CompeticionController;
 import org.example.appesports.Modelo.Jornada;
 import org.example.appesports.Utilidades.ConexionBD;
 

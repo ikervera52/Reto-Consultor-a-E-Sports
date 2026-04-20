@@ -2,17 +2,14 @@ package org.example.appesports.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Modelo.Admin;
 import org.example.appesports.Modelo.Estandar;
 import org.example.appesports.Modelo.Usuario;
 import org.example.appesports.Utilidades.ConexionBD;
 
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class UsuarioDAO {
 

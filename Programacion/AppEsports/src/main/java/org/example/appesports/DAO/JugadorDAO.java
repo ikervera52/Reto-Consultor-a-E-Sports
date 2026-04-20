@@ -1,8 +1,6 @@
 package org.example.appesports.DAO;
 
-import oracle.jdbc.proxy.annotation.Pre;
 import org.example.appesports.Controlador.EquipoController;
-import org.example.appesports.Modelo.Equipo;
 import org.example.appesports.Modelo.Jugador;
 import org.example.appesports.Utilidades.ConexionBD;
 
@@ -24,6 +22,7 @@ public class JugadorDAO {
             if (rs.next()){
                 cantidad = rs.getInt(1);
             }
+
             ConexionBD.closeConexion(con);
 
         } catch (SQLException e) {
@@ -60,8 +59,6 @@ public class JugadorDAO {
                     EquipoController.equipoPorId(rs.getInt(9))
             ));
         }
-        ConexionBD.closeConexion(con);
-
         ConexionBD.closeConexion(con);
 
         return jugadores;
@@ -106,11 +103,12 @@ public class JugadorDAO {
 
         int e = ps.executeUpdate();
 
+        ConexionBD.closeConexion(con);
+
         if (e == 0){
             throw new Exception("No se ha podido eliminar el jugador");
         }
 
-        ConexionBD.closeConexion(con);
 
     }
 
@@ -161,11 +159,11 @@ public class JugadorDAO {
 
         int e = ps.executeUpdate();
 
+        ConexionBD.closeConexion(con);
+
         if (e == 0){
             throw new Exception("Error al actualizar el Jugador");
         }
-
-        ConexionBD.closeConexion(con);
     }
 
     public static ArrayList<Jugador> verJugadores() throws Exception{
@@ -188,6 +186,8 @@ public class JugadorDAO {
             );
             jugadores.add(jugador);
         }
+
+        ConexionBD.closeConexion(con);
 
         if (jugadores.size()==0){
             throw new Exception("No se han encontrado jugadores");

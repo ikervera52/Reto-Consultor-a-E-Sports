@@ -1,5 +1,8 @@
 -- Autor: Iker Vera
--- Fecha de Ultima Edicion: 19/04/2026
+-- Fecha de Ultima Edicion: 20/04/2026
+
+
+-- Trigger para controlar que el salario sea superior al SMI
 
 CREATE OR REPLACE TRIGGER tri_com_salario_smi
 BEFORE INSERT OR UPDATE OF sueldo ON jugadores
@@ -26,6 +29,8 @@ END tri_com_salario_smi;
 
 /
 
+-- Trigger para que los equipos tengan 6 jugadores Maximo
+
 CREATE OR REPLACE TRIGGER tri_max_jugadores_equipo
 FOR INSERT OR UPDATE OF id_equipo ON jugadores
 COMPOUND TRIGGER
@@ -47,12 +52,22 @@ END BEFORE EACH ROW;
 
 AFTER STATEMENT IS
 BEGIN 
-    SELECT COUNT(*) INTO v_num_jugadores
-    FROM jugadores
-    WHERE id_equipo = v_id_equipo;
+
+    IF v_id_equipo IS NULL THEN
     
-    IF v_num_jugadores >= 6 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+        NULL;
+    
+    ELSE
+    
+        SELECT COUNT(*) INTO v_num_jugadores
+        FROM jugadores
+        WHERE id_equipo = v_id_equipo;
+    
+    
+        IF v_num_jugadores > 6 THEN
+            RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+        END IF;
+        
     END IF;
     
     EXCEPTION
@@ -64,6 +79,9 @@ END AFTER STATEMENT;
 END tri_max_jugadores_equipo;
 
 /
+
+-- Trigger para controlar que los equipos tengan al menos
+-- dos jugadores al cerrar la competición
 
 CREATE OR REPLACE TRIGGER tri_cal_jugadores
 BEFORE UPDATE OF etapa ON competiciones
@@ -98,6 +116,8 @@ END tri_cal_jugadores;
 
 /
 
+-- Trigger para no se puedan editar los equipos si la comp. esta cerrada
+
 CREATE OR REPLACE TRIGGER tri_competicion_cerrada_equipos
 BEFORE INSERT OR UPDATE ON equipos
 FOR EACH ROW
@@ -125,6 +145,9 @@ EXCEPTION
 END tri_competicion_cerrada_equipos;
 
 /
+
+-- Trigger para no se puedan editar los jugadores si la comp. esta cerrada
+
 
 CREATE OR REPLACE TRIGGER tri_competicion_cerrada_jugadores
 BEFORE INSERT OR UPDATE ON jugadores
@@ -154,6 +177,9 @@ END tri_competicion_cerrada_jugadores;
 
 /
 
+-- Trigger para controlar que los equipos sean pares al cerrar la competición
+
+
 CREATE OR REPLACE TRIGGER tri_cal_equipos
 BEFORE UPDATE OF etapa ON competiciones
 FOR EACH ROW
@@ -182,6 +208,12 @@ EXCEPTION
 END tri_cal_equipos;
 
 /
+
+-- Trigger para controlar si la competición a terminado o no:
+-- Si no ha terminado salta error y no pasa nada
+-- Si a terminado se cambia los datos de la competicion y se borran las jornadas
+-- que tienen un ON DELETE CASCADE y asi se borran los enfrentamientos y las
+-- puntuaciones tambien.
 
 
 CREATE OR REPLACE TRIGGER fin_competicion 

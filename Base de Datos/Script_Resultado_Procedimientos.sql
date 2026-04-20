@@ -1,5 +1,5 @@
 -- Autor: Iker Vera
--- Ultima Fecha Edicion: 17/04/2026
+-- Ultima Fecha Edicion: 20/04/2026
 
 SET SERVEROUTPUT ON;
 
@@ -32,8 +32,10 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
 END;
 
--- Respuesta de este bloque anonimo
-/*
+/*   Respuesta de este bloque anonimo (tiene que imprimir todos los equipos
+                                     que existen en la competición)
+
+
 Equipo: eq1
 Fecha: 20/10/05
 Jugadores: 2
@@ -70,11 +72,12 @@ DECLARE
     v_cursor SYS_REFCURSOR;
 
     v_jugador jugadores%ROWTYPE;
+    
 
 BEGIN
 
     jugadores_por_equipos(
-        p_nombre_equipo => 'EquipoSi',
+        p_nombre_equipo => 'pepe',
         p_cursor => v_cursor
     );
 
@@ -101,9 +104,57 @@ EXCEPTION
 
 END;
 
-SELECT * FROM equipos;
+/*   Respuesta de este bloque anonimo (tiene que imprimir todos los equipos
+                                     que existen en la competición)
 
+Respuesta si el nombre del equipo existe:
 
+ID jugador: 1
+Nombre: Jugador
+Apellido: Apellido
+Fecha Nacimiento: 20/10/05
+Nickname: jug1
+Rol: AWPer
+Sueldo: 2000
+--------------------
+ID jugador: 2
+Nombre: Jugador
+Apellido: Apellido
+Fecha Nacimiento: 20/10/05
+Nickname: jug2
+Rol: AWPer
+Sueldo: 2000
+--------------------
+ID jugador: 3
+Nombre: Jugador
+Apellido: Apellido
+Fecha Nacimiento: 20/10/05
+Nickname: jug3
+Rol: AWPer
+Sueldo: 2000
+--------------------
+ID jugador: 4
+Nombre: Jugador
+Apellido: Apellido
+Fecha Nacimiento: 20/10/05
+Nickname: jug4
+Rol: AWPer
+Sueldo: 2000
+--------------------
+ID jugador: 5
+Nombre: Jugador
+Apellido: Apellido
+Fecha Nacimiento: 20/10/05
+Nickname: jug5
+Rol: AWPer
+Sueldo: 2000
+--------------------
+
+Respuesta del bloque anonimo si el equipo no existe:
+
+Error: ORA-20010: Equipo no encontrado
+
+*/
 
 
 

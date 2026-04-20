@@ -23,7 +23,11 @@ import java.util.ArrayList;
  * Esta clase se encarga de mostrar la información de los equipos registrados en la competición y gestionar la interacción del usuario con la interfaz.
  */
 public class MenuPrincipalEstandarCompeticionController {
-
+    /** Atributos de la clase MenuPrincipalEstandarCompeticionController:
+     * - lbNombreBienvenida: Un Label que muestra el nombre de bienvenida al usuario.
+     * - onCerrarSesion: Un HBox que representa el área de la interfaz donde el usuario puede hacer clic para cerrar sesión.
+     * - vbEquipos: Un VBox que contiene las cartas de información de los equipos registrados en la competición, permitiendo mostrar detalles como el nombre del equipo y su fecha de fundación.
+     */
     public Label lbNombreBienvenida;
     @FXML
     public HBox onCerrarSesion;
@@ -32,10 +36,20 @@ public class MenuPrincipalEstandarCompeticionController {
     public VBox vbEquipos;
     public VBox vbResultadosUltimaJornada;
 
-
+    /** Atributos adicionales:
+     * - stage: Un objeto de tipo Stage que representa la ventana actual del menú principal, utilizado para gestionar la navegación entre vistas.
+     * - controller: Un objeto de tipo MenuInicioSesionController que se utiliza para mostrar la ventana del menú de inicio de sesión cuando el usuario decide cerrar sesión.
+     */
     public Stage stage;
     public MenuInicioSesionController controller;
 
+    /** Método init que inicializa la vista del menú principal con la información del usuario y los equipos registrados.
+     * El método recibe como parámetros la ventana actual (stage), el controlador del menú de inicio de sesión (menu) y el nombre de usuario (username).
+     * Al ejecutar este método, se establece el texto del Label de bienvenida con el nombre del usuario y se llama al método actualizarInfo() para mostrar la información de los equipos registrados en la competición.
+     * @param stage
+     * @param menu
+     * @param username
+     */
     public void init (Stage stage, MenuInicioSesionController menu, String username) throws Exception {
         this.controller = menu;
         this.stage = stage;

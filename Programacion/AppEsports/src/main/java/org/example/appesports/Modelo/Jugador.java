@@ -1,7 +1,9 @@
 package org.example.appesports.Modelo;
 
 import java.time.LocalDate;
-
+/** * Clase que representa a un jugador en el sistema de gestión de esports.
+ * Contiene información sobre el nombre, apellido, nacionalidad, fecha de nacimiento, nickname, rol, sueldo y equipo al que pertenece.
+ */
 public class Jugador {
     private int id;
     private String nombre;

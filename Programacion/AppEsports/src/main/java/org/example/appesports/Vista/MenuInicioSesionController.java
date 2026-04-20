@@ -16,7 +16,9 @@ import org.example.appesports.Controlador.UsuarioController;
 import org.example.appesports.MainApplication;
 import org.example.appesports.Utilidades.ValidarDatos;
 
-
+/** Controlador para el menú de inicio de sesión.
+ * Permite a los usuarios ingresar sus credenciales y acceder a las diferentes vistas según su tipo de usuario y la etapa de la competición.
+ */
 public class MenuInicioSesionController {
 
     private Stage stage;
@@ -29,7 +31,11 @@ public class MenuInicioSesionController {
 
     @FXML
     private TextField tfUsuario;
-
+    /** Método que se ejecuta al hacer clic en el botón "Entrar".
+     * Valida las credenciales ingresadas por el usuario y redirige a la vista correspondiente según el tipo de usuario y la etapa de la competición.
+     * Si las credenciales son inválidas, muestra un mensaje de error.
+     * @param event El evento de acción generado al hacer clic en el botón "Entrar".
+     */
     @FXML
     void onEntrar(ActionEvent event) {
 
@@ -130,23 +136,34 @@ public class MenuInicioSesionController {
             mostarMensaje("Error" ,"el usuario o la contraseña no son validos", Alert.AlertType.ERROR);
         }
     }
-
+    /** Método para mostrar un mensaje de alerta al usuario.
+     * Crea una ventana emergente con el título, mensaje y tipo de alerta especificados.
+     * @param titulo El título de la ventana de alerta.
+     * @param mensaje El mensaje que se mostrará en la ventana de alerta.
+     * @param alerta El tipo de alerta (por ejemplo, ERROR, INFORMATION, etc.) que determinará el icono y estilo de la ventana de alerta.
+     */
     private void mostarMensaje(String titulo, String mensaje, Alert.AlertType alerta){
         Alert alert = new Alert(alerta);
         alert.setTitle(titulo);
         alert.setContentText(mensaje);
         alert.show();
     }
-
+    /** Método que se ejecuta al hacer clic en el botón "Salir".
+     * Cierra la aplicación de manera segura.
+     */
     @FXML
     public void onSalir(){
         System.exit(0);
     }
-
+    /** Método para establecer la etapa de la competición.
+     * Este método puede ser utilizado para actualizar la etapa de la competición en el controlador, lo que podría afectar la lógica de redirección a diferentes vistas según la etapa actual.
+     */
     public void setStage(Stage stage){
         this.stage = stage;
     }
-
+    /** Método para mostrar la ventana de inicio de sesión.
+     * Este método se puede llamar para hacer visible la ventana de inicio de sesión después de haberla configurado y preparado para su uso.
+     */
     public void show(){
         stage.show();
     }

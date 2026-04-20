@@ -1,5 +1,9 @@
 package org.example.appesports.Modelo;
 
+/**
+ * Clase que representa el resultado de un enfrentamiento entre equipos en el sistema de gestión de esports.
+ * Contiene información sobre el equipo, el enfrentamiento y el resultado obtenido.
+ */
 public class Resultado {
 
     private Equipo equipo;
@@ -7,6 +11,11 @@ public class Resultado {
     private int resultado;
 
     public Resultado() {
+    }
+
+    public Resultado(Equipo equipo, Enfrentamiento enfrentamiento) {
+        this.equipo = equipo;
+        this.enfrentamiento = enfrentamiento;
     }
 
     public Resultado(Equipo equipo, Enfrentamiento enfrentamiento, int puntuacion) {

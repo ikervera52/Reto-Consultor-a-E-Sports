@@ -1,5 +1,7 @@
 package org.example.appesports.Modelo;
-
+/** * Clase que representa un usuario en el sistema de gestión de esports.
+ * Contiene información sobre el nombre de usuario, la contraseña y un identificador único.
+ */
 public class Usuario {
     private int idUsuario;
     private String nombreUsuario;
@@ -18,6 +20,7 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
         this.contrasena = contrasena;
     }
+
 
     public String getContrasena() {
         return contrasena;
@@ -42,4 +45,6 @@ public class Usuario {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+
 }

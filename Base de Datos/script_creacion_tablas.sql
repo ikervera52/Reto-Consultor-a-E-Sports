@@ -1,3 +1,8 @@
+-- Autor: Iker Poza 
+-- Fecha Ultima Edicion : 20/04/2026
+
+-- Drops de las tablas
+
 DROP TABLE resultados CASCADE CONSTRAINTS;
 DROP TABLE jugadores CASCADE CONSTRAINTS;
 DROP TABLE equipos;
@@ -6,6 +11,7 @@ DROP TABLE jornadas CASCADE CONSTRAINTS;
 DROP TABLE competiciones;
 DROP TABLE usuarios;
 
+-- Creación de las tablas
 
 CREATE TABLE usuarios(
     id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -31,7 +37,7 @@ CREATE TABLE jornadas(
     num_jornada NUMBER NOT NULL,
     fecha DATE NOT NULL,
     id_competicion NUMBER,
-    CONSTRAINT jo_ïd_pk PRIMARY KEY (id),
+    CONSTRAINT jo_id_pk PRIMARY KEY (id),
     CONSTRAINT jo_id_competicion_fk FOREIGN KEY (id_competicion) 
                                     REFERENCES competiciones(id)
 );
@@ -80,9 +86,25 @@ CREATE TABLE jugadores(
 CREATE TABLE resultados(
     id_equipo NUMBER,
     id_enfrentamiento NUMBER,
-    puntuacion NUMBER NOT NULL,
+    puntuacion NUMBER,
     CONSTRAINT pu_eq_en_pk PRIMARY KEY (id_equipo,id_enfrentamiento),
     CONSTRAINT pu_id_equipo_fk FOREIGN KEY (id_equipo) REFERENCES equipos(id),
     CONSTRAINT pu_id_enfrentamiento_fk FOREIGN KEY (id_enfrentamiento) REFERENCES enfrentamientos(id)
+    ON DELETE CASCADE
 );
 
+-- Creacion de las views (Esta view se utiliza en el 
+--                        procedimiento : estadisticas_equipos)
+
+CREATE OR REPLACE VIEW view_info_equipos AS
+    
+    SELECT  e.nombre,
+            e.fecha_fundacion,
+            COUNT(j.id) cantidad_jugadores,
+            ROUND(MAX(j.sueldo),2) sueldo_maximo,
+            ROUND(MIN(j.sueldo),2) sueldo_minimo,
+            ROUND(AVG(j.sueldo),2) sueldo_medio
+        FROM equipos e
+        LEFT JOIN jugadores j 
+            ON e.id = j.id_equipo
+        GROUP BY e.id, e.nombre, e.fecha_fundacion;

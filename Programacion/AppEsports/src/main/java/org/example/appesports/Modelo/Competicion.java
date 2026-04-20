@@ -3,27 +3,30 @@ package org.example.appesports.Modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa una competición en el sistema de gestión de esports.
+ * Contiene información sobre la fecha de inicio y fin de la competición, la etapa en la que se encuentra y el tipo de puntuación que se utiliza en la competición.
+ */
 public class Competicion {
     private int idCompeticion;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private TipoEtapa etapa;
-    private ArrayList<Jornada> jornadas;
-    private ArrayList<Equipo> equipos;
+    private String etapa;
     private String tipoPuntuacion;
-
-    public enum TipoEtapa {
-        COMPETICION, INSCRIPCION
-    }
 
     public Competicion() {
     }
 
-    public Competicion(int id, TipoEtapa etapa ) {
-        this.idCompeticion = id;
+    public Competicion(String etapa) {
         this.etapa = etapa;
-        this.jornadas = new ArrayList<>();
-        this.equipos = new ArrayList<>();
+    }
+
+    public Competicion(int idCompeticion, LocalDate fechaInicio, LocalDate fechaFin, String etapa, String tipoPuntuacion) {
+        this.idCompeticion = idCompeticion;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.etapa = etapa;
+        this.tipoPuntuacion = tipoPuntuacion;
     }
 
     public int getIdCompeticion() {
@@ -50,39 +53,12 @@ public class Competicion {
         this.fechaFin = fechaFin;
     }
 
-    public TipoEtapa getEtapa() {
+    public String getEtapa() {
         return etapa;
     }
 
-    public void setEtapa(TipoEtapa etapa) {
+    public void setEtapa(String etapa) {
         this.etapa = etapa;
-    }
-
-    public ArrayList<Jornada> getJornadas() {
-        return jornadas;
-    }
-
-    public void setJornadas(ArrayList<Jornada> jornadas) {
-        this.jornadas = jornadas;
-    }
-
-    public ArrayList<Equipo> getEquipos() {
-        return equipos;
-    }
-
-    public void setJornada(Jornada jornada){
-        if(jornadas == null){
-            jornadas = new ArrayList<>();
-            jornadas.add(jornada);
-        }
-        else{
-            jornadas.add(jornada);
-        }
-        jornada.setCompeticion(this);
-    }
-
-    public void setEquipos(ArrayList<Equipo> equipos) {
-        this.equipos = equipos;
     }
 
     public String getTipoPuntuacion() {

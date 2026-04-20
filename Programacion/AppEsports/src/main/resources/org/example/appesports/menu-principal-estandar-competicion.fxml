@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,42 +39,47 @@
                <children>
                   <VBox prefHeight="400.0" prefWidth="350.0" style="-fx-border-color: #0086ED; -fx-background-color: #005699; -fx-border-radius: 10; -fx-background-radius: 15; -fx-border-width: 8;">
                      <children>
-                        <VBox prefHeight="412.0" prefWidth="334.0">
+                        <VBox alignment="TOP_CENTER" prefHeight="412.0" prefWidth="334.0" spacing="5.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="47.0" prefWidth="334.0">
+                              <VBox alignment="CENTER">
                                  <children>
                                     <Label text="Equipos de la Competición" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets top="20.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <Region prefHeight="5.0" prefWidth="334.0" />
                                  </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
                               </VBox>
-                              <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: #005699;" vbarPolicy="NEVER">
+                              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #005699;" vbarPolicy="NEVER">
                                 <content>
                                   <AnchorPane style="-fx-background-color: #005699;">
                                        <children>
-                                          <VBox fx:id="vbEquipos" prefHeight="0.0" prefWidth="334.0" spacing="10.0" style="-fx-background-color: #005699;">
+                                          <VBox fx:id="vbEquipos" alignment="CENTER" spacing="10.0" style="-fx-background-color: #005699;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                              <padding>
-                                                <Insets bottom="10.0" left="7.0" top="20.0" />
+                                                <Insets bottom="10.0" top="20.0" />
                                              </padding></VBox>
                                        </children>
                                     </AnchorPane>
                                 </content>
                               </ScrollPane>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="400.0" prefWidth="350.0" style="-fx-border-color: #0086ED; -fx-border-radius: 10; -fx-border-width: 8; -fx-background-color: #005699; -fx-background-radius: 15;">
                      <children>
-                        <VBox prefHeight="412.0" prefWidth="334.0">
+                        <VBox prefHeight="412.0" prefWidth="334.0" spacing="5.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="47.0" prefWidth="334.0">
+                              <VBox alignment="CENTER">
                                  <children>
                                     <Label text="Resultados Ultima Jornada" textFill="WHITE">
                                        <font>
@@ -81,13 +87,37 @@
                                        </font>
                                     </Label>
                                  </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
                               </VBox>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #005699;" vbarPolicy="NEVER">
+                                 <content>
+                                    <AnchorPane style="-fx-background-color: #005699;">
+                                       <children>
+                                          <VBox fx:id="vbResultadosUltimaJornada" alignment="CENTER" spacing="10.0" style="-fx-background-color: #005699;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                             <padding>
+                                                <Insets bottom="10.0" top="20.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </VBox>
                </children>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#onActualizarInfo" style="-fx-background-color: #0086ed; -fx-background-radius: 10;" text="Actualizar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
             <Region VBox.vgrow="ALWAYS" />
             <HBox prefHeight="46.0" prefWidth="1180.0">
                <children>

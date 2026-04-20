@@ -968,7 +968,7 @@ public class MenuPrincipalAdminController {
     public void onBorrarDatosEquipo (ActionEvent actionEvent){
             try {
 
-                ValidarDatos.validarString(tfNombreEquipoBorrar.getText());
+                ValidarDatos.validarUsername(tfNombreEquipoBorrar.getText());
 
                 String nombre = tfNombreEquipoBorrar.getText();
 
@@ -978,7 +978,7 @@ public class MenuPrincipalAdminController {
 
                 vaciarOpcionesEquipo();
 
-                mostarMensaje("Confimración", "El equipo se ha borrado con éxito.", Alert.AlertType.INFORMATION);
+                mostarMensaje("Confirmación", "El equipo se ha borrado con éxito.", Alert.AlertType.INFORMATION);
 
 
             } catch (Exception e) {
@@ -1305,7 +1305,7 @@ public class MenuPrincipalAdminController {
 
                 String tipoPuntuacion = tfTipoPuntuacion.getText();
 
-                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+                LocalDate fechaInicio = LocalDate.of(2026, 3,30).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
                 int numeroJornadas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
 

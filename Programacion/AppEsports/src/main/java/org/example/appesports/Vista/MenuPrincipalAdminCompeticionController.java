@@ -9,10 +9,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.example.appesports.ApiExterna.GrogAPI;
 import org.example.appesports.Controlador.*;
@@ -70,6 +72,16 @@ public class MenuPrincipalAdminCompeticionController {
     @FXML
     public AnchorPane apLlenarPuntuaciones;
     public VBox vboxContenedorJornadas;
+
+    @FXML
+    public AnchorPane apVerInformes;
+    public AnchorPane spVerJugadores;
+    public ScrollPane spVerEquipos;
+    public AnchorPane spVerJornadas;
+    public TextField tfBuscarJugadorPorEquipo;
+    public VBox vboxContenedorJugadores;
+    public VBox vboxContenedorEquipos;
+    public VBox vboxContenedorJornadasVer;
 
 
     /** Método de inicialización del controlador.
@@ -142,27 +154,49 @@ private void actualizarMenuPrincipal() {
             lbFechaJornada.setText(String.valueOf(jornadasPasadas.getLast().getFechaJornada()));
 
             ArrayList<Enfrentamiento> enfrentamientosUltimaJornada = EnfrentamientoController.buscarPorJornada(jornadasPasadas.getLast().getIdJornada());
-            Enfrentamiento siguienteEnfrentamiento = new Enfrentamiento();
+            Enfrentamiento siguienteEnfrentamiento = null;
             for (Enfrentamiento enfrentamiento: enfrentamientosUltimaJornada) {
-                if ( jornadasPasadas.getLast().getFechaJornada().isAfter(LocalDate.now()) || (jornadasPasadas.getLast().getFechaJornada().isEqual(LocalDate.now()) && enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()))) {
+                if ( jornadasPasadas.getLast().getFechaJornada().isAfter(LocalDate.now()) || (jornadasPasadas.getLast().getFechaJornada().isEqual(LocalDate.now()) && enfrentamiento.getHoraEnfrentamiento().isAfter(LocalTime.now()))) {
                     siguienteEnfrentamiento =  enfrentamiento;
                     break;
                 }
             }
-            ArrayList<Resultado> resultadosSiguienteEnfrentamiento = ResultadoController.verPorEnfrentamiento(siguienteEnfrentamiento.getIdEnfrentamiento());
-            tfSiguientePartido.setText(resultadosSiguienteEnfrentamiento.getFirst().getEquipo().getNombre() + " - " +  resultadosSiguienteEnfrentamiento.getLast().getEquipo().getNombre());
-            tfHora.setText(siguienteEnfrentamiento.getHoraEnfrentamiento().toString());
+            if (siguienteEnfrentamiento == null && jornadasPasadas.size() != jornadas.size()) {
+                jornadasPasadas.add(jornadas.get(jornadasPasadas.size()));
+                ArrayList<Enfrentamiento> enfrentamientosSiguienteJornada = EnfrentamientoController.buscarPorJornada(jornadasPasadas.getLast().getIdJornada());
+                siguienteEnfrentamiento = enfrentamientosSiguienteJornada.getFirst();
+            }
 
-            Enfrentamiento anteriorEnfrentamiento = new Enfrentamiento();
+            if (siguienteEnfrentamiento == null) {
+                tfSiguientePartido.setText("No hay enfrentamientos programados");
+                tfSiguientePartido.setFont(new javafx.scene.text.Font(18));
+                tfHora.setVisible(false);
+            }else {
+                ArrayList<Resultado> resultadosSiguienteEnfrentamiento = ResultadoController.verPorEnfrentamiento(siguienteEnfrentamiento.getIdEnfrentamiento());
+                tfSiguientePartido.setText(resultadosSiguienteEnfrentamiento.getFirst().getEquipo().getNombre() + " - " + resultadosSiguienteEnfrentamiento.getLast().getEquipo().getNombre());
+                tfHora.setText(siguienteEnfrentamiento.getHoraEnfrentamiento().toString());
+            }
+
+            Enfrentamiento anteriorEnfrentamiento = null;
             for (Enfrentamiento enfrentamiento: enfrentamientosUltimaJornada) {
                 if (jornadasPasadas.getLast().getFechaJornada().isBefore(LocalDate.now()) || (jornadasPasadas.getLast().getFechaJornada().isEqual(LocalDate.now()) && enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()))) {
                     anteriorEnfrentamiento =  enfrentamiento;
                 }
             }
-
-            ArrayList<Resultado> resultadosAnteriorEnfrentamiento = ResultadoController.verPorEnfrentamiento(anteriorEnfrentamiento.getIdEnfrentamiento());
-            tfUltimoResultado.setText(resultadosAnteriorEnfrentamiento.getFirst().getEquipo().getNombre() + " - " +  resultadosAnteriorEnfrentamiento.getLast().getEquipo().getNombre());
-            tfResultadoPrincipal.setText(resultadosAnteriorEnfrentamiento.getFirst().getResultado() + " - " + resultadosAnteriorEnfrentamiento.getLast().getResultado());
+            if (anteriorEnfrentamiento == null && jornadasPasadas.size() > 1) {
+                ArrayList<Enfrentamiento> enfrentamientosPenultimaJornada = EnfrentamientoController.buscarPorJornada(jornadasPasadas.get(jornadasPasadas.size() - 2).getIdJornada());
+                for (Enfrentamiento enfrentamiento: enfrentamientosPenultimaJornada) {
+                    anteriorEnfrentamiento =  enfrentamiento;
+                }
+            }
+            if (anteriorEnfrentamiento == null) {
+                tfUltimoResultado.setText("No hay resultados disponibles");
+                tfResultadoPrincipal.setVisible(false);
+            }else {
+                ArrayList<Resultado> resultadosAnteriorEnfrentamiento = ResultadoController.verPorEnfrentamiento(anteriorEnfrentamiento.getIdEnfrentamiento());
+                tfUltimoResultado.setText(resultadosAnteriorEnfrentamiento.getFirst().getEquipo().getNombre() + " - " +  resultadosAnteriorEnfrentamiento.getLast().getEquipo().getNombre());
+                tfResultadoPrincipal.setText(resultadosAnteriorEnfrentamiento.getFirst().getResultado() + " - " + resultadosAnteriorEnfrentamiento.getLast().getResultado());
+            }
 
         }catch (Exception e){
             System.out.println("pe");
@@ -177,10 +211,14 @@ private void actualizarMenuPrincipal() {
         try {
             rellenarLlenarPuntuaciones();
             apLlenarPuntuaciones.setVisible(true);
+            apCalculadorIA.setVisible(false);
+            apVerInformes.setVisible(false);
+            spVerEquipos.setVisible(false);
+            spVerJugadores.setVisible(false);
+            spVerJornadas.setVisible(false);
         }catch (Exception e){
             System.out.println("pe");
         }
-        apLlenarPuntuaciones.setVisible(true);
     }
     /** Método para rellenar las jornadas disponibles para llenar puntuaciones.
      * Obtiene la lista de jornadas y muestra solo aquellas que ya han pasado o que son el día actual, permitiendo al administrador llenar las puntuaciones de los enfrentamientos correspondientes.
@@ -216,14 +254,14 @@ private void actualizarMenuPrincipal() {
         cartaJornada.setPadding(new Insets(15));
         cartaJornada.setStyle("-fx-background-color: WHITE; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);");
 
-        Label numeroJornada = new Label("Jornada " + jornada.getNumeroJornada());
+        Label numeroJornada = new Label("Jornada " + jornada.getNumeroJornada() + " - " + jornada.getFechaJornada());
         numeroJornada.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
         cartaJornada.getChildren().add(numeroJornada);
 
         ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
         for (int i = 0; i < enfrentamientos.size(); i += 2) {
-            if (enfrentamientos.get(i).getHoraEnfrentamiento().isBefore(LocalTime.now())) {
+            if ((enfrentamientos.get(i).getHoraEnfrentamiento().isBefore(LocalTime.now()) && jornada.getFechaJornada().isEqual(LocalDate.now())) || jornada.getFechaJornada().isBefore(LocalDate.now())) {
 
 
                 HBox fila = new HBox(30);
@@ -327,7 +365,11 @@ private void actualizarMenuPrincipal() {
     @FXML
     public void onWinCalculator(MouseEvent MouseEvent){
         apCalculadorIA.setVisible(true);
-
+        apLlenarPuntuaciones.setVisible(false);
+        apVerInformes.setVisible(false);
+        spVerEquipos.setVisible(false);
+        spVerJugadores.setVisible(false);
+        spVerJornadas.setVisible(false);
     }
     /** Método para consultar la IA con la información de los equipos y sus puntos.
      * Obtiene la información de los equipos y sus puntos acumulados, construye un prompt para la IA y muestra la respuesta obtenida en la interfaz.
@@ -374,6 +416,282 @@ private void actualizarMenuPrincipal() {
         }
     }
 
+    public void onVerInformes(MouseEvent MouseEvent) {
+        apVerInformes.setVisible(true);
+        apCalculadorIA.setVisible(false);
+        apLlenarPuntuaciones.setVisible(false);
+    }
+
+    //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+    public void onVerJugadores(MouseEvent mouseEvent) {
+        spVerJugadores.setVisible(true);
+    }
+
+    //Funcion para crear la vbox de cada jugador a mostrar
+    public Node crearCartasJugador(Jugador jugador) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+        Label nickname = new Label();
+        nickname.setText(jugador.getNickname());
+        nickname.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0089ed");
+
+        Label nombre = new Label();
+        nombre.setText("Nombre: " + jugador.getNombre());
+        nombre.setStyle("-fx-text-fill: black;");
+
+        Label apellido = new Label();
+        apellido.setText("Apellido: " + jugador.getApellido());
+        apellido.setStyle("-fx-text-fill: black;");
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de nacimiento: " + jugador.getFechaNacimiento().toString());
+        fecha.setStyle("-fx-text-fill: black;");
+
+        Label rol = new Label();
+        rol.setText("Rol: " + jugador.getRol());
+        rol.setStyle("-fx-text-fill: black;");
+
+        Label sueldo = new Label();
+        sueldo.setText("Sueldo: " + jugador.getSueldo() + "€");
+        sueldo.setStyle("-fx-text-fill: black;");
+
+        Label equipo = new Label();
+        equipo.setText("Equipo: " + (jugador.getEquipo() != null ? jugador.getEquipo().getNombre() : "Sin equipo"));
+        equipo.setStyle("-fx-text-fill: black;");
+
+        carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
+        return carta;
+    }
+
+    public void onBuscarJugadorPorEquipo(){
+        try {
+
+            ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo(tfBuscarJugadorPorEquipo.getText());
+            if (jugadores.isEmpty()) throw new Exception("No existe ningún equipo con ese nombre");
+
+            rellenarVerJugadores(jugadores);
+
+
+        }catch (Exception e){
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+    public void rellenarVerJugadores(ArrayList<Jugador> jugadores){
+        try {
+            vboxContenedorJugadores.getChildren().clear();
+            for (int i = 0; i < jugadores.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+                fila.setStyle("-fx-background-color: transparent;");
+                fila.setAlignment(Pos.CENTER);
+
+                Node vistaJugador1 = crearCartasJugador(jugadores.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < jugadores.size()) {
+                    Node vistaJugador2 = crearCartasJugador(jugadores.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                }else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorJugadores.getChildren().add(fila);
+            }
+
+            if (jugadores.isEmpty()) {
+                Label sinJugadores = new Label("No hay jugadores para ver.");
+                sinJugadores.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorJugadores.getChildren().add(sinJugadores);
+            }
+
+        }catch (Exception e){
+            mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    //Funcion para volver al panel de ver informes
+    public void onVolverVerInformes(ActionEvent actionEvent) {
+        spVerJugadores.setVisible(false);
+        spVerEquipos.setVisible(false);
+        spVerJornadas.setVisible(false);
+        tfBuscarJugadorPorEquipo.clear();
+    }
+
+    //Funcion para mostrar el panel de ver equipos al pulsar el boton
+    public void onVerEquipos(MouseEvent mouseEvent) {
+        rellenarVerEquipos();
+        spVerEquipos.setVisible(true);
+    }
+
+    //Funcion para crear la carta por cada equipo
+    public Node crearCartasEquipo(EquipoInforme equipo) {
+        VBox carta = new VBox();
+        carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
+        carta.setPadding(new Insets(15));
+        carta.setPrefWidth(400);
+
+
+        Label nombre = new Label();
+        nombre.setText(equipo.getNombre());
+        nombre.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        nombre.setTextFill(Color.web("#0089ed"));
+
+
+        Label fecha = new Label();
+        fecha.setText("Fecha de Fundación: " + equipo.getFechaFundacion().toString());
+
+        Label numeroJugadores = new Label();
+        numeroJugadores.setText("Numero de Jugadores: " + equipo.getCantJugadores());
+
+        Label sueldoMax = new Label();
+        sueldoMax.setText("Sueldo Maximo: " + equipo.getMaxSalario() + "€");
+
+        Label sueldoMin = new Label();
+        sueldoMin.setText("Sueldo Minimo: " + equipo.getMinSalario() + "€");
+
+        Label sueldoMed = new Label();
+        sueldoMed.setText("Sueldo Medio: " + equipo.getAvgSalario() + "€");
+
+
+        carta.getChildren().addAll(nombre, fecha, numeroJugadores, sueldoMax, sueldoMin, sueldoMed);
+        return carta;
+    }
+
+    //Funcion para reccorrer los equipos y crear la carta por cada equipo
+    public void rellenarVerEquipos() {
+        try {
+            vboxContenedorEquipos.getChildren().clear();
+            ArrayList<EquipoInforme> equipos = EquipoController.listarEquiposInforme();
+            for (int i = 0; i < equipos.size(); i += 2) {
+
+                HBox fila = new HBox(30);
+
+                Node vistaJugador1 = crearCartasEquipo(equipos.get(i));
+                fila.getChildren().add(vistaJugador1);
+
+                if (i + 1 < equipos.size()) {
+                    Node vistaJugador2 = crearCartasEquipo(equipos.get(i + 1));
+                    fila.getChildren().add(vistaJugador2);
+                } else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                vboxContenedorEquipos.getChildren().add(fila);
+            }
+
+            if (equipos.isEmpty()) {
+                Label sinEquipos = new Label("No hay equipos para ver.");
+                sinEquipos.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                vboxContenedorEquipos.getChildren().add(sinEquipos);
+            }
+
+        } catch (Exception e) {
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    public void onVerJornadas(MouseEvent mouseEvent) throws Exception {
+        rellenarVerJornadas();
+        spVerJornadas.setVisible(true);
+    }
+
+    public void rellenarVerJornadas() throws Exception {
+        vboxContenedorJornadasVer.getChildren().clear();
+        ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
+        for (Jornada jornada : jornadas) {
+            vboxContenedorJornadasVer.getChildren().add(crearCartaJornada2(jornada));
+        }
+    }
+
+    public Node crearCartaJornada2(Jornada jornada) throws Exception {
+        VBox cartaJornada = new VBox(15);
+        cartaJornada.setAlignment(Pos.CENTER);
+        cartaJornada.setPadding(new Insets(15));
+        cartaJornada.setStyle("-fx-background-color: WHITE; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 25, 0, 0, 12);");
+
+        Label numeroJornada = new Label("Jornada " + jornada.getNumeroJornada() + " - " +  jornada.getFechaJornada());
+        numeroJornada.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+        cartaJornada.getChildren().add(numeroJornada);
+
+        ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(jornada.getIdJornada());
+        for (int i = 0; i < enfrentamientos.size(); i += 2) {
+                HBox fila = new HBox(30);
+                fila.setAlignment(Pos.CENTER);
+
+                Node enfrentamiento1 = crearCartaEnfrentamiento2(enfrentamientos.get(i));
+                fila.getChildren().add(enfrentamiento1);
+
+                if (i + 1 < enfrentamientos.size()) {
+                    Node enfrentamiento2 = crearCartaEnfrentamiento2(enfrentamientos.get(i + 1));
+                    fila.getChildren().add(enfrentamiento2);
+                } else {
+                    Region espacioVacio = new Region();
+                    espacioVacio.setPrefWidth(400);
+                    fila.getChildren().add(espacioVacio);
+                }
+
+                cartaJornada.getChildren().add(fila);
+        }
+        return cartaJornada;
+    }
+
+    public Node crearCartaEnfrentamiento2(Enfrentamiento enfrentamiento) throws Exception {
+        ArrayList<Resultado> resultados = ResultadoController.verPorEnfrentamiento(enfrentamiento.getIdEnfrentamiento());
+        HBox cartaEnfrentamiento = new HBox();
+        cartaEnfrentamiento.setPadding(new Insets(10));
+        cartaEnfrentamiento.setPrefWidth(400);
+        cartaEnfrentamiento.setStyle("-fx-border-radius: 10; -fx-background-color: #005699; -fx-background-radius: 15; -fx-border-width: 8; -fx-border-color: #0086ED;");
+
+        VBox cartaInterior = new VBox();
+        cartaInterior.setAlignment(Pos.CENTER);
+
+        Label equipos = new Label(resultados.get(0).getEquipo().getNombre() + " - " + resultados.get(1).getEquipo().getNombre());
+        equipos.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: WHITE;");
+        equipos.setAlignment(Pos.CENTER);
+        equipos.setPrefWidth(400);
+
+        HBox puntuaciones = new HBox();
+        puntuaciones.setAlignment(Pos.CENTER);
+
+        Label tfPuntuacionEquipo1 = new Label();
+        tfPuntuacionEquipo1.setAlignment(Pos.CENTER);
+        tfPuntuacionEquipo1.setText(String.valueOf(resultados.getFirst().getResultado()));
+        tfPuntuacionEquipo1.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: WHITE; -fx-font-size: 36px; -fx-font-weight: bold;");
+
+        Label tfPuntuacionEquipo2 = new Label();
+        tfPuntuacionEquipo2.setAlignment(Pos.CENTER);
+        tfPuntuacionEquipo2.setText(String.valueOf(resultados.getLast().getResultado()));
+        tfPuntuacionEquipo2.setStyle("-fx-background-color: TRANSPARENT; -fx-text-fill: WHITE; -fx-font-size: 36px; -fx-font-weight: bold;");
+
+
+        Label guion = new Label("-");
+        guion.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: WHITE;");
+
+        puntuaciones.getChildren().addAll(tfPuntuacionEquipo1, guion, tfPuntuacionEquipo2);
+        puntuaciones.setAlignment(Pos.CENTER);
+
+        Label hora = new Label(enfrentamiento.getHoraEnfrentamiento().toString());
+        hora.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: WHITE;");
+        hora.setAlignment(Pos.CENTER);
+
+
+        cartaInterior.getChildren().addAll(equipos, puntuaciones, hora);
+        cartaEnfrentamiento.getChildren().add(cartaInterior);
+
+        return cartaEnfrentamiento;
+    }
+
+
     /** Método para mostrar un mensaje de confirmación al usuario.
      * Crea una alerta de tipo confirmación con el texto proporcionado y espera la respuesta del usuario, devolviendo la opción seleccionada.
      * @param texto
@@ -411,5 +729,8 @@ private void actualizarMenuPrincipal() {
         laRespuestaIA.setText(null);
         apCalculadorIA.setVisible(false);
         apLlenarPuntuaciones.setVisible(false);
+        apVerInformes.setVisible(false);
     }
+
+
 }

@@ -415,7 +415,11 @@ private void actualizarMenuPrincipal() {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Método para mostrar la interfaz de ver informes.
+     * Muestra el panel correspondiente a los informes, permitiendo al administrador consultar información detallada sobre los equipos, jugadores y jornadas de la competición.
+     * Maneja excepciones que puedan ocurrir durante la obtención de datos y actualización de la interfaz.
+     * @param MouseEvent
+     */
     public void onVerInformes(MouseEvent MouseEvent) {
         apVerInformes.setVisible(true);
         apCalculadorIA.setVisible(false);
@@ -425,12 +429,19 @@ private void actualizarMenuPrincipal() {
         spVerJugadores.setVisible(false);
     }
 
-    //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+    /** Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores
+     * Muestra el panel correspondiente a los jugadores, permitiendo al administrador consultar información detallada sobre los jugadores de la competición, incluyendo su nombre, apellido, fecha de nacimiento, rol, sueldo y equipo al que pertenecen.
+     * @param mouseEvent
+     */
     public void onVerJugadores(MouseEvent mouseEvent) {
         spVerJugadores.setVisible(true);
     }
 
-    //Funcion para crear la vbox de cada jugador a mostrar
+    /** Funcion para crear la vbox de cada jugador a mostrar
+     * Crea una interfaz gráfica para mostrar la información de un jugador específico, incluyendo su nombre, apellido, fecha de nacimiento, rol, sueldo y equipo al que pertenecen.
+     * @param jugador
+     * @return
+     */
     public Node crearCartasJugador(Jugador jugador) {
         VBox carta = new VBox();
         carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
@@ -468,7 +479,11 @@ private void actualizarMenuPrincipal() {
         carta.getChildren().addAll(nickname, nombre, apellido, fecha, rol, sueldo, equipo);
         return carta;
     }
-
+    /** Funcion para buscar jugadores por equipo al pulsar el boton de buscar
+     * Permite al administrador buscar jugadores específicos por el nombre del equipo al que pertenecen, mostrando solo aquellos jugadores que pertenecen al equipo especificado.
+     * Si no se encuentra ningún equipo con el nombre proporcionado, muestra un mensaje de error indicando que no existe ningún equipo con ese nombre.
+     * Maneja excepciones que puedan ocurrir durante la obtención de datos y actualización de la interfaz.
+     */
     public void onBuscarJugadorPorEquipo(){
         try {
 
@@ -483,7 +498,10 @@ private void actualizarMenuPrincipal() {
         }
     }
 
-    //Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+    /** Funcion para recorrer los jugadores y ir creando la vbox por cada jugador
+     * Recorre la lista de jugadores obtenida por el método de búsqueda y crea una carta para cada jugador utilizando el método crearCartasJugador, mostrando la información de cada jugador en la interfaz.
+     * @param jugadores
+     */
     public void rellenarVerJugadores(ArrayList<Jugador> jugadores){
         try {
             vboxContenedorJugadores.getChildren().clear();
@@ -519,7 +537,10 @@ private void actualizarMenuPrincipal() {
         }
     }
 
-    //Funcion para volver al panel de ver informes
+    /** Funcion para volver al panel de ver informes
+     * Permite al administrador volver al panel principal de informes, ocultando los paneles específicos de jugadores, equipos y jornadas, y limpiando el campo de búsqueda de jugadores por equipo para mostrar la información general de los informes.
+     * @param actionEvent
+     */
     public void onVolverVerInformes(ActionEvent actionEvent) {
         spVerJugadores.setVisible(false);
         spVerEquipos.setVisible(false);
@@ -527,13 +548,20 @@ private void actualizarMenuPrincipal() {
         tfBuscarJugadorPorEquipo.clear();
     }
 
-    //Funcion para mostrar el panel de ver equipos al pulsar el boton
+    /** Funcion para mostrar el panel de ver equipos al pulsar el boton
+     * Permite al administrador mostrar el panel específico para ver los equipos de la competición, mostrando información detallada sobre cada equipo, incluyendo su nombre, fecha de fundación, número de jugadores, sueldo máximo, sueldo mínimo y sueldo medio.
+     * @param mouseEvent
+     */
     public void onVerEquipos(MouseEvent mouseEvent) {
         rellenarVerEquipos();
         spVerEquipos.setVisible(true);
     }
 
-    //Funcion para crear la carta por cada equipo
+    /** Funcion para crear la carta por cada equipo
+     * Crea una interfaz gráfica para mostrar la información de un equipo específico, incluyendo su nombre, fecha de fundación, número de jugadores, sueldo máximo, sueldo mínimo y sueldo medio.
+     * @param equipo
+     * @return
+     */
     public Node crearCartasEquipo(EquipoInforme equipo) {
         VBox carta = new VBox();
         carta.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect:  dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0)");
@@ -567,7 +595,9 @@ private void actualizarMenuPrincipal() {
         return carta;
     }
 
-    //Funcion para reccorrer los equipos y crear la carta por cada equipo
+    /** Funcion para reccorrer los equipos y crear la carta por cada equipo
+     * Recorre la lista de equipos obtenida y crea una carta para cada equipo utilizando el método crearCartasEquipo, mostrando la información de cada equipo en la interfaz.
+     */
     public void rellenarVerEquipos() {
         try {
             vboxContenedorEquipos.getChildren().clear();
@@ -601,12 +631,20 @@ private void actualizarMenuPrincipal() {
             mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    /** Funcion para mostrar el panel de ver jornadas al pulsar el boton
+     * Permite al administrador mostrar el panel específico para ver las jornadas de la competición, mostrando información detallada sobre cada jornada, incluyendo su número, fecha y los enfrentamientos correspondientes con sus resultados.
+     * @param mouseEvent
+     * @throws Exception
+     */
     public void onVerJornadas(MouseEvent mouseEvent) throws Exception {
         rellenarVerJornadas();
         spVerJornadas.setVisible(true);
     }
-
+    /** Funcion para crear la carta por cada jornada
+     * Crea una interfaz gráfica para mostrar la información de una jornada específica, incluyendo su número, fecha y los enfrentamientos correspondientes con sus resultados.
+     * @return
+     * @throws Exception
+     */
     public void rellenarVerJornadas() throws Exception {
         vboxContenedorJornadasVer.getChildren().clear();
         ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
@@ -614,7 +652,12 @@ private void actualizarMenuPrincipal() {
             vboxContenedorJornadasVer.getChildren().add(crearCartaJornada2(jornada));
         }
     }
-
+    /** Función para crear la carta de una jornada con sus enfrentamientos y resultados
+     * Crea una interfaz gráfica para mostrar la información de una jornada específica, incluyendo su número, fecha y los enfrentamientos correspondientes con sus resultados.
+     * @param jornada
+     * @return Node
+     * @throws Exception
+     */
     public Node crearCartaJornada2(Jornada jornada) throws Exception {
         VBox cartaJornada = new VBox(15);
         cartaJornada.setAlignment(Pos.CENTER);
@@ -647,7 +690,12 @@ private void actualizarMenuPrincipal() {
         }
         return cartaJornada;
     }
-
+    /** Función para crear la carta de un enfrentamiento con sus resultados
+     * Crea una interfaz gráfica para mostrar la información de un enfrentamiento específico, incluyendo los equipos participantes y sus puntuaciones.
+     * @param enfrentamiento
+     * @return Node
+     * @throws Exception
+     */
     public Node crearCartaEnfrentamiento2(Enfrentamiento enfrentamiento) throws Exception {
         ArrayList<Resultado> resultados = ResultadoController.verPorEnfrentamiento(enfrentamiento.getIdEnfrentamiento());
         HBox cartaEnfrentamiento = new HBox();

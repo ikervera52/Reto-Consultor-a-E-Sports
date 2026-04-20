@@ -421,7 +421,7 @@ private void actualizarMenuPrincipal() {
         apCalculadorIA.setVisible(false);
         apLlenarPuntuaciones.setVisible(false);
         spVerJornadas.setVisible(false);
-        spVerEquipos.setVsisble(false);
+        spVerEquipos.setVisible(false);
         spVerJugadores.setVisible(false);
     }
 

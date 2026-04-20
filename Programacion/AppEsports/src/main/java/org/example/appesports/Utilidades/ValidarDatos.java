@@ -56,7 +56,4 @@ public class ValidarDatos {
             throw new Exception("Sueldo no valido");
         }
     }
-
-
-
 }

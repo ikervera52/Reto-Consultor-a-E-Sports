@@ -105,68 +105,40 @@ public void onTerminarCompeticion (MouseEvent MouseEvent){
 
 private void actualizarMenuPrincipal() {
         try {
-
-            ArrayList<Jornada> jornadas = JornadaDAO.listarJornadas();
+            LocalDate siguienteDomingo = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+            ArrayList<Jornada> jornadas = JornadaController.listarJornadas();
             ArrayList<Jornada> jornadasPasadas = new ArrayList<>();
-            LocalDate domingo = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-
             for (Jornada jornada : jornadas) {
-                if (jornada.getFechaJornada().isBefore(domingo)) {
+                if (jornada.getFechaJornada().isBefore(siguienteDomingo)) {
                     jornadasPasadas.add(jornada);
                 }
-             }
-            Jornada ultimaJornada = jornadasPasadas.getLast();
-            Jornada penultimaJornada = null;
-            if (jornadasPasadas.size() > 1) {
-                jornadasPasadas.remove(ultimaJornada);
-                penultimaJornada = jornadasPasadas.getLast();
             }
 
-            tfUltimaJornada.setText(String.valueOf(ultimaJornada.getNumeroJornada()));
-            lbFechaJornada.setText(String.valueOf(ultimaJornada.getFechaJornada()));
+            tfUltimaJornada.setText(String.valueOf(jornadasPasadas.getLast().getNumeroJornada()));
+            lbFechaJornada.setText(String.valueOf(jornadasPasadas.getLast().getFechaJornada()));
 
-            ArrayList<Enfrentamiento> enfrentamientos = EnfrentamientoController.buscarPorJornada(ultimaJornada.getIdJornada());
-            Enfrentamiento ultimoEnfrentamiento = null;
-            for (Enfrentamiento enfrentamiento : enfrentamientos) {
-                if (enfrentamiento.getHoraEnfrentamiento().isAfter(LocalTime.now()) && (ultimaJornada.getFechaJornada().isAfter(LocalDate.now()) || ultimaJornada.getFechaJornada().isEqual(LocalDate.now()))) {
-                    ultimoEnfrentamiento = enfrentamiento;
+            ArrayList<Enfrentamiento> enfrentamientosUltimaJornada = EnfrentamientoController.buscarPorJornada(jornadasPasadas.getLast().getIdJornada());
+            Enfrentamiento siguienteEnfrentamiento = new Enfrentamiento();
+            for (Enfrentamiento enfrentamiento: enfrentamientosUltimaJornada) {
+                if ( jornadasPasadas.getLast().getFechaJornada().isAfter(LocalDate.now()) || (jornadasPasadas.getLast().getFechaJornada().isEqual(LocalDate.now()) && enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()))) {
+                    siguienteEnfrentamiento =  enfrentamiento;
                     break;
                 }
             }
+            ArrayList<Resultado> resultadosSiguienteEnfrentamiento = ResultadoController.verPorEnfrentamiento(siguienteEnfrentamiento.getIdEnfrentamiento());
+            tfSiguientePartido.setText(resultadosSiguienteEnfrentamiento.getFirst().getEquipo().getNombre() + " - " +  resultadosSiguienteEnfrentamiento.getLast().getEquipo().getNombre());
+            tfHora.setText(siguienteEnfrentamiento.getHoraEnfrentamiento().toString());
 
-            if (ultimaJornada.getFechaJornada().isBefore(LocalDate.now())) {
-                ultimoEnfrentamiento = enfrentamientos.getLast();
-            }
-
-            ArrayList<Enfrentamiento> enfrentamientosPasados = new ArrayList<>();
-            for (Enfrentamiento enfrentamiento : enfrentamientos) {
-                if (enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()) && (ultimaJornada.getFechaJornada().isBefore(LocalDate.now()) || ultimaJornada.getFechaJornada().isEqual(LocalDate.now()))) {
-                    enfrentamientosPasados.add(enfrentamiento);
+            Enfrentamiento anteriorEnfrentamiento = new Enfrentamiento();
+            for (Enfrentamiento enfrentamiento: enfrentamientosUltimaJornada) {
+                if (jornadasPasadas.getLast().getFechaJornada().isBefore(LocalDate.now()) || (jornadasPasadas.getLast().getFechaJornada().isEqual(LocalDate.now()) && enfrentamiento.getHoraEnfrentamiento().isBefore(LocalTime.now()))) {
+                    anteriorEnfrentamiento =  enfrentamiento;
                 }
             }
 
-            if (enfrentamientosPasados.isEmpty()) {
-                ArrayList<Enfrentamiento> enfrentamientosPenultimaJornada = EnfrentamientoController.buscarPorJornada(penultimaJornada.getIdJornada());
-                enfrentamientosPasados.addAll(enfrentamientosPenultimaJornada);
-            }
-
-            ArrayList<Resultado> anteriorResultados = new ArrayList<>();
-            if (!enfrentamientosPasados.isEmpty()) {
-                anteriorResultados = ResultadoController.verPorEnfrentamiento(enfrentamientosPasados.getLast().getIdEnfrentamiento());
-            }
-            ArrayList<Resultado> proximosResultados = ResultadoController.verPorEnfrentamiento(ultimoEnfrentamiento.getIdEnfrentamiento());
-
-            String proximoEquipos = proximosResultados.getFirst().getEquipo().getNombre() + " - " + proximosResultados.getLast().getEquipo().getNombre();
-            tfSiguientePartido.setText(proximoEquipos);
-            tfHora.setText(String.valueOf(ultimoEnfrentamiento.getHoraEnfrentamiento()));
-
-            String anteriorEquipos = anteriorResultados.getFirst().getEquipo().getNombre() + " - " + anteriorResultados.getLast().getEquipo().getNombre();
-            tfUltimoResultado.setText(anteriorEquipos);
-
-            String anteriorResultado = anteriorResultados.getFirst().getResultado() + " - " + anteriorResultados.getLast().getResultado();
-            tfResultadoPrincipal.setText(anteriorResultado);
-
-
+            ArrayList<Resultado> resultadosAnteriorEnfrentamiento = ResultadoController.verPorEnfrentamiento(anteriorEnfrentamiento.getIdEnfrentamiento());
+            tfUltimoResultado.setText(resultadosAnteriorEnfrentamiento.getFirst().getEquipo().getNombre() + " - " +  resultadosAnteriorEnfrentamiento.getLast().getEquipo().getNombre());
+            tfResultadoPrincipal.setText(resultadosAnteriorEnfrentamiento.getFirst().getResultado() + " - " + resultadosAnteriorEnfrentamiento.getLast().getResultado());
 
         }catch (Exception e){
             System.out.println("pe");

@@ -40,37 +40,55 @@ import java.util.*;
  * Gestiona la interacción del usuario con la interfaz gráfica y coordina las acciones relacionadas con la gestión de jugadores, usuarios, equipos e informes.
  */
 public class MenuPrincipalAdminController {
-
+    /** Variable para almacenar el nombre de usuario del administrador que ha iniciado sesión, utilizada para mostrar un mensaje de bienvenida personalizado en la interfaz gráfica.
+     */
     private String username;
-
+    /** Variables para mostrar los contadores de jugadores y equipos en el menú principal
+     * Estas etiquetas se actualizan dinámicamente para reflejar el número total de jugadores y equipos registrados en la base de datos, proporcionando al administrador una visión general rápida del estado actual de la competición.
+     */
     @FXML
     public Label lbCantEquipos;
-
+    /** Variable para mostrar el contador de jugadores en el menú principal
+     * Esta etiqueta se actualiza dinámicamente para reflejar el número total de jugadores registrados en la base de datos, proporcionando al administrador una visión general rápida del estado actual de la competición.
+     */
     @FXML
     public Label lbCantJugadores;
-
+    /** Variable para mostrar el mensaje de bienvenida con el nombre de usuario del administrador en el menú principal
+     * Esta etiqueta se actualiza dinámicamente para mostrar un mensaje de bienvenida personalizado que incluye el nombre de usuario del administrador que ha iniciado sesión, creando una experiencia más personalizada y amigable para el usuario.
+     */
     @FXML
     public Label lbNombreBienvenida;
 
         @FXML
         public Button bVolverMenuPrincipal;
-
+    /** Variable para el botón de volver al menú principal desde el apartado de gestión de jugadores
+     * Este botón permite al administrador regresar al menú principal de gestión de jugadores después de haber accedido a las opciones de añadir, eliminar o editar jugadores, proporcionando una navegación fácil y fluida dentro de la sección de gestión de jugadores.
+     */
     @FXML
     public Button bVolverGestionarJugadores;
-
+    /** Variable para el botón de volver al menú principal desde el apartado de gestión de usuarios
+     * Este botón permite al administrador regresar al menú principal de gestión de usuarios después de haber accedido a las opciones de añadir, eliminar o editar usuarios, proporcionando una navegación fácil y fluida dentro de la sección de gestión de usuarios.
+     */
     @FXML
     public AnchorPane apGestionarUsuariosPrincipal;
-
+    /** Variable para el AnchorPane principal de gestión de jugadores
+     * Este AnchorPane contiene las opciones principales para gestionar jugadores, como añadir, eliminar y editar jugadores. Al hacer clic en la opción de gestionar jugadores, este AnchorPane se vuelve visible y muestra las opciones relacionadas con la gestión de jugadores, mientras que los demás AnchorPane se ocultan para mostrar solo el apartado de gestión de jugadores.
+     */
     @FXML
     public AnchorPane apGestionarJugadoresPrincipal;
-
+    /** Variable para el AnchorPane de añadir jugador
+     * Este AnchorPane contiene los campos de texto, combo box y date picker necesarios para introducir los datos de un nuevo jugador. Al hacer clic en la opción de añadir jugador, este AnchorPane se vuelve visible y muestra el formulario para añadir un nuevo jugador, mientras que los demás AnchorPane se ocultan para mostrar solo el apartado de añadir jugador.
+     */
     @FXML
     public AnchorPane apGestionarJugadoresAnadir;
-
+    /** Variable para el AnchorPane de eliminar jugador
+     * Este AnchorPane contiene el campo de texto necesario para introducir el nickname del jugador que se desea eliminar. Al hacer clic en la opción de eliminar jugador, este AnchorPane se vuelve visible y muestra el formulario para eliminar un jugador, mientras que los demás AnchorPane se ocultan para mostrar solo el apartado de eliminar jugador.
+     */
     @FXML
     public AnchorPane apMenuPrincipal;
-
-    // Datos para añadir Jugador
+    /** Datos para añadir Jugador
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para añadir un nuevo jugador a la base de datos. El administrador introduce el nombre, apellido, nacionalidad, fecha de nacimiento, nickname, rol, sueldo y equipo del nuevo jugador en estos campos, y luego se valida la información antes de llamar al método correspondiente en el controlador JugadorController para insertar el nuevo jugador en la base de datos.
+     */
     @FXML
     public TextField tfNombreJugador;
 
@@ -95,7 +113,9 @@ public class MenuPrincipalAdminController {
     @FXML
     public ComboBox<String> cbSeleccionEquipoParaJugador;
 
-    // Datos para eliminar Jugador
+    /** Datos para eliminar Jugador
+     * Este campo de texto se utiliza para recoger el nickname del jugador que se desea eliminar de la base de datos. El administrador introduce el nickname del jugador en este campo, y luego se valida la información antes de llamar al método correspondiente en el controlador JugadorController para eliminar el jugador de la base de datos.
+     */
     @FXML
     public AnchorPane apGestionarJugadoresBorrar;
 
@@ -105,7 +125,9 @@ public class MenuPrincipalAdminController {
     @FXML
     public TextField tfNicknameBuscar;
 
-    // Datos para editar Jugador
+    /** Datos para editar Jugador
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para editar un jugador existente en la base de datos. El administrador introduce el nickname del jugador que desea editar en el campo de búsqueda, y luego se valida la información antes de llamar al método correspondiente en el controlador JugadorController para obtener los datos del jugador desde la base de datos. Si el jugador existe, se rellenan los campos del formulario con los datos del jugador para que el administrador pueda editarlos. Después de realizar las modificaciones, se valida la información nuevamente antes de llamar al método correspondiente en el controlador JugadorController para actualizar los datos del jugador en la base de datos.
+     */
     @FXML
     public TextField tfNombreJugadorEditar;
 
@@ -148,8 +170,10 @@ public class MenuPrincipalAdminController {
         @FXML
         public AnchorPane apCerrarCompeticion;
 
-        // Variables para añadir usuarios
-        @FXML
+    /** Variables para añadir usuarios
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para añadir un nuevo usuario a la base de datos. El administrador introduce el nombre de usuario, contraseña y tipo de usuario (admin o estandar) en estos campos, y luego se valida la información antes de llamar al método correspondiente en el controlador UsuarioController para insertar el nuevo usuario en la base de datos.
+     */
+    @FXML
         public TextField tfNombreUsuario;
 
     @FXML
@@ -158,11 +182,15 @@ public class MenuPrincipalAdminController {
     @FXML
     public ComboBox<String> cbTipoUsuario;
 
-    // Variables para eliminar usuarios
+    /** Variables para eliminar usuarios
+     * Este campo de texto se utiliza para recoger el nombre de usuario del usuario que se desea eliminar de la base de datos. El administrador introduce el nombre de usuario en este campo, y luego se valida la información antes de llamar al método correspondiente en el controlador UsuarioController para eliminar el usuario de la base de datos.
+     */
     @FXML
     public TextField tfNombreUsuarioBorrar;
 
-    // Variables para editar usuarios
+    /** Variables para editar usuarios
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para editar un usuario existente en la base de datos. El administrador introduce el nombre de usuario del usuario que desea editar en el campo de búsqueda, y luego se valida la información antes de llamar al método correspondiente en el controlador UsuarioController para obtener los datos del usuario desde la base de datos. Si el usuario existe, se rellenan los campos del formulario con los datos del usuario para que el administrador pueda editarlos. Después de realizar las modificaciones, se valida la información nuevamente antes de llamar al método correspondiente en el controlador UsuarioController para actualizar los datos del usuario en la base de datos.
+     */
     @FXML
     public TextField tfNombreUsuarioBuscar;
 
@@ -178,11 +206,15 @@ public class MenuPrincipalAdminController {
     @FXML
     public Button bEditarUsuario;
 
-    //Variables para gestion equipos
+    /** Variables para gestion equipos
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para añadir, eliminar y editar equipos en la base de datos. El administrador introduce el nombre del equipo, fecha de fundación y otros datos relevantes en estos campos, y luego se valida la información antes de llamar a los métodos correspondientes en el controlador EquipoController para insertar, eliminar o actualizar los datos del equipo en la base de datos.
+     */
     @FXML
     public AnchorPane apGestionarEquiposPrincipal;
 
-    //Variables para anadir equipo
+    /** Variables para anadir equipo
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para añadir un nuevo equipo a la base de datos. El administrador introduce el nombre del equipo y la fecha de fundación en estos campos, y luego se valida la información antes de llamar al método correspondiente en el controlador EquipoController para insertar el nuevo equipo en la base de datos.
+     */
     @FXML
     public AnchorPane apGestionarEquiposAnadir;
 
@@ -192,14 +224,18 @@ public class MenuPrincipalAdminController {
     @FXML
     public DatePicker dpFechaFundacion;
 
-    //Variables para borrar equipos
+    /** Variables para borrar equipos
+     * Este campo de texto se utiliza para recoger el nombre del equipo que se desea eliminar de la base de datos. El administrador introduce el nombre del equipo en este campo, y luego se valida la información antes de llamar al método correspondiente en el controlador EquipoController para eliminar el equipo de la base de datos.
+     */
     @FXML
     public AnchorPane apGestionarEquiposBorrar;
 
     @FXML
     public TextField tfNombreEquipoBorrar;
 
-    //Variables para editar equipos
+    /** Variables para editar equipos
+     * Estos campos de texto, combo box y date picker se utilizan para recoger los datos necesarios para editar un equipo existente en la base de datos. El administrador introduce el nombre del equipo que desea editar en el campo de búsqueda, y luego se valida la información antes de llamar al método correspondiente en el controlador EquipoController para obtener los datos del equipo desde la base de datos. Si el equipo existe, se rellenan los campos del formulario con los datos del equipo para que el administrador pueda editarlos. Después de realizar las modificaciones, se valida la información nuevamente antes de llamar al método correspondiente en el controlador EquipoController para actualizar los datos del equipo en la base de datos.
+     */
     @FXML
     public AnchorPane apGestionarEquiposEditar;
 
@@ -234,8 +270,10 @@ public class MenuPrincipalAdminController {
 
         public TextField tfTipoPuntuacion;
 
-        // Variables para mostrar usuarios y roles en una Lista
-        @FXML
+    /** Variables para mostrar usuarios y roles en una Lista
+     * Esta ListView se utiliza para mostrar la lista de usuarios registrados en la base de datos junto con sus roles (admin o estandar) en el apartado de gestionar usuarios. La información se obtiene desde el controlador UsuarioController y se muestra de manera clara y organizada para que el administrador pueda tener una visión general de los usuarios registrados y sus roles dentro del sistema.
+     */
+    @FXML
         public ListView<Usuario> listUsuarios;
 
 

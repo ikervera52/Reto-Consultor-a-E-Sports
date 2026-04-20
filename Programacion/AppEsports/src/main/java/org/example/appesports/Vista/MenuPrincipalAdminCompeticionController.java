@@ -47,7 +47,9 @@ import java.util.Optional;
 public class MenuPrincipalAdminCompeticionController {
 
 
-
+    /** Atributos del controlador, incluyendo la etapa, el controlador del menú de inicio de sesión y el nombre de usuario del administrador.
+     * También incluye elementos de la interfaz gráfica como etiquetas, paneles y contenedores para mostrar información y permitir la interacción del usuario.
+     */
     public Stage stage;
     public MenuInicioSesionController controller;
     public String username;
@@ -63,13 +65,22 @@ public class MenuPrincipalAdminCompeticionController {
     public AnchorPane apMenuPrincipal;
     public Label laRespuestaIA;
     public Label lbFechaJornada;
-
+    /** Elementos de la interfaz gráfica para la sección de llenar puntuaciones, incluyendo un panel principal y un contenedor para mostrar las jornadas disponibles para llenar puntuaciones.
+     */
     @FXML
     public AnchorPane apLlenarPuntuaciones;
     public VBox vboxContenedorJornadas;
 
 
-
+    /** Método de inicialización del controlador.
+     * Configura la etapa, el controlador del menú de inicio de sesión y el nombre de usuario del administrador, y actualiza la información mostrada en el menú principal.
+     * @param stage
+     * La etapa (ventana) en la que se muestra el menú principal.
+     * @param menu
+     * El controlador del menú de inicio de sesión, utilizado para mostrar el menú de inicio de sesión al cerrar sesión.
+     * @param username
+     * El nombre de usuario del administrador, utilizado para mostrar un mensaje de bienvenida y personalizar la experiencia del usuario.
+     */
     public void init (Stage stage, MenuInicioSesionController menu, String username){
         this.controller = menu;
         this.stage = stage;

@@ -1305,7 +1305,7 @@ public class MenuPrincipalAdminController {
 
                 String tipoPuntuacion = tfTipoPuntuacion.getText();
 
-                LocalDate fechaInicio = LocalDate.of(2026, 3,30).with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+                LocalDate fechaInicio = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
                 int numeroJornadas = Integer.parseInt(EquipoController.contarEquipos()) - 1;
 

@@ -8,7 +8,7 @@
 DELETE FROM jugadores;
 DELETE FROM equipos;
 DELETE FROM competiciones;
-DELETE FROM jorandas;
+DELETE FROM jornadas;
 DELETE FROM resultados;
 
 -- Prueba del Trigger: tri_com_salario_smi

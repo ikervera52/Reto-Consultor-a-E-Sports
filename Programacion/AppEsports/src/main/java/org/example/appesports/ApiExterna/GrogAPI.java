@@ -6,6 +6,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Clase para interactuar con la API de Grog (Groq.com) y obtener respuestas de un modelo de lenguaje.
+ * Esta clase envía una solicitud POST a la API con un mensaje del usuario y procesa la respuesta para extraer el contenido relevante.
+ */
 public class GrogAPI {
     private static final String API_KEY = "API_KEY_AQUI";
 
@@ -13,6 +17,12 @@ public class GrogAPI {
 
     private static final String MODELO = "llama-3.3-70b-versatile";
 
+    /**
+     * Envía un mensaje a la API de Grog y devuelve la respuesta procesada.
+     * @param mensaje El mensaje que se desea enviar a la API.
+     * @return La respuesta procesada de la API.
+     * @throws Exception Si ocurre un error durante la solicitud o el procesamiento de la respuesta.
+     */
     public static String preguntarALaIA(String mensaje) throws Exception {
 
             String mensajeEscapado = escaparParaJson(mensaje);
@@ -51,6 +61,11 @@ public class GrogAPI {
             return extraerContenidoDeRespuesta(respuesta.body());
     }
 
+    /**
+     * Extrae el contenido relevante de la respuesta JSON de la API.
+     * @param json La respuesta JSON completa de la API.
+     * @return El contenido extraído y procesado de la respuesta.
+     */
     private static String extraerContenidoDeRespuesta(String json) {
 
         String clave = "\"content\":\"";
@@ -96,7 +111,11 @@ public class GrogAPI {
 
         return respuesta;
     }
-
+    /**
+     * Escapa caracteres especiales en un texto para que puedan ser incluidos correctamente en un JSON.
+     * @param texto El texto original que se desea escapar.
+     * @return El texto escapado, listo para ser incluido en un JSON.
+     */
     private static String escaparParaJson(String texto) {
         return texto
                 .replace("\\", "\\\\")

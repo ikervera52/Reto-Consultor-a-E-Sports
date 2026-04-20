@@ -3,6 +3,10 @@ package org.example.appesports.Modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa una jornada en el sistema de gestión de esports.
+ * Contiene información sobre la fecha de la jornada, el número de jornada, la competición a la que pertenece y los enfrentamientos que se disputan en esa jornada.
+ */
 public class Jornada {
     private int idJornada;
     private LocalDate fechaJornada;

@@ -1,5 +1,5 @@
 -- Autor: Iker Poza 
--- Fecha Ultima Edicion : 19/04/2026
+-- Fecha Ultima Edicion : 20/04/2026
 
 -- Drops de las tablas
 
@@ -93,7 +93,8 @@ CREATE TABLE resultados(
     ON DELETE CASCADE
 );
 
--- Creacion de las views
+-- Creacion de las views (Esta view se utiliza en el 
+--                        procedimiento : estadisticas_equipos)
 
 CREATE OR REPLACE VIEW view_info_equipos AS
     

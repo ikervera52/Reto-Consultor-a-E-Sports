@@ -420,6 +420,9 @@ private void actualizarMenuPrincipal() {
         apVerInformes.setVisible(true);
         apCalculadorIA.setVisible(false);
         apLlenarPuntuaciones.setVisible(false);
+        spVerJornadas.setVisible(false);
+        spVerEquipos.setVsisble(false);
+        spVerJugadores.setVisible(false);
     }
 
     //Funcion para mostrar el panel con los jugadores al pulsar el boton ver jugadores

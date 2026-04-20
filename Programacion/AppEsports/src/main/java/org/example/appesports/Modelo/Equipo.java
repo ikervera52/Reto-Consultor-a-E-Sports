@@ -2,7 +2,10 @@ package org.example.appesports.Modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+/**
+ * Clase que representa un equipo en el sistema de gestión de esports.
+ * Contiene información sobre el nombre del equipo, la fecha de fundación y los jugadores que forman parte del equipo.
+ */
 public class Equipo {
     private int idEquipo;
     private String nombre;

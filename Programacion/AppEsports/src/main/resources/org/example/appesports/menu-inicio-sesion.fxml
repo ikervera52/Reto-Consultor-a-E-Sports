@@ -38,7 +38,7 @@
             <font>
                <Font size="14.0" />
             </font></Label>
-         <PasswordField fx:id="pfContrasena" promptText="••••••••" styleClass="text-input" />
+         <PasswordField fx:id="pfContrasena" onAction="#onEntrar" promptText="••••••••" styleClass="text-input" />
       </VBox>
 
       <Button fx:id="bEntrar" maxWidth="Infinity" onAction="#onEntrar" style="-fx-background-color: #009EE8; -fx-background-radius: 10;" styleClass="login-button" text="ENTRAR" textFill="WHITE">

@@ -20,7 +20,8 @@ import org.example.appesports.Utilidades.ValidarDatos;
  * Permite a los usuarios ingresar sus credenciales y acceder a las diferentes vistas según su tipo de usuario y la etapa de la competición.
  */
 public class MenuInicioSesionController {
-
+    /** Referencia al escenario (ventana) actual, utilizada para controlar la visibilidad y el cierre de la ventana de inicio de sesión.
+     */
     private Stage stage;
 
     @FXML

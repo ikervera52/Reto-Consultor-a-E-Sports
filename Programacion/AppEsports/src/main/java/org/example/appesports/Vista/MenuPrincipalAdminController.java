@@ -1122,7 +1122,6 @@ public class MenuPrincipalAdminController {
         try {
 
             ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo(tfBuscarJugadorPorEquipo.getText());
-            if (jugadores.isEmpty()) throw new Exception("No existe ningún equipo con ese nombre");
 
             rellenarVerJugadores(jugadores);
 

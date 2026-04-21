@@ -345,8 +345,9 @@ private void actualizarMenuPrincipal() {
                     ResultadoController.actualizarResultado(resultados.getFirst());
                     ResultadoController.actualizarResultado(resultados.getLast());
                      actualizarMenuPrincipal();
+                     mostarMensaje("Confirmación", "Puntuación guardada con éxito", Alert.AlertType.INFORMATION);
                 } catch (Exception e) {
-                    System.out.println("Error al guardar resultados: " + e.getMessage());
+                    mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
             }
         });
@@ -488,7 +489,6 @@ private void actualizarMenuPrincipal() {
         try {
 
             ArrayList<Jugador> jugadores = JugadorController.verJugadoresPorEquipo(tfBuscarJugadorPorEquipo.getText());
-            if (jugadores.isEmpty()) throw new Exception("No existe ningún equipo con ese nombre");
 
             rellenarVerJugadores(jugadores);
 
@@ -533,7 +533,7 @@ private void actualizarMenuPrincipal() {
             }
 
         }catch (Exception e){
-            mostarMensaje("Confimración", e.getMessage(), Alert.AlertType.ERROR);
+            mostarMensaje("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

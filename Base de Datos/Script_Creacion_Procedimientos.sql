@@ -66,7 +66,7 @@ BEGIN
 EXCEPTION 
 
     WHEN e_eq_no_encontrado THEN
-        RAISE_APPLICATION_ERROR(-20010, 'Equipo no encontrado');
+        RAISE_APPLICATION_ERROR(-20010, 'El equipo no existe');
         
     WHEN TOO_MANY_ROWS THEN
         RAISE_APPLICATION_ERROR(-20012, 'Varias equipos tienen el mismo nombre');

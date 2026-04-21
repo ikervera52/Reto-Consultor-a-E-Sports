@@ -128,7 +128,7 @@ public class MenuPrincipalEstandarCompeticionController {
             }
             if (ultimaJornadaJugada == null) {
                 Label sinResultados = new Label("No hay resultados para mostrar.");
-                sinResultados.setStyle("-fx-font-size: 18px; -fx-text-fill: #555;");
+                sinResultados.setStyle("-fx-font-size: 18px; -fx-text-fill: white;");
                 vbResultadosUltimaJornada.getChildren().add(sinResultados);
             }else {
                 ArrayList<Enfrentamiento> enfrentamientosUltimaJornada = EnfrentamientoController.buscarPorJornada(ultimaJornadaJugada.getIdJornada());

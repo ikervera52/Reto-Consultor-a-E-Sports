@@ -117,6 +117,9 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
             </Button>
             <Region VBox.vgrow="ALWAYS" />
             <HBox prefHeight="46.0" prefWidth="1180.0">

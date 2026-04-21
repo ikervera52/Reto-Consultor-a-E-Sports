@@ -365,6 +365,7 @@ public class MenuPrincipalAdminController {
             ValidarDatos.validarString(tfNombreJugador.getText());
             ValidarDatos.validarString(tfApellidoJugador.getText());
             ValidarDatos.validarString(tfNacionalidad.getText());
+            ValidarDatos.validarFecha(dpFechaNacimiento.getValue());
             ValidarDatos.validarUsername(tfNickname.getText());
             ValidarDatos.validarDouble(tfSueldo.getText());
 
@@ -489,6 +490,15 @@ public class MenuPrincipalAdminController {
     @FXML
     public void onEditarDatosJugador() {
         try {
+
+            ValidarDatos.validarUsername(tfNicknameEditar.getText());
+            ValidarDatos.validarString(tfNombreJugadorEditar.getText());
+            ValidarDatos.validarString(tfApellidoJugadorEditar.getText());
+            ValidarDatos.validarString(tfNacionalidad.getText());
+            ValidarDatos.validarFecha(dpFechaNacimientoEditar.getValue());
+            ValidarDatos.validarUsername(tfNicknameEditar.getText());
+            ValidarDatos.validarDouble(tfSueldoEditar.getText());
+
             String nickname = tfNicknameBuscar.getText();
             String nombre = tfNombreJugadorEditar.getText();
             String apellido = tfApellidoJugadorEditar.getText();
@@ -909,6 +919,7 @@ public class MenuPrincipalAdminController {
     public void onAnadirDatosEquipo(ActionEvent actionEvent) {
         try {
             ValidarDatos.validarUsername(tfNombreEquipo.getText());
+            ValidarDatos.validarFecha(dpFechaFundacion.getValue());
 
             String nombre = tfNombreEquipo.getText();
             LocalDate fechaFundacion = dpFechaFundacion.getValue();
@@ -991,12 +1002,13 @@ public class MenuPrincipalAdminController {
      */
     public void onEditarEquipo (MouseEvent mouseEvent){
 
-            tfNombreEquipoEditar.setDisable(true);
-            dpFechaFundacionEditar.setDisable(true);
-            bEditarEquipo.setDisable(true);
 
-            apGestionarEquiposEditar.setVisible(true);
-        }
+        tfNombreEquipoEditar.setDisable(true);
+        dpFechaFundacionEditar.setDisable(true);
+        bEditarEquipo.setDisable(true);
+
+        apGestionarEquiposEditar.setVisible(true);
+    }
 
     /** Funcion buscar el equipo a editar
      * Recoge el nombre del equipo introducido por el usuario en el campo de texto, lo valida utilizando la clase ValidarDatos y luego llama al método equipoPorNombre del controlador EquipoController para obtener los datos del equipo desde la base de datos. Si el equipo existe, rellena los campos del formulario con los datos del equipo para que el usuario pueda editarlos y activa los campos de texto y date picker para que el usuario pueda modificarlos.
@@ -1025,6 +1037,7 @@ public class MenuPrincipalAdminController {
     public void onEditarDatosEquipo (ActionEvent actionEvent){
             try {
                 ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
+                ValidarDatos.validarFecha(dpFechaNacimientoEditar.getValue());
 
                 String nombre = tfNombreEquipoEditar.getText();
                 LocalDate fechaFundacion = dpFechaFundacionEditar.getValue();

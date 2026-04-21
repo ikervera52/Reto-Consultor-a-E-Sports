@@ -1,5 +1,6 @@
 package org.example.appesports.Utilidades;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /** Clase ValidarDatos que proporciona métodos estáticos para validar diferentes tipos de datos, como nombres de usuario, contraseñas, cadenas de texto y números.
@@ -55,5 +56,16 @@ public class ValidarDatos {
         if (!m.matches()){
             throw new Exception("Sueldo no valido");
         }
+    }
+
+    /** Método para validar una fecha.
+     * El método utiliza una expresión regular para asegurarse de que la fecha sea anterior a la fecha del sistema.
+     * @param fecha
+     * @throws Exception
+     */
+
+    public static void validarFecha(LocalDate fecha) throws Exception{
+
+        if (fecha.isAfter(LocalDate.now())) throw new Exception("La fecha no puede ser posterior a hoy");
     }
 }

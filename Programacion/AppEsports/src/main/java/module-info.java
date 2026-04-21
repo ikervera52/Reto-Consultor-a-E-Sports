@@ -6,6 +6,7 @@ module org.example.appesports {
     requires com.oracle.database.jdbc;
     requires java.net.http;
     requires javafx.graphics;
+    requires org.junit.jupiter.api;
 
     opens org.example.appesports to javafx.fxml;
     exports org.example.appesports;

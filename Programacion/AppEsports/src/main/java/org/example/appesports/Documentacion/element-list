@@ -1,0 +1,8 @@
+module:org.example.appesports
+org.example.appesports
+org.example.appesports.ApiExterna
+org.example.appesports.Controlador
+org.example.appesports.DAO
+org.example.appesports.Modelo
+org.example.appesports.Utilidades
+org.example.appesports.Vista

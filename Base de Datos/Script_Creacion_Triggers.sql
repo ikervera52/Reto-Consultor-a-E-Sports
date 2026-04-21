@@ -38,6 +38,7 @@ COMPOUND TRIGGER
     v_num_jugadores NUMBER;
     v_id_equipo NUMBER;
     v_id_equipo_old NUMBER;
+    e_eq_completo EXCEPTION;
 
 BEFORE STATEMENT IS
 BEGIN
@@ -65,12 +66,16 @@ BEGIN
     
     
         IF v_num_jugadores > 6 THEN
-            RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+            RAISE e_eq_completo;
         END IF;
         
     END IF;
     
-    EXCEPTION
+EXCEPTION
+    
+    WHEN e_eq_completo THEN
+        RAISE_APPLICATION_ERROR(-20002, 'El equipo esta completo');
+        
     WHEN OTHERS THEN
         RAISE;
         
@@ -221,12 +226,13 @@ BEFORE UPDATE OF etapa ON competiciones
 FOR EACH ROW
 
 DECLARE
+    
+    e_comp_no_terminada EXCEPTION;
 
 BEGIN
     
     IF SYSDATE < :NEW.fecha_fin AND :NEW.etapa = 'inscripcion' THEN
-        RAISE_APPLICATION_ERROR(-20007, 
-        'La Competición no ha terminado todavía');
+        RAISE e_comp_no_terminada;
     
     ELSIF :NEW.etapa = 'inscripcion' THEN
         :NEW.fecha_inicio := NULL;
@@ -237,6 +243,11 @@ BEGIN
     END IF;
 
 EXCEPTION
+
+    WHEN e_comp_no_terminada THEN
+        RAISE_APPLICATION_ERROR(-20007, 
+        'La Competición no ha terminado todavía');
+        
     WHEN OTHERS THEN
         RAISE;
 

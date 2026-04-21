@@ -48,32 +48,29 @@ public class EquipoDAO {
      */
     public static ArrayList<Equipo> verEquipos() throws Exception{
         ArrayList<Equipo> equipos = new ArrayList<>();
-        try {
-            Connection con = ConexionBD.getConexion();
-            String sql = "SELECT * FROM equipos";
 
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        Connection con = ConexionBD.getConexion();
+        String sql = "SELECT * FROM equipos";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
 
 
 
-            while (rs.next()){
-                ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo(rs.getString("nombre"));
-                equipos.add(
-                        new Equipo(
-                                rs.getInt("id"),
-                                rs.getString("nombre"),
-                                rs.getDate("fecha_fundacion").toLocalDate(),
-                                jugadoresEquipo
-                        )
-                );
-            }
-
-            ConexionBD.closeConexion(con);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        while (rs.next()){
+            ArrayList<Jugador> jugadoresEquipo = JugadorController.verJugadoresPorEquipo(rs.getString("nombre"));
+            equipos.add(
+                    new Equipo(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getDate("fecha_fundacion").toLocalDate(),
+                            jugadoresEquipo
+                    )
+            );
         }
+
+        ConexionBD.closeConexion(con);
+
         return equipos;
     }
     /** Método para obtener un equipo por su ID. Recibe el ID del equipo como parámetro y devuelve un objeto Equipo asociado a ese ID.

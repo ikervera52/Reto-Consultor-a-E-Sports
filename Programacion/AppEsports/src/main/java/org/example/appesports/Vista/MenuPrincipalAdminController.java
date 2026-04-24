@@ -494,7 +494,7 @@ public class MenuPrincipalAdminController {
             ValidarDatos.validarUsername(tfNicknameEditar.getText());
             ValidarDatos.validarString(tfNombreJugadorEditar.getText());
             ValidarDatos.validarString(tfApellidoJugadorEditar.getText());
-            ValidarDatos.validarString(tfNacionalidad.getText());
+            ValidarDatos.validarString(tfNacionalidadEditar.getText());
             ValidarDatos.validarFecha(dpFechaNacimientoEditar.getValue());
             ValidarDatos.validarUsername(tfNicknameEditar.getText());
             ValidarDatos.validarDouble(tfSueldoEditar.getText());
@@ -1037,7 +1037,7 @@ public class MenuPrincipalAdminController {
     public void onEditarDatosEquipo (ActionEvent actionEvent){
             try {
                 ValidarDatos.validarUsername(tfNombreEquipoEditar.getText());
-                ValidarDatos.validarFecha(dpFechaNacimientoEditar.getValue());
+                ValidarDatos.validarFecha(dpFechaFundacionEditar.getValue());
 
                 String nombre = tfNombreEquipoEditar.getText();
                 LocalDate fechaFundacion = dpFechaFundacionEditar.getValue();
